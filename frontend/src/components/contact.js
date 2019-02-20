@@ -1,10 +1,34 @@
 import React, { Component } from 'react';
+import { Breadcrumb, Icon } from 'antd';
 
 class Contact extends Component {
     render() {
         return (
-            <div className="contact-form container">
-                <form>
+            <div>
+				<div className="breadcrumbs">
+                    <div className="container">
+                        <Breadcrumb>
+                            <Breadcrumb.Item href="/">
+                            <Icon type="home" />
+                            </Breadcrumb.Item>
+                            <Breadcrumb.Item>
+                            Contact
+                            </Breadcrumb.Item>
+                        </Breadcrumb>
+                    </div>
+                </div>
+				<div id="contact" className="section">
+				
+			{/* <!-- container --> */}
+			<div className="container">
+
+				{/* <!-- row --> */}
+				<div className="row">
+
+					{/* <!-- contact form --> */}
+					<div className="col-md-6">
+						<div className="contact-form">
+							<form>
                     <h2 className="text-center Playfair-Display-Bold-Font">Contact</h2>       
                     <div className="form-group">
                         <input type="text" className="form-control" placeholder="Name" required="required"/>
@@ -19,7 +43,34 @@ class Contact extends Component {
                         <button type="submit" className="btn btn-primary btn-block">Send</button>
                     </div>
                 </form>
-            </div>
+						</div>
+					</div>
+					{/* <!-- /contact form --> */}
+
+					{/* <!-- contact information --> */}
+					<div className="col-md-5 col-md-offset-1">
+						<h4>Contact Information</h4>
+						<ul className="contact-details">
+							<li><i className="fa fa-envelope"></i>Educate@email.com</li>
+							<li><i className="fa fa-phone"></i>122-547-223-45</li>
+							<li><i className="fa fa-map-marker"></i>4476 Clement Street</li>
+						</ul>
+
+						{/* <!-- contact map --> */}
+						<div id="contact-map"></div>
+						{/* <!-- /contact map --> */}
+
+					</div>
+					{/* <!-- contact information --> */}
+
+				</div>
+				{/* <!-- /row --> */}
+
+			</div>
+			{/* <!-- /container --> */}
+			</div>
+			</div>
+            
         );
     }
 }

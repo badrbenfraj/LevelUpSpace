@@ -6,12 +6,15 @@ import Header from './components/Header/Header';
 import './css/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'antd/dist/antd.css'
+
 import Home from './components/home';
 import About from './components/about';
 import Courses from './components/courses';
-import Blog from './components/blog';
+import Blog from './components/Blog/blog';
 import Contact from './components/contact';
 import Footer from './components/footer/footer';
+import Login from './components/login';
+import Register from './components/register';
 
 class App extends Component {
   render() {
@@ -24,6 +27,8 @@ class App extends Component {
           <Route path="/courses" component={Courses}/>
           <Route path="/blog" component={Blog}/>
           <Route path="/contact" component={Contact}/>
+          <Route path="/login" component={Login}/>
+          <Route path="/register" component={Register}/>
         </Switch>
         <Footer/>
       </React.Fragment>

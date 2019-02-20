@@ -4,6 +4,7 @@
   --mainWhite:#FFFFFF;
   --mainGrey:#3F3D3D;
   --mainLighgrey:#E5E4E2;
+  --mainOrange: #FF6700;
 }
 @font-face {
   font-family: OpenSans-Regular;
@@ -39,7 +40,7 @@ body{
   padding: 5px;
 }
 
-input,
+input:focus,
 button{
   outline: none !important;
 }
@@ -92,7 +93,7 @@ header{
 }
 
 .navbar-light .navbar-nav .nav-link:focus  {
-  color: red !important;
+  color: var(--mainOrange) !important;
 }
 
 .navbar-light .navbar-brand {
@@ -103,17 +104,22 @@ a{
   text-decoration: none !important;
 }
 a:focus{
-  color: red !important
+  color: var(--mainOrange) !important
 }
 
 ul li.nav-item a:active,
 .ant-btn:hover,
 .ant-btn:focus{
-  color: red;
+  color: var(--mainOrange);
 }
+.auth{
+  font-weight: 700;
+}
+
 nav a.logo{
   font-family: TrajanPro-Regular;
   font-size: 18px;
+  font-weight: 700;
 }
 
 .contactAdress li i{
@@ -229,4 +235,60 @@ a.socialMedia i{
 
 .ant-carousel .slick-slide h3 {
   color: #fff;
+}
+
+.loginbtn{
+  border: 1px solid var(--mainLighgrey);
+  margin-right: 5px;
+  height: 30px;
+  width: 77px;
+  text-align: center;
+}
+.registerbtn{
+  border: none;
+}
+
+.login-form {
+  width: 740px;
+  margin: 50px auto;
+}
+.login-form form {
+    margin-bottom: 15px;
+      background: #F1F1F1;
+      padding: 30px;
+  }
+.login-form h2 {
+  margin: 0 0 15px;
+}
+.form-control, .btn {
+      min-height: 38px;
+      border-radius: 2px;
+  }
+.btn {        
+  display: inline;
+      font-size: 15px;
+      font-weight: bold;
+      background: var(--mainDark);
+      color: var(--mainWhite);
+      cursor: pointer;
+  }
+.btn:hover{
+  color: var(--mainWhite);
+  background: var(--mainGrey);
+}
+
+.ant-breadcrumb a i svg{
+  fill: var(--mainDBlue);
+  margin-bottom: 9px;
+}
+
+.ant-breadcrumb > span:last-child {
+  color: var(--mainDBlue);
+}
+.breadcrumbs{
+  background-color: #f9f9f9;
+}
+
+ul.contact-details li i{
+  padding:0;
 }
