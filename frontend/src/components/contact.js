@@ -10,7 +10,7 @@ class Contact extends Component {
                         <input type="text" className="form-control" placeholder="Name" required="required"/>
                     </div>
                     <div className="form-group">
-                        <input type="text" className="form-control" placeholder="Email" required="required"/>
+                        <input type="email" className="form-control" placeholder="Email" required="required"/>
                     </div>
                     <div className="form-group">
                         <textarea className="form-control" rows="7" placeholder="Enter Your message"></textarea>

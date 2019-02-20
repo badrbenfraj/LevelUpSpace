@@ -107,7 +107,8 @@ a:focus{
 }
 
 ul li.nav-item a:active,
-.ant-btn:hover{
+.ant-btn:hover,
+.ant-btn:focus{
   color: red;
 }
 nav a.logo{
@@ -200,11 +201,12 @@ a.socialMedia i{
   padding: 1rem;
   color: var(--mainWhite);
 }
-.ant-btn,.ant-btn:hover{
+.ant-btn,
+.ant-btn:hover,
+.ant-btn:focus{
   background: transparent;
-  border: none
+  border: none;  
 }
-
 .bottomNav{
   border-top: .2px solid red;
 }

@@ -63,7 +63,7 @@ const content = (
                     <Link to="/about">About</Link>
                 </NavItem>
                 <Popover placement="bottom" title={text} content={content}>
-                  <Button>Bottom</Button>
+                  <Button>Courses</Button>
                 </Popover>
                 <NavItem>
                   <Link to="/blog">Blog</Link>
