@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {Carousel} from 'antd';
-import {Link} from 'react-router-dom';
+import { Carousel } from 'antd';
+import { Link } from 'react-router-dom';
 import '../css/style.css';
 
 
@@ -37,7 +37,7 @@ class Home extends Component {
                                 <div className="col-md-3 col-sm-6 col-xs-6">
                                     <div className="course">
                                         <Link to="#" className="course-img">
-                                            <img src="./img/course01.jpg" alt=""/>
+                                            <img src="./img/course01.jpg" alt="" />
                                             <i className="course-link-icon fa fa-link"></i>
                                         </Link>
                                         <Link className="course-title" to="#">Beginner to Pro in Excel: Financial Modeling and Valuation</Link>
@@ -53,7 +53,7 @@ class Home extends Component {
                                 <div className="col-md-3 col-sm-6 col-xs-6">
                                     <div className="course">
                                         <Link to="#" className="course-img">
-                                            <img src="./img/course02.jpg" alt=""/>
+                                            <img src="./img/course02.jpg" alt="" />
                                             <i className="course-link-icon fa fa-link"></i>
                                         </Link>
                                         <Link className="course-title" to="#">Introduction to CSS </Link>
@@ -69,7 +69,7 @@ class Home extends Component {
                                 <div className="col-md-3 col-sm-6 col-xs-6">
                                     <div className="course">
                                         <Link to="#" className="course-img">
-                                            <img src="./img/course03.jpg" alt=""/>
+                                            <img src="./img/course03.jpg" alt="" />
                                             <i className="course-link-icon fa fa-link"></i>
                                         </Link>
                                         <Link className="course-title" to="#">The Ultimate Drawing Course | From Beginner To Advanced</Link>
@@ -84,7 +84,7 @@ class Home extends Component {
                                 <div className="col-md-3 col-sm-6 col-xs-6">
                                     <div className="course">
                                         <Link to="#" className="course-img">
-                                            <img src="./img/course04.jpg" alt=""/>
+                                            <img src="./img/course04.jpg" alt="" />
                                             <i className="course-link-icon fa fa-link"></i>
                                         </Link>
                                         <Link className="course-title" to="#">The Complete Web Development Course</Link>
@@ -106,7 +106,7 @@ class Home extends Component {
                                 <div className="col-md-3 col-sm-6 col-xs-6">
                                     <div className="course">
                                         <Link to="#" className="course-img">
-                                            <img src="./img/course05.jpg" alt=""/>
+                                            <img src="./img/course05.jpg" alt="" />
                                             <i className="course-link-icon fa fa-link"></i>
                                         </Link>
                                         <Link className="course-title" to="#">PHP Tips, Tricks, and Techniques</Link>
@@ -122,7 +122,7 @@ class Home extends Component {
                                 <div className="col-md-3 col-sm-6 col-xs-6">
                                     <div className="course">
                                         <Link to="#" className="course-img">
-                                            <img src="./img/course06.jpg" alt=""/>
+                                            <img src="./img/course06.jpg" alt="" />
                                             <i className="course-link-icon fa fa-link"></i>
                                         </Link>
                                         <Link className="course-title" to="#">All You Need To Know About Web Design</Link>
@@ -138,7 +138,7 @@ class Home extends Component {
                                 <div className="col-md-3 col-sm-6 col-xs-6">
                                     <div className="course">
                                         <Link to="#" className="course-img">
-                                            <img src="./img/course07.jpg" alt=""/>
+                                            <img src="./img/course07.jpg" alt="" />
                                             <i className="course-link-icon fa fa-link"></i>
                                         </Link>
                                         <Link className="course-title" to="#">How to Get Started in Photography</Link>
@@ -155,7 +155,7 @@ class Home extends Component {
                                 <div className="col-md-3 col-sm-6 col-xs-6">
                                     <div className="course">
                                         <Link to="#" className="course-img">
-                                            <img src="./img/course08.jpg" alt=""/>
+                                            <img src="./img/course08.jpg" alt="" />
                                             <i className="course-link-icon fa fa-link"></i>
                                         </Link>
                                         <Link className="course-title" to="#">Typography From A to Z</Link>
@@ -172,16 +172,16 @@ class Home extends Component {
 
                         </div>
                         {/* <!-- /courses --> */}
-                            <div className="row">
-                                <div className="center-btn">
-                                    <Link className="main-button icon-button" to="#">More Courses</Link>
-                                </div>
+                        <div className="row">
+                            <div className="center-btn">
+                                <Link className="main-button icon-button" to="#">More Courses</Link>
                             </div>
-
                         </div>
-                        {/* <!-- container --> */}
 
-		        </div>  
+                    </div>
+                    {/* <!-- container --> */}
+
+                </div>
             </div>
         );
     }

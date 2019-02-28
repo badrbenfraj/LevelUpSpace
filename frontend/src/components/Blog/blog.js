@@ -3,21 +3,21 @@ import { Link } from 'react-router-dom';
 import { Breadcrumb, Icon } from 'antd';
 
 class Blog extends Component {
-    render() {
-        return (
+	render() {
+		return (
 			<div>
 				<div className="breadcrumbs">
-                    <div className="container">
-                        <Breadcrumb>
-                            <Breadcrumb.Item href="/">
-                            <Icon type="home" />
+					<div className="container">
+						<Breadcrumb>
+							<Breadcrumb.Item href="/">
+								<Icon type="home" />
+							</Breadcrumb.Item>
+							<Breadcrumb.Item>
+								Blog
                             </Breadcrumb.Item>
-                            <Breadcrumb.Item>
-                            Blog
-                            </Breadcrumb.Item>
-                        </Breadcrumb>
-                    </div>
-                </div>
+						</Breadcrumb>
+					</div>
+				</div>
 				<div id="blog" className="section">
 					{/* <!-- container --> */}
 					<div className="container">
@@ -36,7 +36,7 @@ class Blog extends Component {
 										<div className="single-blog">
 											<div className="blog-img">
 												<Link to="blog-post.html">
-													<img src="./img/blog01.jpg" alt=""/>
+													<img src="./img/blog01.jpg" alt="" />
 												</Link>
 											</div>
 											<h4><Link to="blog-post.html">Pro eu error molestie deserunt. At per viderer bonorum persecuti.</Link></h4>
@@ -56,7 +56,7 @@ class Blog extends Component {
 										<div className="single-blog">
 											<div className="blog-img">
 												<Link to="blog-post.html">
-													<img src="./img/blog02.jpg" alt=""/>
+													<img src="./img/blog02.jpg" alt="" />
 												</Link>
 											</div>
 											<h4><Link to="blog-post.html">Pro eu error molestie deserunt. At per viderer bonorum persecuti.</Link></h4>
@@ -76,7 +76,7 @@ class Blog extends Component {
 										<div className="single-blog">
 											<div className="blog-img">
 												<Link to="blog-post.html">
-													<img src="./img/blog03.jpg" alt=""/>
+													<img src="./img/blog03.jpg" alt="" />
 												</Link>
 											</div>
 											<h4><Link to="blog-post.html">Pro eu error molestie deserunt. At per viderer bonorum persecuti.</Link></h4>
@@ -96,7 +96,7 @@ class Blog extends Component {
 										<div className="single-blog">
 											<div className="blog-img">
 												<Link to="blog-post.html">
-													<img src="./img/blog04.jpg" alt=""/>
+													<img src="./img/blog04.jpg" alt="" />
 												</Link>
 											</div>
 											<h4><Link to="blog-post.html">Pro eu error molestie deserunt. At per viderer bonorum persecuti.</Link></h4>
@@ -143,7 +143,7 @@ class Blog extends Component {
 								{/* <!-- search widget --> */}
 								<div className="widget search-widget">
 									<form>
-										<input className="input" type="text" name="search"/>
+										<input className="input" type="text" name="search" />
 										<button><i className="fa fa-search"></i></button>
 									</form>
 								</div>
@@ -167,7 +167,7 @@ class Blog extends Component {
 									{/* <!-- single posts --> */}
 									<div className="single-post">
 										<Link className="single-post-img" to="blog-post.html">
-											<img src="./img/post01.jpg" alt=""/>
+											<img src="./img/post01.jpg" alt="" />
 										</Link>
 										<Link to="blog-post.html">Pro eu error molestie deserunt.</Link>
 										<p><small>By : John Doe .18 Oct, 2017</small></p>
@@ -177,7 +177,7 @@ class Blog extends Component {
 									{/* <!-- single posts --> */}
 									<div className="single-post">
 										<Link className="single-post-img" to="blog-post.html">
-											<img src="./img/post02.jpg" alt=""/>
+											<img src="./img/post02.jpg" alt="" />
 										</Link>
 										<Link to="blog-post.html">Pro eu error molestie deserunt.</Link>
 										<p><small>By : John Doe .18 Oct, 2017</small></p>
@@ -187,7 +187,7 @@ class Blog extends Component {
 									{/* <!-- single posts --> */}
 									<div className="single-post">
 										<Link className="single-post-img" to="blog-post.html">
-											<img src="./img/post03.jpg" alt=""/>
+											<img src="./img/post03.jpg" alt="" />
 										</Link>
 										<Link to="blog-post.html">Pro eu error molestie deserunt.</Link>
 										<p><small>By : John Doe .18 Oct, 2017</small></p>
@@ -222,8 +222,8 @@ class Blog extends Component {
 
 				</div>
 			</div>
-        );
-    }
+		);
+	}
 }
 
 export default Blog;

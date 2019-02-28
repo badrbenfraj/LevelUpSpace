@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Switch, Route} from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
 import Header from './components/Header/Header';
 
@@ -13,24 +13,24 @@ import Courses from './components/courses';
 import Blog from './components/Blog/blog';
 import Contact from './components/contact';
 import Footer from './components/footer/footer';
-import Login from './components/login';
-import Register from './components/register';
+import Login from './components/Auth/login';
+import Register from './components/Auth/register';
 
 class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <Header/>
+        <Header />
         <Switch>
-          <Route path="/" exact component={Home}/>
-          <Route path="/about" component={About}/>
-          <Route path="/courses" component={Courses}/>
-          <Route path="/blog" component={Blog}/>
-          <Route path="/contact" component={Contact}/>
-          <Route path="/login" component={Login}/>
-          <Route path="/register" component={Register}/>
+          <Route path="/" exact component={Home} />
+          <Route path="/about" component={About} />
+          <Route path="/courses" component={Courses} />
+          <Route path="/blog" component={Blog} />
+          <Route path="/contact" component={Contact} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
         </Switch>
-        <Footer/>
+        <Footer />
       </React.Fragment>
     );
   }

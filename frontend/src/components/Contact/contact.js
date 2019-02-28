@@ -5,12 +5,12 @@ class Contact extends Component {
         return (
             <div className="contact-form container">
                 <form>
-                    <h2 className="text-center Playfair-Display-Bold-Font">Contact</h2>       
+                    <h2 className="text-center Playfair-Display-Bold-Font">Contact</h2>
                     <div className="form-group">
-                        <input type="text" className="form-control" placeholder="Name" required="required"/>
+                        <input type="text" className="form-control" placeholder="Name" required="required" />
                     </div>
                     <div className="form-group">
-                        <input type="text" className="form-control" placeholder="Email" required="required"/>
+                        <input type="text" className="form-control" placeholder="Email" required="required" />
                     </div>
                     <div className="form-group">
                         <textarea className="form-control" rows="7" placeholder="Enter Your message"></textarea>
@@ -19,7 +19,7 @@ class Contact extends Component {
                         <button type="submit" className="btn btn-primary btn-block">Send</button>
                     </div>
                 </form>
-            </div>  
+            </div>
         );
     }
 }
