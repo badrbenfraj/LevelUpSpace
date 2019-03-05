@@ -6,9 +6,9 @@ class Header extends Component {
     render() {
         return (
             <React.Fragment>
-                <TopBar/>
+                <TopBar />
                 <header>
-                    <MainNav/>
+                    <MainNav />
                 </header>
             </React.Fragment>
         );

@@ -1,0 +1,45 @@
+{
+  "name": "levelupspace",
+  "version": "1.0.0",
+  "description": "this project is our graduation project ",
+  "main": "server.js",
+  "engines": {
+    "node": "v10.13.0"
+  },
+  "dependencies": {
+    "apollo-cache-inmemory": "^1.5.1",
+    "apollo-link-http": "^1.5.11",
+    "apollo-server-express": "^2.4.8",
+    "bcrypt": "^3.0.4",
+    "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "graphql": "^14.1.1",
+    "graphql-tools": "^4.0.4",
+    "jsonwebtoken": "^8.5.0",
+    "mongoose": "^5.4.16",
+    "react-apollo": "^2.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "cd frontend && npm start",
+    "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/badrbenfraj/LevelUpSpace.git"
+  },
+  "author": "Badredine Benfraj && Wejdene Derouiche",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/badrbenfraj/LevelUpSpace/issues"
+  },
+  "homepage": "https://github.com/badrbenfraj/LevelUpSpace#readme"
+}

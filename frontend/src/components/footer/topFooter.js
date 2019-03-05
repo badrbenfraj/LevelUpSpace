@@ -12,7 +12,7 @@ const TopFooter = () => {
                 <Link to="" target="_blank" className="socialMedia"><i className="fab fa-instagram"></i></Link>
                 <Link to="" target="_blank" className="socialMedia"><i className="fab fa-pinterest"></i></Link>
                 <div className="newsLetter">
-                    <input type="text" placeholder="Enter your email to join our newsletter"/>
+                    <input type="text" placeholder="Enter your email to join our newsletter" />
                     <button>JOIN</button>
                 </div>
             </div>
