@@ -52,12 +52,12 @@ const App = ({ refetch, session }) => {
                     </MainLayout>
                 )} />
                 <Route path="/register" render={props => (
-                    <MainLayout>
+                    <MainLayout session={session}>
                         <Register {...props} refetch={refetch} />
                     </MainLayout>
                 )} />
                 <Route path="/dashboard" render={props => (
-                    <MainLayout>
+                    <MainLayout session={session}>
                         <Dashboard {...props} session={session} />
                     </MainLayout>
                 )} />

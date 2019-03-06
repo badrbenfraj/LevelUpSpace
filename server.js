@@ -37,6 +37,7 @@ app.use(async (req, res, next) => {
       try {
         const currentUser = await jwt.verify(token, process.env.SECRET);
         req.currentUser = currentUser;
+        console.log(currentUser);
       } catch (err) {
         console.error(err);
       }

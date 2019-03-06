@@ -3,7 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { Mutation } from 'react-apollo';
 import { SIGNUP_USER } from './../../queries';
-import { withRouter, NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 const initialState = {
@@ -189,12 +189,6 @@ class Signup extends React.Component {
 
                                             </div>
 
-                                        </div>
-
-                                        <div className="formBottomLinks">
-                                            <p>
-                                                Already have an account? <NavLink to="/signin">Sign-in</NavLink>
-                                            </p>
                                         </div>
 
                                         <div className="form_buttons">
