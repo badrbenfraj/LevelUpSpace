@@ -6,16 +6,27 @@ import ApolloClient from 'apollo-boost';
 
 import 'antd/dist/antd.css';
 import './css/index.css';
-import App from './App';
+import AppComponent from './App';
+
 
 const client = new ApolloClient({
-    uri: "http://localhost:3001/graphql"
+  uri: 'http://localhost:3001/graphql',
+  request: operation => {
+    const token = localStorage.getItem("token");
+    operation.setContext({
+      headers: {
+        authorization: token
+      }
+    });
+  }
 });
 
+
+
 ReactDOM.render(
-    <ApolloProvider client={client}>
-        <Router>
-            <App />
-        </Router>
-    </ApolloProvider>,
-    document.getElementById('root'));
+  <ApolloProvider client={client}>
+    <Router>
+      <AppComponent />
+    </Router>
+  </ApolloProvider>,
+  document.getElementById('root'));

@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: './variables.env' });
 const cors = require('cors');
 // bring in graphql express middleware
@@ -13,7 +14,7 @@ const Tutorial = require('./models/Tutorial');
 
 // connect to database
 mongoose
-    .connect(process.env.Mongo_URL)
+    .connect(process.env.MONGO_URL, { useNewUrlParser: true, useCreateIndex: true })
     .then(() => {
         console.log("DB connected!!")
     })
@@ -21,20 +22,38 @@ mongoose
 const PORT = process.env.PORT || 3001;
 // Initializes application
 const app = express();
+
 // const corsOptions = {
 //     origin: 'http://localhost:3000/',
-//     credentials: true
-// };
-app.use(cors());
+//     credentials: 'same-origin' // <-- REQUIRED backend setting
+//   };
+app.use(cors("*"));
+
+// set up JWT authentification middleware
+// Set up JWT authentication middleware
+app.use(async (req, res, next) => {
+    const token = req.headers["authorization"];
+    if (token !== "null") {
+      try {
+        const currentUser = await jwt.verify(token, process.env.SECRET);
+        req.currentUser = currentUser;
+        console.log(currentUser);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    next();
+  });
 
 // Create schema
 const schema = new ApolloServer({
     typeDefs,
     resolvers,
-    context: {
+    context: ({ currentUser }) => ({
         Tutorial,
-        User
-    }
+        User,
+        currentUser
+    })
 });
 // Connect schemas with GraphQL
 schema.applyMiddleware({ app });

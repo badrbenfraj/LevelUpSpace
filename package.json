@@ -7,6 +7,8 @@
     "node": "v10.13.0"
   },
   "dependencies": {
+    "apollo-cache-inmemory": "^1.5.1",
+    "apollo-link-http": "^1.5.11",
     "apollo-server-express": "^2.4.8",
     "bcrypt": "^3.0.4",
     "body-parser": "^1.18.3",
@@ -17,7 +19,8 @@
     "graphql": "^14.1.1",
     "graphql-tools": "^4.0.4",
     "jsonwebtoken": "^8.5.0",
-    "mongoose": "^5.4.16"
+    "mongoose": "^5.4.16",
+    "react-apollo": "^2.5.1"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"
