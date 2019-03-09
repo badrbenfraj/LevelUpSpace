@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo';
 import ApolloClient from 'apollo-boost';
 
+
 import 'antd/dist/antd.css';
 import './css/index.css';
 import AppComponent from './App';
@@ -25,8 +26,8 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <Router>
-      <AppComponent />
-    </Router>
+      <Router>
+        <AppComponent />
+      </Router>
   </ApolloProvider>,
   document.getElementById('root'));

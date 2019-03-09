@@ -29,7 +29,7 @@ const app = express();
 //   };
 app.use(cors("*"));
 
-// set up JWT authentification middleware
+
 // Set up JWT authentication middleware
 app.use(async (req, res, next) => {
     const token = req.headers["authorization"];
@@ -37,7 +37,7 @@ app.use(async (req, res, next) => {
       try {
         const currentUser = await jwt.verify(token, process.env.SECRET);
         req.currentUser = currentUser;
-        console.log(currentUser);
+        console.log(currentUser)
       } catch (err) {
         console.error(err);
       }
@@ -49,11 +49,12 @@ app.use(async (req, res, next) => {
 const schema = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ currentUser }) => ({
+    context: ({ req }) => {
+      return {
         Tutorial,
         User,
-        currentUser
-    })
+        currentUser:req.currentUser
+    }}
 });
 // Connect schemas with GraphQL
 schema.applyMiddleware({ app });

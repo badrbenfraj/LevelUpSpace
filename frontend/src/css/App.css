@@ -122,6 +122,10 @@ nav a.logo{
   font-weight: 700;
 }
 
+.ant-avatar i.anticon-user svg {
+  margin-bottom: 9px;
+}
+
 .contactAdress li i{
   margin-right: 14px;
 }
@@ -318,7 +322,7 @@ ul.contact-details li i{
       color: white;
       text-transform: uppercase;
       text-align: center;
-      background-color: #2F4F4F;
+      background-color: #272F37;
       margin: 0;
       padding: 1.5625em 0;
   }
@@ -545,4 +549,8 @@ input:hover, select:hover, textarea:hover {
 /* // Removing input background colour for Chrome autocomplete */
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 30px white inset;
+}
+
+.anticon-plus svg {
+  margin-bottom: 4px
 }

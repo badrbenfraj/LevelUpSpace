@@ -1,5 +1,6 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
+
 
 import './css/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -16,23 +17,29 @@ import Login from './pages/Auth/login';
 import Register from './pages/Auth/register';
 import Dashboard from "./pages/dashboard/dashboard";
 import MainLayout from './layouts/mainLayout';
+import SentryError from './raven';
+import UserProfile from './pages/dashboard/user_profile';
+import NotFound from './pages/error_404';
+import FAQ from './pages/Policies_and_conditions/faq';
+import withAuth from './HOC/withAuth';
+import Messages from './pages/messages/userMessages/messages';
 
 const App = ({ refetch, session }) => {
     return (
-        <React.Fragment>
+        <SentryError>
             <Switch>
                 <Route path="/" exact render={props => (
-                    <MainLayout>
+                    <MainLayout session={session}>
                         <Home {...props} />
                     </MainLayout>
                 )} />
                 <Route path="/about" render={props => (
-                    <MainLayout>
+                    <MainLayout session={session}>
                         <About {...props} />
                     </MainLayout>
                 )} />
                 <Route path="/courses" render={props => (
-                    <MainLayout>
+                    <MainLayout session={session}>
                         <Courses {...props} />
                     </MainLayout>
                 )} />
@@ -42,8 +49,13 @@ const App = ({ refetch, session }) => {
                     </MainLayout>
                 )} />
                 <Route path="/contact" render={props => (
-                    <MainLayout>
+                    <MainLayout session={session}>
                         <Contact {...props} />
+                    </MainLayout>
+                )} />
+                <Route path="/faq" render={props => (
+                    <MainLayout session={session}>
+                        <FAQ {...props} />
                     </MainLayout>
                 )} />
                 <Route path="/login" render={props => (
@@ -56,15 +68,59 @@ const App = ({ refetch, session }) => {
                         <Register {...props} refetch={refetch} />
                     </MainLayout>
                 )} />
-                <Route path="/dashboard" render={props => (
+                <Route path="/dashboard"
+                    render={props =>
+                        withAuth() ? (
+                            <MainLayout session={session}>
+                                <Dashboard {...props} session={session} />
+                            </MainLayout>
+                        ) : (
+                                <Redirect
+                                    to={{
+                                        pathname: '/login'
+                                    }}
+                                />
+                            )
+                    } />
+                <Route exact path="/profile/:userName"
+                    render={props =>
+                        withAuth() ? (
+                            <MainLayout session={session}>
+                                <UserProfile {...props} session={session} />
+                            </MainLayout>
+                        ) : (
+                                <Redirect
+                                    to={{
+                                        pathname: '/login'
+                                    }}
+                                />
+                            )
+                    } />
+                <Route exact path="/messages"
+                    render={props =>
+                        withAuth() ? (
+                            <MainLayout session={session}>
+                                <Messages {...props} session={session} />
+                            </MainLayout>
+                        ) : (
+                                <Redirect
+                                    to={{
+                                        pathname: '/login'
+                                    }}
+                                />
+                            )
+                    } />
+                <Route path="/" render={props => (
                     <MainLayout session={session}>
-                        <Dashboard {...props} session={session} />
+                        <NotFound {...props} />
                     </MainLayout>
                 )} />
             </Switch>
-        </React.Fragment>
+        </SentryError>
     );
 };
+
+
 
 const AppComponent = withSession(App);
 

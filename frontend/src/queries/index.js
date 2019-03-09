@@ -39,6 +39,8 @@ export const GET_CURRENT_USER = gql`
 
 
 
+
+
 // User Mutation
 
 export const SIGNUP_USER = gql`
@@ -57,3 +59,26 @@ export const SIGNIN_USER = gql`
     }
 `;
 
+export const CHANGE_EMAIL = gql`
+    mutation($currentEmail: String!, $newEmail: String!){
+        changeEmail(currentEmail: $currentEmail, newEmail: $newEmail){
+            email
+        }
+    }
+`;
+
+export const CHANGE_PASSWORD = gql`
+    mutation($email: String!, $password: String!){
+        changePassword(email: $email, password: $password){
+            email
+        }
+    }
+`;
+
+export const RESET_PASSWORD = gql`
+    mutation($email: String!){
+        passwordReset(email: $email){
+            email
+        }
+    }
+`;

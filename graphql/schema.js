@@ -16,10 +16,43 @@ type Token {
     token: String!
 }
 
+type Tutorial{ 
+    _id : ID
+    name: String!
+    category: String!
+    description: String!
+    createdDate: String!
+    likes: Int
+    userName: String!
+}
+
+type Team {
+    owner: User!
+    members: [User!]!
+    channel:[Channel!]!
+}
+
+type Channel {
+    _id: ID
+    name: String!
+    public: Boolean!
+    messages: [Message!]!
+    users: [User!]!
+}
+
+type Message {
+    _id: ID
+    text: String!
+    user: User!
+    channel: Channel!
+}
+
 type Query {
     getCurrentUser: User
 
     getAllTutorials:[Tutorial]
+
+    getAllUsers: [User]
 }
 
 type Mutation{
@@ -28,16 +61,21 @@ type Mutation{
     signupUser(firstName: String!, lastName: String!, email: String!, userName: String!, password: String!): Token
     
     signinUser(email: String!, password: String!): Token
+
+    changeEmail(currentEmail: String!, newEmail: String!): User
+
+    changePassword(email: String!, password: String!): User
+
+    passwordReset(email: String!): User
+
+    createTeam(name: String!): Boolean!
+
+    createMessage(channelId: Int!, text: String!): Boolean!
+
+    createChannel(name: String!, public: Boolean=false): Boolean!
+
 }
-type Tutorial{ 
-    _id : ID
-    name: String!
-    category: String!
-    description: String!
-    createdDate: String!
-    likes: Int
-    username: String!
-}
+
 `;
 
 

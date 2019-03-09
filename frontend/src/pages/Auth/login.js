@@ -4,13 +4,14 @@ import { Mutation } from 'react-apollo';
 import { SIGNIN_USER } from '../../queries/';
 import { withRouter, NavLink } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { Breadcrumb, Icon } from 'antd';
+import { Breadcrumb, Spin, Icon } from 'antd';
 
 const initialState = {
     email: '',
     password: '',
     error: ''
 }
+const antIcon = <Icon type="loading" style={{ fontSize: 44 }} />;
 
 class Signin extends React.Component {
     state = {
@@ -61,9 +62,7 @@ class Signin extends React.Component {
     }
 
     render() {
-
         const { email, password } = this.state;
-
         return (
             <div className="column column_12_12">
                 {this.head()}
@@ -89,7 +88,7 @@ class Signin extends React.Component {
 
                         {(signinUser, { data, loading, error }) => {
 
-                            return (
+                            return loading ? <Spin indicator={antIcon} /> : (
 
                                 <form className="form" onSubmit={event => this.handleSubmit(event, signinUser)}>
 

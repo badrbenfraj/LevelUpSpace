@@ -11,11 +11,12 @@ class MainLayout extends Component {
         return (
             <div className="fluid-container">
                 <section className="main">
-                    {this.props.session && this.props.session.getCurrentUser ? <ProfileHeader /> : <Header />}
+                    {this.props.session && this.props.session.getCurrentUser ? <ProfileHeader {...this.props} /> : <Header />}
                     <div className="grid">
                         {this.props.children}
                     </div>
-                    <Footer />
+                    
+                    {this.props.session && this.props.session.getCurrentUser ? null : <Footer />}
                 </section>
             </div>
         )

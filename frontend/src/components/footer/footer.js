@@ -15,7 +15,7 @@ class Footer extends Component {
                                 <p className="footerSectionTitle">CUSTOMER CARE</p>
                                 <ul className="navbar-nav">
                                     <li className="nav-item"><Link to="/help">Help Center</Link></li>
-                                    <li className="nav-item"><Link to="/contact">FAQ</Link></li>
+                                    <li className="nav-item"><Link to="/faq">FAQ</Link></li>
                                     <li className="nav-item"><Link to="/how-to-buy">How To Buy</Link></li>
                                     <li className="nav-item"><Link to="/delivery">Delivery</Link></li>
                                 </ul>
