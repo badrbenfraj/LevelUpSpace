@@ -32,6 +32,14 @@ exports.resolvers = {
             });
 
             return users;
+        },
+        getAllTeachers: async (root, args, { User }) => {
+            const users = await User.find({ isTeacher: { $eq: true } })
+            return users;
+        },
+        getAllMentors: async (root, args, { User }) => {
+            const users = await User.find({ isMentor: { $eq: true } })
+            return users;
         }
     },
     Mutation: {
@@ -46,34 +54,7 @@ exports.resolvers = {
             }).save();
             return newTutorial;
         },
-        // // add new user 
-        // signupUser: async (root, { username, email, password }, { User }) => {
-        //     const user = await User.findOne({ email });
-        //     if (user) {
-        //         throw new Error('User already exist')
-        //     }
-        //     const newUser = await new User({
-        //         username,
-        //         email,
-        //         password
-        //     }).save();
-        //     return { token: createToken(newUser, process.env.SECRET, '1hr') };
-        // },
-        // // signin user by comparing email and password
-        // signinUser: async (root, { email, password }, { User }) => {
-        //     // search for user by email
-        //     const user = await User.findOne({ email });
-        //     if (!user) {
-        //         throw new Error("User not found");
-        //     }
-        //     // comapre hashed password by entered password
-        //     const isValidPassword = await bcrypt.compare(password, user.password);
-        //     if (!isValidPassword) {
-        //         throw new Error("Invalid password");
-        //     }
-        //     return { token: createToken(user, process.env.SECRET, "1hr") };
-        // }
-        signupUser: async (root, { firstName, lastName, email, userName, password }, { User }) => {
+        signupUser: async (root, { firstName, lastName, email, userName, password, isUser, isAdmin, isTeacher, isMentor }, { User }) => {
 
             const user = await User.findOne({ email, userName });
 
@@ -87,7 +68,11 @@ exports.resolvers = {
                 email,
                 userName,
                 password,
-                joinDate: new Date().toISOString()
+                joinDate: new Date().toISOString(),
+                isUser,
+                isAdmin,
+                isTeacher,
+                isMentor
             }).save();
 
             return { token: createToken(newUser, process.env.SECRET, "1hr") };
@@ -107,6 +92,7 @@ exports.resolvers = {
             }
 
             return { token: createToken(user, process.env.SECRET, "1hr") };
+
 
         },
         changeEmail: async (root, { currentEmail, newEmail }, { User }) => {
@@ -167,37 +153,16 @@ exports.resolvers = {
                 return user;
             });
         },
-        createTeam: async (parent, args, { models, user }) => {
-            try {
-              await models.Team.create({ ...args, owner: user.id });
-              return true;
-            } catch (err) {
-              console.log(err);
-              return false;
-            }
-          },
-
-          createMessage: async (parent, args, { models, user }) => {
-            try {
-              await models.Message.create({
-                ...args,
-                userId: user.id,
-              });
-              return true;
-            } catch (err) {
-              console.log(err);
-              return false;
-            }
-          },
-
-          createChannel: async (parent, args, { models }) => {
-            try {
-              await models.Channel.create(args);
-              return true;
-            } catch (err) {
-              console.log(err);
-              return false;
-            }
+        deleteUser: async (root, { _id }, { User }) => {
+          const user = await User.findOne({ _id });
+          if(user){
+            const removeUser = await User.remove(user);
+            return removeUser;
           }
+
+          if (!user) {
+            throw new Error('User Not Found');
+        } 
+        }
     }
 };

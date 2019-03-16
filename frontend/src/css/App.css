@@ -554,3 +554,7 @@ input:-webkit-autofill {
 .anticon-plus svg {
   margin-bottom: 4px
 }
+
+.fa-trash-alt {
+  color: red;
+}

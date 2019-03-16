@@ -38,6 +38,26 @@ const userSchema = new Schema({
     favorites: {
         type: [Schema.Types.ObjectId],
         ref: 'Tutorial'
+    },
+    isUser:{
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    isAdmin:{
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    isTeacher:{
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    isMentor:{
+        type: Boolean,
+        required: true,
+        default: false
     }
 });
 

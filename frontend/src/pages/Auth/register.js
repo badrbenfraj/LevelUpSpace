@@ -1,10 +1,12 @@
 import { Breadcrumb, Icon } from 'antd';
-import React from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Mutation } from 'react-apollo';
 import { SIGNUP_USER } from './../../queries';
 import { withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import generator from 'generate-password';
+import Clipboard from 'clipboard'
 
 const initialState = {
     firstName: '',
@@ -14,14 +16,21 @@ const initialState = {
     password: '',
     passwordConfirm: '',
     error: '',
-    passwordMatch: null
+    passwordMatch: null,
+    isUser: false,
+    isAdmin: false,
+    isTeacher: false,
+    isMentor: false
 }
+new Clipboard('.copypassgen');
 
-class Signup extends React.Component {
 
-        state = {
-            ...initialState
-        }
+class Signup extends Component {
+
+    state = {
+        ...initialState
+    }
+
 
     clearState() {
         this.setState({ ...initialState })
@@ -31,8 +40,15 @@ class Signup extends React.Component {
         const name = event.target.name;
         const value = event.target.value;
         this.setState({
-            [name]: value
+            [name]: value,
+            isUser: true
         });
+        // if(name==="isUser") {
+        //     this.setState({
+        //         value: true
+        //     })
+        // }
+
     }
 
     confirmPW() {
@@ -50,6 +66,7 @@ class Signup extends React.Component {
             await this.props.refetch();
             this.clearState();
             this.props.history.push('/dashboard');
+
         }).catch(error => {
             this.setState({
                 error: 'Either your email or username is already taken. Please adjust and try again.'
@@ -72,9 +89,22 @@ class Signup extends React.Component {
         );
     }
 
+    gen() {
+        const pwd = generator.generate({
+            length: 14,
+            numbers: true
+        });
+        console.log(pwd)
+        this.setState({
+            password: pwd,
+            passwordConfirm: pwd,
+        });
+
+    }
+
     render() {
 
-        const { firstName, lastName, email, userName, password, passwordConfirm } = this.state;
+        const { firstName, lastName, email, userName, password, passwordConfirm, isUser, isAdmin, isTeacher, isMentor } = this.state;
 
         return (
             <div className="column column_12_12">
@@ -97,7 +127,7 @@ class Signup extends React.Component {
                         Join now
                     </h1>
 
-                    <Mutation mutation={SIGNUP_USER} variables={{ firstName, lastName, email, userName, password }}>
+                    <Mutation mutation={SIGNUP_USER} variables={{ firstName, lastName, email, userName, password, isUser, isAdmin, isTeacher, isMentor }}>
 
                         {(signupUser, { data, loading, error }) => {
 
@@ -105,24 +135,20 @@ class Signup extends React.Component {
                                 <form onSubmit={event => this.handleSubmit(event, signupUser)}>
 
                                     <div className="form_wrap">
-
                                         <div className={classNames({ 'error-label': this.state.error !== '' })}>
                                             {this.state.error}
                                         </div>
 
                                         <div className="form_row">
-
                                             <div className="form_item">
                                                 <div className="form_input">
                                                     <input type="text" name="firstName" placeholder="First Name" value={firstName} onChange={this.handleChange.bind(this)} />
                                                     <span className="bottom_border"></span>
                                                 </div>
                                             </div>
-
                                         </div>
 
                                         <div className="form_row">
-
                                             <div className="form_item">
                                                 <div className="form_input">
                                                     <input type="text" name="lastName" placeholder="Last Name" value={lastName} onChange={this.handleChange.bind(this)} />
@@ -133,38 +159,32 @@ class Signup extends React.Component {
                                         </div>
 
                                         <div className="form_row">
-
                                             <div className="form_item">
                                                 <div className="form_input">
                                                     <input type="email" name="email" placeholder="Email" value={email} onChange={this.handleChange.bind(this)} />
                                                     <span className="bottom_border"></span>
                                                 </div>
                                             </div>
-
                                         </div>
 
                                         <div className="form_row">
-
                                             <div className="form_item">
                                                 <div className="form_input">
                                                     <input type="text" name="userName" placeholder="Username" value={userName} onChange={this.handleChange.bind(this)} />
                                                     <span className="bottom_border"></span>
                                                 </div>
+
                                                 <div className="helperText">
                                                     Please note that you will not be able to change this after your registration.
                                                 </div>
                                             </div>
-
                                         </div>
 
                                         <div className="form_row">
-
                                             <div className={classNames({ 'error-label': true, 'passwordMatch': !this.state.passwordMatch })}>
                                                 Please check that your passwords match and are at least 8 characters.
                                             </div>
-
                                             <div className="form_item">
-
                                                 <div className="form_input">
                                                     <input type="password" name="password" placeholder="Password" value={password} onChange={this.handleChange.bind(this)} />
                                                     <span className="bottom_border"></span>
@@ -173,22 +193,16 @@ class Signup extends React.Component {
                                                 <div className="helperText">
                                                     Password must be a minium of 8 characters in length.
                                                 </div>
-
                                             </div>
-
                                         </div>
 
                                         <div className="form_row">
-
                                             <div className="form_item">
-
                                                 <div className="form_input">
                                                     <input type="password" name="passwordConfirm" placeholder="Password confirm" value={passwordConfirm} onChange={this.handleChange.bind(this)} onBlur={this.confirmPW.bind(this)} />
                                                     <span className="bottom_border"></span>
                                                 </div>
-
                                             </div>
-
                                         </div>
 
                                         <div className="form_buttons">
@@ -196,15 +210,14 @@ class Signup extends React.Component {
                                                 disabled={loading || this.validateForm()}>
                                                 Register</button>
                                         </div>
-
                                     </div>
-
                                 </form>
                             );
 
                         }}
                     </Mutation>
-
+                    <button className="passgen" onClick={this.gen.bind(this)}>generate password</button>
+                    <button className="copypassgen" data-clipboard-text={password}>copy password</button>
                 </div>
             </div>
         )

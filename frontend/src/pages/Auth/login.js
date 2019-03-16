@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { Mutation } from 'react-apollo';
 import { SIGNIN_USER } from '../../queries/';
-import { withRouter, NavLink } from 'react-router-dom';
+import { withRouter, NavLink, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Breadcrumb, Spin, Icon } from 'antd';
 
@@ -37,6 +37,7 @@ class Signin extends React.Component {
             localStorage.setItem('token', data.signinUser.token);
             await this.props.refetch();
             this.clearState();
+            // console.log(data.)
             this.props.history.push('/dashboard');
 
         }).catch(error => {
@@ -125,10 +126,10 @@ class Signin extends React.Component {
                                                 Don't have an account? <NavLink to="/signup">Join now!</NavLink>
                                             </p>
                                             <p>
-                                                Forgot your password? <NavLink to="/account-recovery">Reset here</NavLink>
+                                                Forgot your password? <Link to="/account-recovery">Reset here</Link>
                                             </p>
                                         </div>
-
+                                        <input type="hidden" name="role" value="user" onChange={this.handleChange.bind(this)}/>
                                         <div className="form_buttons">
                                             <button type="submit" className="btn"
                                                 disabled={loading || this.validateForm()}>

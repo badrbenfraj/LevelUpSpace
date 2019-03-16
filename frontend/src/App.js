@@ -22,7 +22,8 @@ import UserProfile from './pages/dashboard/user_profile';
 import NotFound from './pages/error_404';
 import FAQ from './pages/Policies_and_conditions/faq';
 import withAuth from './HOC/withAuth';
-import Messages from './pages/messages/userMessages/messages';
+import ForgotPassword from './pages/Auth/resetPassword';
+
 
 const App = ({ refetch, session }) => {
     return (
@@ -68,6 +69,11 @@ const App = ({ refetch, session }) => {
                         <Register {...props} refetch={refetch} />
                     </MainLayout>
                 )} />
+                <Route path="/account-recovery" render={props => (
+                    <MainLayout>
+                        <ForgotPassword {...props} refetch={refetch} />
+                    </MainLayout>
+                )} />
                 <Route path="/dashboard"
                     render={props =>
                         withAuth() ? (
@@ -82,6 +88,7 @@ const App = ({ refetch, session }) => {
                                 />
                             )
                     } />
+
                 <Route exact path="/profile/:userName"
                     render={props =>
                         withAuth() ? (
@@ -100,7 +107,7 @@ const App = ({ refetch, session }) => {
                     render={props =>
                         withAuth() ? (
                             <MainLayout session={session}>
-                                <Messages {...props} session={session} />
+                                <NotFound {...props} session={session} />
                             </MainLayout>
                         ) : (
                                 <Redirect

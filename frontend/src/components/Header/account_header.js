@@ -19,13 +19,15 @@ class ProfileHeader extends Component {
                 <Menu.Item key="3"><Signout /></Menu.Item>
             </Menu>
         );
+        console.log(this.props.session.getCurrentUser.isUser)
         return (
             <div className="topnav navbar nav navbar-expand-sm" >
                 <div className="container-fluid">
                     <ul>
-                        <li>test</li>
+                        <li><Link className="logo" to="/dashboard"><strong>Levelup Space</strong></Link></li>
                     </ul>
                     <ul>
+                        <li><strong><Link to="/shopping-cart"><Icon type="shopping-cart" style={{ fontSize: '22px', }} theme="outlined"/></Link></strong></li>
                         <li><strong><Link to="/messages"><Icon type="message" style={{ fontSize: '22px', }} theme="outlined"/></Link></strong></li>
                         <li>
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import { Redirect } from 'react-router-dom';
-import { GET_CURRENT_USER } from './../queries';
+import { GET_CURRENT_USER } from '../queries';
 
 import Login from '../pages/Auth/login';
 
@@ -21,10 +21,9 @@ const withAuth = conditionFunc => Component => props => {
                     
                 }
 
-                if (props.session.getCurrentUser === null) return <Login {...props} refetch={refetch} />
-
+                if (data.getCurrentUser === null) return <Login {...props} refetch={refetch} />
+                
                 return conditionFunc(data) ? <Component {...props} /> : <Redirect to="/login" />
-
             }}
 
 
