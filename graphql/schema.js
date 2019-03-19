@@ -30,6 +30,14 @@ type Tutorial{
     userName: String!
 }
 
+type Chat {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  message: String!
+  author: User
+}
+
 type Query {
     getCurrentUser: User
 
