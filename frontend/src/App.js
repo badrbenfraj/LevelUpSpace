@@ -23,6 +23,9 @@ import NotFound from './pages/error_404';
 import FAQ from './pages/Policies_and_conditions/faq';
 import withAuth from './HOC/withAuth';
 import ForgotPassword from './pages/Auth/resetPassword';
+import EditTutorial from './pages/dashboard/Tutorials/editTutorial/editTutorial';
+import EditSection from './pages/dashboard/Tutorials/editSection/editSection';
+import EditLecture from './pages/dashboard/Tutorials/editLecture/editLecture';
 
 
 const App = ({ refetch, session }) => {
@@ -108,6 +111,48 @@ const App = ({ refetch, session }) => {
                         withAuth() ? (
                             <MainLayout session={session}>
                                 <NotFound {...props} session={session} />
+                            </MainLayout>
+                        ) : (
+                                <Redirect
+                                    to={{
+                                        pathname: '/login'
+                                    }}
+                                />
+                            )
+                    } />
+                <Route exact path="/edit-tutorial/:id"
+                    render={props =>
+                        withAuth() ? (
+                            <MainLayout session={session}>
+                                <EditTutorial {...props} session={session} />
+                            </MainLayout>
+                        ) : (
+                                <Redirect
+                                    to={{
+                                        pathname: '/login'
+                                    }}
+                                />
+                            )
+                    } />
+                    <Route exact path="/edit-tutorial/:id/edit-section/:id"
+                    render={props =>
+                        withAuth() ? (
+                            <MainLayout session={session}>
+                                <EditSection {...props} session={session} />
+                            </MainLayout>
+                        ) : (
+                                <Redirect
+                                    to={{
+                                        pathname: '/login'
+                                    }}
+                                />
+                            )
+                    } />
+                <Route exact path="/edit-section/:id/edit-lecture/:id"
+                    render={props =>
+                        withAuth() ? (
+                            <MainLayout session={session}>
+                                <EditLecture {...props} session={session} />
                             </MainLayout>
                         ) : (
                                 <Redirect

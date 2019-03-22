@@ -13,6 +13,8 @@ const { typeDefs } = require('./graphql/schema');
 
 const User = require('./models/User');
 const Tutorial = require('./models/Tutorial');
+const Section = require('./models/Section');
+const Lecture = require('./models/Lecture');
 
 // connect to database
 mongoose
@@ -89,6 +91,8 @@ const schema = new ApolloServer({
     return {
       Tutorial,
       User,
+      Section,
+      Lecture,
       currentUser: req.currentUser
     }
   }

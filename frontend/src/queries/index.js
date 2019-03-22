@@ -1,15 +1,42 @@
 import { gql } from 'apollo-boost';
 
+
+
+
+
 // Tutorials Queries
 export const GET_ALL_TUTORIALS = gql`
     query {
         getAllTutorials{
+            _id
             name
-            category
             description
             createdDate
-            likes
-            username
+            userName
+        }
+    }
+`;
+
+export const GET_SECTIONS = gql`
+    query {
+        getSections{
+            _id
+            name
+            description
+            createdDate
+            TutorialID
+        }
+    }
+`;
+
+export const GET_LECTURES = gql`
+    query {
+        getLectures{
+            _id
+            name
+            description
+            createdDate
+            SectionID
         }
     }
 `;
@@ -18,7 +45,95 @@ export const GET_ALL_TUTORIALS = gql`
 
 
 
+
+
+
+
+
+
 // Tutorials Mutation
+
+export const ADD_TUTORIAL = gql`
+    mutation($name: String!, $description: String!, $userName: String!){
+        addTutorial( name: $name description: $description userName:$userName){ 
+            name
+        }
+    }
+`;
+
+export const DELETE_Tutorial = gql`
+  mutation($_id: ID!) {
+    deleteTutorial(_id: $_id) {
+      _id
+    }
+  }
+`;
+
+
+export const CHANGE_TUTORIAL_NAME = gql`
+    mutation($_id: ID!, $newName: String!, $newDescription: String!){
+        changeTutorialName(_id: $_id, newName: $newName, newDescription: $newDescription){
+           _id
+        }
+    }
+`;
+
+
+export const ADD_SECTION = gql`
+    mutation($name: String!, $description: String!, $ID: String!){
+        addSection( name: $name description: $description, TutorialID:$ID){ 
+            name
+        }
+    }
+`;
+
+
+export const DELETE_SECTION = gql`
+  mutation($_id: ID!) {
+    deleteSection(_id: $_id) {
+      _id
+    }
+  }
+`;
+
+
+export const EDIT_SECTION = gql`
+    mutation($_id: ID!, $newName: String!, $newDescription: String!){
+        editSection(_id: $_id, newName: $newName, newDescription: $newDescription){
+           _id
+        }
+    }
+`;
+
+export const ADD_LECTURE = gql`
+    mutation($name: String!, $description: String!, $ID: String!){
+        addLecture( name: $name description: $description, SectionID:$ID){ 
+            name
+        }
+    }
+`;
+
+
+export const DELETE_LECTURE = gql`
+  mutation($_id: ID!) {
+    deleteLecture(_id: $_id) {
+      _id
+    }
+  }
+`;
+
+
+export const EDIT_LECTURE = gql`
+    mutation($_id: ID!, $newName: String!, $newDescription: String!){
+        editLecture(_id: $_id, newName: $newName, newDescription: $newDescription){
+           _id
+        }
+    }
+`;
+
+
+
+
 
 
 
@@ -62,6 +177,14 @@ export const GET_ALL_MENTORS = gql`
         }
     }
 `;
+
+
+
+
+
+
+
+
 
 
 

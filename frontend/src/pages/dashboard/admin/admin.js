@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import Teachers from './teachersList/teachers';
 import Mentors from './mentorsList/mentors';
+import Tutorials from '../Tutorials';
 
 const { Sider, Content } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -9,7 +10,7 @@ const SubMenu = Menu.SubMenu;
 class Admin extends Component {
     state = {
         collapsed: false,
-        current: '1',
+        current: 'AddTutorial',
     };
 
     onCollapse = (collapsed) => {
@@ -24,7 +25,7 @@ class Admin extends Component {
             current: e.key,
         });
     }
-    layoutContent = () => {
+    layoutContent = (props) => {
         if (this.state.current === "Teachers") {
             return (
                 <Layout>
@@ -45,10 +46,21 @@ class Admin extends Component {
                     </Content>
                 </Layout>
             )
+        }else if (this.state.current === "AddTutorial") {
+            return(
+                <Layout>
+                    <Content style={{ margin: '16px' }}>
+                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+                            <Tutorials {...props}/>
+                        </div>
+                    </Content>
+                </Layout>
+            )
         }
     }
     render() {
         console.log(this.state.current)
+        console.log(this.props.session.getCurrentUser)
         return (
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider
@@ -61,9 +73,9 @@ class Admin extends Component {
                         onClick={this.handleClick}
                         selectedKeys={[this.state.current]}
                         mode="inline">
-                        <Menu.Item key="1">
-                            <Icon type="pie-chart" />
-                            <span>Option 1</span>
+                        <Menu.Item key="AddTutorial">
+                            <Icon type="plus" />
+                            <span>Add Tutorial</span>
                         </Menu.Item>
                         <SubMenu
                             key="sub2"
@@ -74,7 +86,7 @@ class Admin extends Component {
                         </SubMenu>
                     </Menu>
                 </Sider>
-                {this.layoutContent()}
+                {this.layoutContent(this.props)}
             </Layout>
         );
     }

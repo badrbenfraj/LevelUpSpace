@@ -19,6 +19,10 @@ class Signin extends React.Component {
 
     }
 
+    componentWillUnmount() {
+        this.setState({ ...initialState })
+    }
+
     clearState() {
         this.setState({ ...initialState })
     }
@@ -129,7 +133,7 @@ class Signin extends React.Component {
                                                 Forgot your password? <Link to="/account-recovery">Reset here</Link>
                                             </p>
                                         </div>
-                                        <input type="hidden" name="role" value="user" onChange={this.handleChange.bind(this)}/>
+                                        <input type="hidden" name="role" value="user" onChange={this.handleChange.bind(this)} />
                                         <div className="form_buttons">
                                             <button type="submit" className="btn"
                                                 disabled={loading || this.validateForm()}>

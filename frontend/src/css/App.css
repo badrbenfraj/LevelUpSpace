@@ -558,3 +558,23 @@ input:-webkit-autofill {
 .fa-trash-alt {
   color: red;
 }
+
+a.editBtn {
+  color: green !important;
+  font-weight: 900;
+  font-size: 14px;
+  margin-right: 4.5px
+}
+
+i.fa-trash-alt{
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+tr td {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width:100px;
+}

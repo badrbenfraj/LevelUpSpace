@@ -10,9 +10,9 @@ import User from './user';
 
 
 class Dashboard extends Component {
-    userRole = ()=>{
+    userRole = (props)=>{
         if(this.props.session.getCurrentUser.isAdmin){
-            return <Admin />;
+            return <Admin {...props}/>;
         }else if(this.props.session.getCurrentUser.isUser){
             return <User />
         }else if(this.props.session.getCurrentUser.isTeacher){
@@ -27,7 +27,7 @@ class Dashboard extends Component {
     render() {
         return (
             <div>
-                {this.userRole()}
+                {this.userRole(this.props)}
             </div>
         );
     }

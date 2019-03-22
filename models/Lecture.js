@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
     
-const tutorialsSchema = new Schema({
+const lecturesSchema = new Schema({
     name:{
         type: String,
         required: true
@@ -14,9 +14,9 @@ const tutorialsSchema = new Schema({
         type: String,
         default: Date.now
     },
-    userName:{
+    SectionID:{
         type: String
     }
 })
 
-module.exports = mongoose.model('Tutorial', tutorialsSchema)
+module.exports = mongoose.model('Lecture', lecturesSchema)

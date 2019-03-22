@@ -23,11 +23,25 @@ type Token {
 type Tutorial{ 
     _id : ID
     name: String!
-    category: String!
     description: String!
     createdDate: String!
-    likes: Int
     userName: String!
+}
+
+type Section{ 
+    _id : ID
+    name: String!
+    description: String!
+    createdDate: String!
+    TutorialID: String!
+}
+
+type Lecture{ 
+    _id : ID
+    name: String!
+    description: String!
+    createdDate: String!
+    SectionID: String!
 }
 
 type Query {
@@ -40,10 +54,14 @@ type Query {
     getAllTeachers: [User]
 
     getAllMentors: [User]
+
+    getSections: [Section]
+
+    getLectures: [Lecture]
 }
 
 type Mutation{
-    addTutorial(name: String!, category: String!, description: String!, username: String): Tutorial
+    addTutorial(name: String!, description: String!, userName: String): Tutorial
     
     signupUser(firstName: String!, lastName: String!, email: String!, userName: String!, password: String!, isUser:Boolean!, isAdmin: Boolean!, isTeacher: Boolean!, isMentor: Boolean!): Token
     
@@ -56,8 +74,23 @@ type Mutation{
     passwordReset(email: String!): User
 
     deleteUser(_id: ID): User
-}
 
+    deleteTutorial(_id: ID): Tutorial
+
+    changeTutorialName(_id: ID!, newName: String!, newDescription: String!): Tutorial
+
+    addSection(name: String!, description: String!, TutorialID: String!): Section
+
+    deleteSection(_id: ID): Section
+
+    editSection(_id: ID!, newName: String!, newDescription: String!): Section
+
+    addLecture(name: String!, description: String!, SectionID: String!): Lecture
+
+    deleteLecture(_id: ID): Lecture
+
+    editLecture(_id: ID!, newName: String!, newDescription: String!): Lecture
+}
 `;
 
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Icon } from 'antd';
-import AddTutorial from '../addTutorial';
+import AddTutorial from '../Tutorials/addTutorial';
+
 
 
 const { Sider, Content } = Layout;

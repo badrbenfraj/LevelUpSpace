@@ -24,7 +24,7 @@ class ProfileHeader extends Component {
             <div className="topnav navbar nav navbar-expand-sm" >
                 <div className="container-fluid">
                     <ul>
-                        <li><Link className="logo" to="/dashboard"><strong>Levelup Space</strong></Link></li>
+                        <li><Link className="logo" to="/dashboard"><strong>LEVELUP SPACE</strong></Link></li>
                     </ul>
                     <ul>
                         <li><strong><Link to="/shopping-cart"><Icon type="shopping-cart" style={{ fontSize: '22px', }} theme="outlined"/></Link></strong></li>

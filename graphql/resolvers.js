@@ -40,16 +40,23 @@ exports.resolvers = {
         getAllMentors: async (root, args, { User }) => {
             const users = await User.find({ isMentor: { $eq: true } })
             return users;
-        }
+        },
+        getSections: async (root, args, { Section }) => {
+            const allSections = await Section.find();
+            return allSections;
+        },
+        getLectures: async (root, args, { Lecture }) => {
+            const allLectures = await Lecture.find();
+            return allLectures;
+        },
     },
     Mutation: {
         // add tutorial to database
-        addTutorial: async (root, { name, description, category, username }, { Tutorial }) => {
+        addTutorial: async (root, { name, description, userName }, { Tutorial }) => {
             const newTutorial = await new Tutorial({
                 name,
                 description,
-                category,
-                username,
+                userName,
                 createdDate: new Date().toISOString()
             }).save();
             return newTutorial;
@@ -154,15 +161,81 @@ exports.resolvers = {
             });
         },
         deleteUser: async (root, { _id }, { User }) => {
-          const user = await User.findOne({ _id });
-          if(user){
-            const removeUser = await User.remove(user);
-            return removeUser;
-          }
+            const user = await User.findOne({ _id });
+            if (user) {
+                const removeUser = await User.remove(user);
+                return removeUser;
+            }
 
-          if (!user) {
-            throw new Error('User Not Found');
-        } 
+            if (!user) {
+                throw new Error('User Not Found');
+            }
+        },
+        deleteTutorial: async (root, { _id }, { Tutorial }) => {
+            const tutorial = await Tutorial.findOne({ _id });
+
+            if (tutorial) {
+                const removeTutorial = await Tutorial.remove(tutorial);
+                return removeTutorial;
+            }
+        },
+        changeTutorialName: async (root, { _id, newName, newDescription }, { Tutorial }) => {
+
+            const updatedName = await Tutorial.findOneAndUpdate({ _id }, { $set: { name: newName, description: newDescription } }, { new: true });
+            return updatedName;
+
+        },
+        addSection: async (root, { name, description, TutorialID }, { Section }) => {
+            const section = await Section.findOne({ name });
+            if (!section) {
+                const newSection = await new Section({
+                    name,
+                    description,
+                    TutorialID,
+                    createdDate: new Date().toISOString()
+                }).save();
+                return newSection;
+            }
+            if (section) {
+                throw new Error('Section already exist');
+            }
+        },
+        deleteSection: async (root, { _id }, { Section }) => {
+            const section = await Section.findOne({ _id });
+            if (section) {
+                const removeSection = await Section.remove(section);
+                return removeSection;
+            }
+        },
+        editSection: async (root, { _id, newName, newDescription }, { Section }) => {
+            const updatedName = await Section.findOneAndUpdate({ _id }, { $set: { name: newName, description: newDescription } }, { new: true });
+            return updatedName;
+        },
+        addLecture: async (root, { name, description, SectionID }, { Lecture }) => {
+            const lecture = await Lecture.findOne({ name });
+            if (!lecture) {
+                const newLecture = await new Lecture({
+                    name,
+                    description,
+                    SectionID,
+                    createdDate: new Date().toISOString()
+                }).save();
+                return newLecture;
+            }
+            if (lecture) {
+                throw new Error('Section already exist');
+            }
+        },
+        deleteLecture: async (root, { _id }, { Lecture }) => {
+            const lecture = await Lecture.findOne({ _id });
+            if (lecture) {
+                const removeLecture = await Lecture.remove(lecture);
+                return removeLecture;
+            }
+        },
+        editLecture: async (root, { _id, newName, newDescription }, { Lecture }) => {
+            const updatedName = await Lecture.findOneAndUpdate({ _id }, { $set: { name: newName, description: newDescription } }, { new: true });
+            return updatedName;
         }
     }
 };
