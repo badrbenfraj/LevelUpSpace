@@ -22,7 +22,8 @@
     "mongoose": "^5.4.16",
     "nodemailer": "^5.1.1",
     "nodemailer-express-handlebars": "^3.0.0",
-    "react-apollo": "^2.5.1"
+    "react-apollo": "^2.5.1",
+    "socket.io": "^2.2.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"

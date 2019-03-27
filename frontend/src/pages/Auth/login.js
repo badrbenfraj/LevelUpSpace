@@ -93,7 +93,7 @@ class Signin extends React.Component {
 
                         {(signinUser, { data, loading, error }) => {
 
-                            return loading ? <Spin indicator={antIcon} /> : (
+                            return loading ? <Spin indicator={antIcon} className="text-center" /> : (
 
                                 <form className="form" onSubmit={event => this.handleSubmit(event, signinUser)}>
 
@@ -137,11 +137,10 @@ class Signin extends React.Component {
                                         <div className="form_buttons">
                                             <button type="submit" className="btn"
                                                 disabled={loading || this.validateForm()}>
-                                                LogIn</button>
+                                                LogIn
+                                            </button>
                                         </div>
-
                                     </div>
-
                                 </form>
 
                             );

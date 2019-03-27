@@ -8,6 +8,10 @@ const hbs =require ('nodemailer-express-handlebars');
 // bring in graphql express middleware
 const { ApolloServer } = require('apollo-server-express');
 
+const http = require('http');
+const socketIO = require('socket.io');
+const SocketManager =require('./socketManager')
+
 const { resolvers } = require('./graphql/resolvers');
 const { typeDefs } = require('./graphql/schema');
 
@@ -26,6 +30,8 @@ mongoose
 const PORT = process.env.PORT || 3001;
 // Initializes application
 const app = express();
+const server = http.Server(app);
+const io = socketIO(server);
 
 // const corsOptions = {
 //     origin: 'http://localhost:3000/',
@@ -100,6 +106,14 @@ const schema = new ApolloServer({
 // Connect schemas with GraphQL
 schema.applyMiddleware({ app });
 
-app.listen({ port: PORT }, () =>
+io.on('connection', (socket) => {
+  console.log(socket.id);
+
+  socket.on('SEND_MESSAGE', function(data){
+      io.emit('RECEIVE_MESSAGE', data);
+  })
+});
+
+server.listen({ port: PORT }, () =>
   console.log(`🚀 Server ready at http://localhost:3001${schema.graphqlPath}`)
 )

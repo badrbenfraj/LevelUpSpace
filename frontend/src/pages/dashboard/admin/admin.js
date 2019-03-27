@@ -3,6 +3,7 @@ import { Layout, Menu, Icon } from 'antd';
 import Teachers from './teachersList/teachers';
 import Mentors from './mentorsList/mentors';
 import Tutorials from '../Tutorials';
+import Messages from '../../chat/messages';
 
 const { Sider, Content } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -36,8 +37,8 @@ class Admin extends Component {
                     </Content>
                 </Layout>
             )
-        }else if (this.state.current === "Mentors") {
-            return(
+        } else if (this.state.current === "Mentors") {
+            return (
                 <Layout>
                     <Content style={{ margin: '16px' }}>
                         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
@@ -46,17 +47,28 @@ class Admin extends Component {
                     </Content>
                 </Layout>
             )
-        }else if (this.state.current === "AddTutorial") {
-            return(
+        } else if (this.state.current === "AddTutorial") {
+            return (
                 <Layout>
                     <Content style={{ margin: '16px' }}>
                         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            <Tutorials {...props}/>
+                            <Tutorials {...props} />
+                        </div>
+                    </Content>
+                </Layout>
+            )
+        } else if (this.state.current === "messages") {
+            return (
+                <Layout>
+                    <Content style={{ margin: '16px' }}>
+                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+                            <Messages {...props}/>
                         </div>
                     </Content>
                 </Layout>
             )
         }
+
     }
     render() {
         console.log(this.state.current)
@@ -84,6 +96,9 @@ class Admin extends Component {
                             <Menu.Item key="Teachers">Teachers</Menu.Item>
                             <Menu.Item key="Mentors">Mentors</Menu.Item>
                         </SubMenu>
+                        <Menu.Item key="messages">
+                            messages
+                    </Menu.Item>
                     </Menu>
                 </Sider>
                 {this.layoutContent(this.props)}
