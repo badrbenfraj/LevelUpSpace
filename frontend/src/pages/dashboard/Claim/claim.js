@@ -20,7 +20,7 @@ class Claims extends React.Component {
 
   }
 
-  ClearState() {
+  clearState() {
     this.setState({
       subject: '',
       description: ''
@@ -34,10 +34,9 @@ class Claims extends React.Component {
     });
   }
 
-  handleSubmit(event, AddClaim) {
-    
+  handleSubmit(event, addClaim) {
     event.preventDefault();
-    AddClaim().then(async () => {
+    addClaim().then(async () => {
       this.clearState();
       message.success(`Your claim was send`);
     })
@@ -51,21 +50,12 @@ class Claims extends React.Component {
       <Mutation
         mutation={ADD_CLAIM}
         variables={{ firstName, lastName, email, subject, description }} >
-        {(AddClaim) => {
+        {(addClaim) => {
           return (
-            <form onSubmit={event => this.handleSubmit(event, AddClaim)}>
-              <label>
-                Fisrt name:
-                    <input type="text" name="firstName" value={firstName} onChange={this.handleChange} disabled />
-              </label><br />
-              <label>
-                Last name:
-                    <input type="text" name="lastName" value={lastName} onChange={this.handleChange} disabled />
-              </label><br />
-              <label>
-                Email:
-                    <input type="text" name="email" value={email} onChange={this.handleChange} disabled />
-              </label><br />
+            <form onSubmit={event => this.handleSubmit(event, addClaim)}>
+              <input type="hidden" name="firstName" value={firstName} onChange={this.handleChange} disabled />
+              <input type="hidden" name="lastName" value={lastName} onChange={this.handleChange} disabled />
+              <input type="hidden" name="email" value={email} onChange={this.handleChange} disabled />
               <label>
                 Subject:
                     <input type="text" name="subject" value={subject} onChange={this.handleChange} />
@@ -74,13 +64,10 @@ class Claims extends React.Component {
                 Description:
                     <input type="text" name="description" value={description} onChange={this.handleChange} />
               </label><br />
-              
-              <button type="submit" >send</button>
-              
+              <button type="submit">send</button>
             </form>
           )
         }}
-
       </Mutation>
 
 

@@ -43,13 +43,14 @@ type Lecture{
     createdDate: String!
     SectionID: String!
 }
+
 type Claim{
-    _id : ID
-    firstName : String!
-    lastName : String!
-    email : String!
-    subject : String!
-    description : String!
+    _id: ID
+    firstName: String!
+    lastName: String!
+    email: String!
+    subject: String!
+    description: String!
 }
 
 type Query {
@@ -67,7 +68,7 @@ type Query {
 
     getLectures: [Lecture]
 
-    getClaim : [Claim]
+    getClaim: [Claim]
 }
 
 
@@ -102,7 +103,7 @@ type Mutation{
 
     editLecture(_id: ID!, newName: String!, newDescription: String!): Lecture
 
-    AddClaim(firstName: String!, lastName: String!, email: String!, subject: String!, description: String!): Claim
+    addClaim(firstName: String!, lastName: String!, email: String!, subject: String!, description: String!): Claim
 }
 `;
 

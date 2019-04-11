@@ -49,8 +49,8 @@ exports.resolvers = {
             const allLectures = await Lecture.find();
             return allLectures;
         },
-        getClaim: async (root, args, { Claim }) => {
-            const allClaims = await Claim.find();
+        getClaim: async (root, args, { Claims }) => {
+            const allClaims = await Claims.find();
             return allClaims;
         },
     },
@@ -241,15 +241,15 @@ exports.resolvers = {
             const updatedName = await Lecture.findOneAndUpdate({ _id }, { $set: { name: newName, description: newDescription } }, { new: true });
             return updatedName;
         },
-        AddClaim: async (root, { firstName, lastName, email, subject, description }, { }) => {
+        addClaim: async (root, { firstName, lastName, email, subject, description }, { Claims }) => {
 
-            const newClaim = await new Claim({
+            const newClaim = await new Claims({
                 firstName,
                 lastName,
                 email,
                 subject,
                 description,
-            }).save(Claim);
+            }).save();
 
             return newClaim;
         },

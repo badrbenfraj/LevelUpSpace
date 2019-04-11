@@ -241,7 +241,7 @@ export const DELETE_USER = gql`
 //Claim mutation
 export const ADD_CLAIM = gql`
   mutation($firstName: String!, $lastName: String!, $email: String!, $subject: String!, $description: String!){
-      AddClaim(firstName: $firstName, lastName : $lastName, email: $email, subject: $subject, description: $description ){
+    addClaim(firstName: $firstName, lastName : $lastName, email: $email, subject: $subject, description: $description ){
         email
       }
   }
