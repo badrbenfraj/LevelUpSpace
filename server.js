@@ -10,7 +10,6 @@ const { ApolloServer } = require('apollo-server-express');
 
 const http = require('http');
 const socketIO = require('socket.io');
-const SocketManager =require('./socketManager')
 
 const { resolvers } = require('./graphql/resolvers');
 const { typeDefs } = require('./graphql/schema');
@@ -19,6 +18,7 @@ const User = require('./models/User');
 const Tutorial = require('./models/Tutorial');
 const Section = require('./models/Section');
 const Lecture = require('./models/Lecture');
+const Messages = require('./models/Messages');
 
 // connect to database
 mongoose
@@ -99,6 +99,7 @@ const schema = new ApolloServer({
       User,
       Section,
       Lecture,
+      Messages,
       currentUser: req.currentUser
     }
   }

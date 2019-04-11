@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Icon } from 'antd';
+import Messages from '../../chat/messages';
 
 
 const { Sider, Content } = Layout;
@@ -23,26 +24,22 @@ class User extends Component {
             current: e.key,
         });
     }
-    layoutContent = () => {
+    layoutContent = (props) => {
         if (this.state.current === "Teachers") {
             return (
-                <Layout>
-                    <Content style={{ margin: '16px' }}>
-                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            
-                        </div>
-                    </Content>
-                </Layout>
+                <div>
+                    
+                </div>
             )
-        }else if (this.state.current === "Mentors") {
-            return(
-                <Layout>
-                    <Content style={{ margin: '16px' }}>
-                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            
-                        </div>
-                    </Content>
-                </Layout>
+        } else if (this.state.current === "Mentors") {
+            return (
+                <div>
+
+                </div>
+            )
+        } else if (this.state.current === "messages") {
+            return (
+                <Messages {...props} />
             )
         }
     }
@@ -71,9 +68,18 @@ class User extends Component {
                             <Menu.Item key="Teachers">Teachers</Menu.Item>
                             <Menu.Item key="Mentors">Mentors</Menu.Item>
                         </SubMenu>
+                        <Menu.Item key="messages">
+                            messages
+                        </Menu.Item>
                     </Menu>
                 </Sider>
-                {this.layoutContent()}
+                <Layout>
+                    <Content style={{ margin: '16px' }}>
+                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+                            {this.layoutContent()}
+                        </div>
+                    </Content>
+                </Layout>
             </Layout>
         );
     }

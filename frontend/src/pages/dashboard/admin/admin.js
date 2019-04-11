@@ -29,43 +29,20 @@ class Admin extends Component {
     layoutContent = (props) => {
         if (this.state.current === "Teachers") {
             return (
-                <Layout>
-                    <Content style={{ margin: '16px' }}>
-                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            <Teachers />
-                        </div>
-                    </Content>
-                </Layout>
+                <Teachers />
             )
         } else if (this.state.current === "Mentors") {
             return (
-                <Layout>
-                    <Content style={{ margin: '16px' }}>
-                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            <Mentors />
-                        </div>
-                    </Content>
-                </Layout>
+
+                <Mentors />
             )
         } else if (this.state.current === "AddTutorial") {
             return (
-                <Layout>
-                    <Content style={{ margin: '16px' }}>
-                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            <Tutorials {...props} />
-                        </div>
-                    </Content>
-                </Layout>
+                <Tutorials {...props} />
             )
         } else if (this.state.current === "messages") {
             return (
-                <Layout>
-                    <Content style={{ margin: '16px' }}>
-                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            <Messages {...props}/>
-                        </div>
-                    </Content>
-                </Layout>
+                <Messages {...props} />
             )
         }
 
@@ -98,11 +75,17 @@ class Admin extends Component {
                         </SubMenu>
                         <Menu.Item key="messages">
                             messages
-                    </Menu.Item>
+                        </Menu.Item>
                     </Menu>
                 </Sider>
-                {this.layoutContent(this.props)}
-            </Layout>
+                <Layout>
+                    <Content style={{ margin: '16px' }}>
+                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+                            {this.layoutContent(this.props)}
+                        </div>
+                    </Content >
+                </Layout >
+            </Layout >
         );
     }
 }

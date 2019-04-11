@@ -14,7 +14,7 @@ class LectureDetail extends Component {
             if (confirmDelete) {
                 deleteLecture(_id.toString()).then(({ data }) => {
                     console.log(_id.toString());
-                    message.success(`Lecture ${name} was deleted`)
+                    message.success(`Lecture ${name} was deleted`);
                 });
             }
         };

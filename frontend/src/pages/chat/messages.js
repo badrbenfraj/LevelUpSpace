@@ -1,42 +1,48 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client'
+import { Mutation, Query } from 'react-apollo';
+import { SEND_MESSAGE, GET_ALL_MESSAGES } from '../../queries';
 
-const socketUrl= "http://localhost:3001";
+const socketUrl = "http://localhost:3001";
 
 
-class Messages extends Component{
-    constructor(props){
+class Messages extends Component {
+    constructor(props) {
         super(props);
 
         this.state = {
-            username: this.props.userName,
+            userName: this.props.session.getCurrentUser.userName,
             message: '',
             messages: []
         };
 
         this.socket = io(socketUrl);
 
-        this.socket.on('RECEIVE_MESSAGE', function(data){
+        this.socket.on('RECEIVE_MESSAGE', function (data) {
             addMessage(data);
         });
 
         const addMessage = data => {
             console.log(data);
-            this.setState({messages: [...this.state.messages, data]});
+            this.setState({ messages: [...this.state.messages, data] });
             console.log(this.state.messages);
         };
 
-        this.sendMessage = ev => {
+        this.sendMessage = (ev, addMessages) => {
             ev.preventDefault();
             this.socket.emit('SEND_MESSAGE', {
-                author: this.state.username,
+                author: this.state.userName,
                 message: this.state.message
             })
-            this.setState({message: ''});
+
+            addMessages().then(async () => {
+                this.setState({ message: '' });
+            })
 
         }
     }
-    render(){
+    render() {
+        const { userName, message } = this.state;
         return (
             <div className="container">
                 <div className="row">
@@ -44,23 +50,49 @@ class Messages extends Component{
                         <div className="card">
                             <div className="card-body">
                                 <div className="card-title">Global Chat</div>
-                                <hr/>
+                                <hr />
                                 <div className="messages">
-                                    {this.state.messages.map(message => {
-                                        return (
-                                            <div>{message.author}: {message.message}</div>
-                                        )
-                                    })}
+                                    <Query
+                                        query={GET_ALL_MESSAGES}
+                                        pollInterval={500}
+                                    >
+                                        {({ loading, error, data }) => {
+                                            if (loading) return <div>fetching</div>
+                                            if (error) return <div>{error}</div>
+                                            const messagesList = () => {
+                                                const allMsg = data.getMessages;
+                                                return (allMsg.map(message => {
+                                                    return (
+                                                        <div key={message._id}>{message.userName}: {message.message}</div>
+                                                    )
+                                                }))
+                                            }
+                                            console.log(data.getMessages)
+                                            return (
+                                                <div>{messagesList()}</div>
+                                            )
+                                        }}
+                                    </Query>
                                 </div>
-
                             </div>
-                            <div className="card-footer">
-                                <input type="hidden" placeholder="Username" value={this.state.username} readOnly/>
-                                <br/>
-                                <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({message: ev.target.value})}/>
-                                <br/>
-                                <button onClick={this.sendMessage} className="btn btn-primary form-control">Send</button>
-                            </div>
+                            <Mutation
+                                mutation={SEND_MESSAGE}
+                                variables={{ message, userName }}
+                            >
+                                {(addMessages) => {
+                                    return (
+                                        <div className="card-footer">
+                                            <form onSubmit={event => this.sendMessage(event, addMessages)}>
+                                                <input type="hidden" placeholder="Username" value={userName} readOnly />
+                                                <br />
+                                                <input type="text" placeholder="Message" className="form-control" value={message} onChange={ev => this.setState({ message: ev.target.value })} />
+                                                <br />
+                                                <button className="btn btn-primary form-control">Send</button>
+                                            </form>
+                                        </div>
+                                    )
+                                }}
+                            </Mutation>
                         </div>
                     </div>
                 </div>
