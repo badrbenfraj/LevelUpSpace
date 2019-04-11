@@ -54,7 +54,6 @@ class AddMentor extends Component {
     handleSubmit(event, signupUser) {
         event.preventDefault();
         signupUser().then(async ({ data }) => {
-
             this.clearState();
 
         }).catch(error => {

@@ -54,6 +54,10 @@ exports.resolvers = {
 
             return allMessages;
         },
+        getClaim: async (root, args, { Claims }) => {
+            const allClaims = await Claims.find();
+            return allClaims;
+        },
     },
     Mutation: {
         // add tutorial to database
@@ -250,7 +254,18 @@ exports.resolvers = {
                 createdDate: new Date().toISOString()
             }).save();
             return newMessage;
+        },
+        addClaim: async (root, { firstName, lastName, email, subject, description }, { Claims }) => {
 
+            const newClaim = await new Claims({
+                firstName,
+                lastName,
+                email,
+                subject,
+                description,
+            }).save();
+
+            return newClaim;
         },
     }
 };

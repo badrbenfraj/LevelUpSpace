@@ -4,6 +4,7 @@ import Teachers from './teachersList/teachers';
 import Mentors from './mentorsList/mentors';
 import Tutorials from '../Tutorials';
 import Messages from '../../chat/messages';
+import Claims from '../Claim/claim';
 
 const { Sider, Content } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -44,6 +45,10 @@ class Admin extends Component {
             return (
                 <Messages {...props} />
             )
+        } else if (this.state.current === "Claim") {
+            return (
+                <Messages {...props} />
+            )
         }
 
     }
@@ -76,6 +81,9 @@ class Admin extends Component {
                         <Menu.Item key="messages">
                             messages
                         </Menu.Item>
+                        <Menu.Item key="Claim">
+                            Claim
+                        </Menu.Item>
                     </Menu>
                 </Sider>
                 <Layout>
@@ -85,7 +93,7 @@ class Admin extends Component {
                         </div>
                     </Content >
                 </Layout >
-            </Layout >
+            </Layout>
         );
     }
 }

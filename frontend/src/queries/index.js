@@ -44,8 +44,6 @@ export const GET_LECTURES = gql`
 
 // Message Query
 
-
-
 export const GET_ALL_MESSAGES = gql`
     query {
         getMessages{
@@ -257,4 +255,13 @@ export const SEND_MESSAGE = gql`
             userName
         }
     }
+`;
+
+//Claim mutation
+export const ADD_CLAIM = gql`
+  mutation($firstName: String!, $lastName: String!, $email: String!, $subject: String!, $description: String!){
+    addClaim(firstName: $firstName, lastName : $lastName, email: $email, subject: $subject, description: $description ){
+        email
+      }
+  }
 `;

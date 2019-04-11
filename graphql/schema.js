@@ -50,6 +50,14 @@ type Messages{
     userName: String!
     createdDate: String!
 }
+type Claim{
+    _id: ID
+    firstName: String!
+    lastName: String!
+    email: String!
+    subject: String!
+    description: String!
+}
 
 type Query {
     getCurrentUser: User
@@ -67,7 +75,10 @@ type Query {
     getLectures: [Lecture]
 
     getMessages: [Messages]
+
+    getClaim: [Claim]
 }
+
 
 type Mutation{
     addTutorial(name: String!, description: String!, userName: String): Tutorial
@@ -101,6 +112,8 @@ type Mutation{
     editLecture(_id: ID!, newName: String!, newDescription: String!): Lecture
 
     addMessages(message: String!, userName: String!): Messages
+    
+    addClaim(firstName: String!, lastName: String!, email: String!, subject: String!, description: String!): Claim
 }
 `;
 

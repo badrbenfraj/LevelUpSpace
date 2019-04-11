@@ -28,7 +28,6 @@ class AddLecture extends Component {
             [name]: value
         });
     }
-
     handleSubmit(event, addLecture) {
         event.preventDefault();
         addLecture().then(async ({ data }) => {
