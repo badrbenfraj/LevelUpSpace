@@ -265,3 +265,19 @@ export const ADD_CLAIM = gql`
       }
   }
 `;
+
+
+//Claim Query
+
+export const GET_ALL_CLAIMS = gql`
+    query {
+        getClaims{
+            _id
+            firstName
+            lastName
+            email
+            subject
+            description
+        }
+    }
+`;

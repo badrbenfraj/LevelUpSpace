@@ -76,7 +76,7 @@ type Query {
 
     getMessages: [Messages]
 
-    getClaim: [Claim]
+    getClaims: [Claim]
 }
 
 

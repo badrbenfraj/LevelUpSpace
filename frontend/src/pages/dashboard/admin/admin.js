@@ -4,7 +4,7 @@ import Teachers from './teachersList/teachers';
 import Mentors from './mentorsList/mentors';
 import Tutorials from '../Tutorials';
 import Messages from '../../chat/messages';
-import Claims from '../Claim/claim';
+import ClaimList from '../Claim/claimList';
 
 const { Sider, Content } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -47,7 +47,7 @@ class Admin extends Component {
             )
         } else if (this.state.current === "Claim") {
             return (
-                <Messages {...props} />
+                <ClaimList />
             )
         }
 

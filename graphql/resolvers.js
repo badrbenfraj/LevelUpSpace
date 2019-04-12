@@ -54,7 +54,7 @@ exports.resolvers = {
 
             return allMessages;
         },
-        getClaim: async (root, args, { Claims }) => {
+        getClaims: async (root, args, { Claims }) => {
             const allClaims = await Claims.find();
             return allClaims;
         },

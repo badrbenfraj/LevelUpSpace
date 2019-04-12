@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import Messages from '../../chat/messages';
+import Claims from '../Claim/claim';
 
 
 const { Sider, Content } = Layout;
@@ -31,11 +32,9 @@ class User extends Component {
                     
                 </div>
             )
-        } else if (this.state.current === "Mentors") {
+        } else if (this.state.current === "Claim") {
             return (
-                <div>
-
-                </div>
+                <Claims />
             )
         } else if (this.state.current === "messages") {
             return (
@@ -66,13 +65,14 @@ class User extends Component {
                             title={<span><Icon type="team" /><span>Trainers</span></span>}
                         >
                             <Menu.Item key="Teachers">Teachers</Menu.Item>
-                            <Menu.Item key="Mentors">Mentors</Menu.Item>
+                            <Menu.Item key="Claim">Claim</Menu.Item>
                         </SubMenu>
                         <Menu.Item key="messages">
                             messages
                         </Menu.Item>
                     </Menu>
                 </Sider>
+                
                 <Layout>
                     <Content style={{ margin: '16px' }}>
                         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>

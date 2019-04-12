@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { GET_ALL_TEACHERS } from './../../../../queries';
+import { GET_ALL_TEACHERS } from '../../../../queries';
 import { Query } from 'react-apollo';
 import TeacherDetail from './teacherDetail';
 
