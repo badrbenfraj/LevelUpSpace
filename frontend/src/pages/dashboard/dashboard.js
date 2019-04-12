@@ -12,11 +12,11 @@ class Dashboard extends Component {
         if(this.props.session.getCurrentUser.isAdmin){
             return <Admin {...props}/>;
         }else if(this.props.session.getCurrentUser.isUser){
-            return <User />
+            return <User {...props}/>
         }else if(this.props.session.getCurrentUser.isTeacher){
-            return <Teacher />
+            return <Teacher {...props}/>
         }else if(this.props.session.getCurrentUser.isMentor){
-            return <Mentor />
+            return <Mentor {...props}/>
         }else{
             return <NotFound />
         }

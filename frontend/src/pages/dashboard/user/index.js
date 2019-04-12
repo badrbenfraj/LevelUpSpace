@@ -22,19 +22,19 @@ class User extends Component {
     handleClick = (e) => {
         console.log('click ', e);
         this.setState({
-            current: e.key,
+            current: e.key
         });
     }
     layoutContent = (props) => {
         if (this.state.current === "Teachers") {
             return (
                 <div>
-                    
+
                 </div>
             )
         } else if (this.state.current === "Claim") {
             return (
-                <Claims />
+                <Claims  {...props}/>
             )
         } else if (this.state.current === "messages") {
             return (
@@ -65,18 +65,20 @@ class User extends Component {
                             title={<span><Icon type="team" /><span>Trainers</span></span>}
                         >
                             <Menu.Item key="Teachers">Teachers</Menu.Item>
-                            <Menu.Item key="Claim">Claim</Menu.Item>
                         </SubMenu>
+                        <Menu.Item key="Claim">
+                            Claim
+                        </Menu.Item>
                         <Menu.Item key="messages">
                             messages
                         </Menu.Item>
                     </Menu>
                 </Sider>
-                
+
                 <Layout>
                     <Content style={{ margin: '16px' }}>
                         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            {this.layoutContent()}
+                            {this.layoutContent(this.props)}
                         </div>
                     </Content>
                 </Layout>
