@@ -4,7 +4,6 @@ import AddTutorialsHome from './addTutorial';
 
 class Tutorials extends Component {
     render() {
-        
         return (
             <div>
                 <AddTutorialsHome />

@@ -7,18 +7,16 @@ import Teacher from './teacher';
 import Mentor from './mentor';
 import User from './user';
 
-
-
 class Dashboard extends Component {
     userRole = (props)=>{
         if(this.props.session.getCurrentUser.isAdmin){
             return <Admin {...props}/>;
         }else if(this.props.session.getCurrentUser.isUser){
-            return <User />
+            return <User {...props}/>
         }else if(this.props.session.getCurrentUser.isTeacher){
-            return <Teacher />
+            return <Teacher {...props}/>
         }else if(this.props.session.getCurrentUser.isMentor){
-            return <Mentor />
+            return <Mentor {...props}/>
         }else{
             return <NotFound />
         }

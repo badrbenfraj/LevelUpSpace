@@ -54,7 +54,6 @@ class AddMentor extends Component {
     handleSubmit(event, signupUser) {
         event.preventDefault();
         signupUser().then(async ({ data }) => {
-            
             this.clearState();
 
         }).catch(error => {
@@ -103,12 +102,15 @@ class AddMentor extends Component {
 
                 {/* <!--Card content--> */}
                 <div className="card-body px-lg-5 pt-0">
-                    <Mutation mutation={SIGNUP_USER} variables={{ firstName, lastName, email, userName, password, isUser, isAdmin, isTeacher, isMentor }}>
+                    <Mutation
+                        mutation={SIGNUP_USER}
+                        variables={{ firstName, lastName, email, userName, password, isUser, isAdmin, isTeacher, isMentor }}
+                    >
 
                         {(signupUser, { data, loading, error }) => {
 
                             return (
-                                < form className="text-center" onSubmit={event => this.handleSubmit(event, signupUser)}>
+                                <form className="text-center" onSubmit={event => this.handleSubmit(event, signupUser)}>
                                     <div className={classNames({ 'error-label': this.state.error !== '' })}>
                                         {this.state.error}
                                     </div>
@@ -187,10 +189,10 @@ class AddMentor extends Component {
                                         className="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
                                         type="submit"
                                         disabled={loading || this.validateForm()}>
-                                        Add Mentor</button>
+                                        Add Mentor
+                                    </button>
                                 </form>
                             );
-
                         }}
                     </Mutation>
                     <button className="passgen" onClick={this.gen.bind(this)}>generate password</button>

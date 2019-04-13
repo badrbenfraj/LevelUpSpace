@@ -44,6 +44,21 @@ type Lecture{
     SectionID: String!
 }
 
+type Messages{ 
+    _id : ID
+    message: String!
+    userName: String!
+    createdDate: String!
+}
+type Claim{
+    _id: ID
+    firstName: String!
+    lastName: String!
+    email: String!
+    subject: String!
+    description: String!
+}
+
 type Query {
     getCurrentUser: User
 
@@ -58,7 +73,12 @@ type Query {
     getSections: [Section]
 
     getLectures: [Lecture]
+
+    getMessages: [Messages]
+
+    getClaims: [Claim]
 }
+
 
 type Mutation{
     addTutorial(name: String!, description: String!, userName: String): Tutorial
@@ -90,6 +110,10 @@ type Mutation{
     deleteLecture(_id: ID): Lecture
 
     editLecture(_id: ID!, newName: String!, newDescription: String!): Lecture
+
+    addMessages(message: String!, userName: String!): Messages
+    
+    addClaim(firstName: String!, lastName: String!, email: String!, subject: String!, description: String!): Claim
 }
 `;
 

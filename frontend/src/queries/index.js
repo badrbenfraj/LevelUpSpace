@@ -42,11 +42,18 @@ export const GET_LECTURES = gql`
 `;
 
 
+// Message Query
 
-
-
-
-
+export const GET_ALL_MESSAGES = gql`
+    query {
+        getMessages{
+            _id
+            userName
+            message
+            createdDate
+        }
+    }
+`;
 
 
 
@@ -236,4 +243,41 @@ export const DELETE_USER = gql`
       _id
     }
   }
+`;
+
+
+// Message Mutation
+
+export const SEND_MESSAGE = gql`
+    mutation($message: String!, $userName: String!){
+        addMessages(message: $message, userName: $userName){
+            message
+            userName
+        }
+    }
+`;
+
+//Claim mutation
+export const ADD_CLAIM = gql`
+  mutation($firstName: String!, $lastName: String!, $email: String!, $subject: String!, $description: String!){
+    addClaim(firstName: $firstName, lastName : $lastName, email: $email, subject: $subject, description: $description ){
+        email
+      }
+  }
+`;
+
+
+//Claim Query
+
+export const GET_ALL_CLAIMS = gql`
+    query {
+        getClaims{
+            _id
+            firstName
+            lastName
+            email
+            subject
+            description
+        }
+    }
 `;

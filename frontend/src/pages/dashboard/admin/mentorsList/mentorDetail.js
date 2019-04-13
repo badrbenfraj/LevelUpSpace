@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Mutation } from 'react-apollo';
-import {DELETE_USER} from './../../../../queries'
+import {DELETE_USER} from '../../../../queries'
 
 class MentorDetail extends Component {
 

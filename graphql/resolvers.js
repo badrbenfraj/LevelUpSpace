@@ -49,6 +49,15 @@ exports.resolvers = {
             const allLectures = await Lecture.find();
             return allLectures;
         },
+        getMessages: async (root, args, { Messages }) => {
+            const allMessages = await Messages.find();
+
+            return allMessages;
+        },
+        getClaims: async (root, args, { Claims }) => {
+            const allClaims = await Claims.find();
+            return allClaims;
+        },
     },
     Mutation: {
         // add tutorial to database
@@ -236,6 +245,27 @@ exports.resolvers = {
         editLecture: async (root, { _id, newName, newDescription }, { Lecture }) => {
             const updatedName = await Lecture.findOneAndUpdate({ _id }, { $set: { name: newName, description: newDescription } }, { new: true });
             return updatedName;
-        }
+        },
+        addMessages: async (root, { message, userName }, { Messages }) => {
+
+            const newMessage = await new Messages({
+                message,
+                userName,
+                createdDate: new Date().toISOString()
+            }).save();
+            return newMessage;
+        },
+        addClaim: async (root, { firstName, lastName, email, subject, description }, { Claims }) => {
+
+            const newClaim = await new Claims({
+                firstName,
+                lastName,
+                email,
+                subject,
+                description,
+            }).save();
+
+            return newClaim;
+        },
     }
 };

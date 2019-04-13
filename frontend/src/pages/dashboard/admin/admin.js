@@ -3,6 +3,8 @@ import { Layout, Menu, Icon } from 'antd';
 import Teachers from './teachersList/teachers';
 import Mentors from './mentorsList/mentors';
 import Tutorials from '../Tutorials';
+import Messages from '../../chat/messages';
+import ClaimList from '../Claim/claimList';
 
 const { Sider, Content } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -28,35 +30,27 @@ class Admin extends Component {
     layoutContent = (props) => {
         if (this.state.current === "Teachers") {
             return (
-                <Layout>
-                    <Content style={{ margin: '16px' }}>
-                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            <Teachers />
-                        </div>
-                    </Content>
-                </Layout>
+                <Teachers />
             )
-        }else if (this.state.current === "Mentors") {
-            return(
-                <Layout>
-                    <Content style={{ margin: '16px' }}>
-                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            <Mentors />
-                        </div>
-                    </Content>
-                </Layout>
+        } else if (this.state.current === "Mentors") {
+            return (
+
+                <Mentors />
             )
-        }else if (this.state.current === "AddTutorial") {
-            return(
-                <Layout>
-                    <Content style={{ margin: '16px' }}>
-                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            <Tutorials {...props}/>
-                        </div>
-                    </Content>
-                </Layout>
+        } else if (this.state.current === "AddTutorial") {
+            return (
+                <Tutorials {...props} />
+            )
+        } else if (this.state.current === "messages") {
+            return (
+                <Messages {...props} />
+            )
+        } else if (this.state.current === "Claim") {
+            return (
+                <ClaimList />
             )
         }
+
     }
     render() {
         console.log(this.state.current)
@@ -84,9 +78,21 @@ class Admin extends Component {
                             <Menu.Item key="Teachers">Teachers</Menu.Item>
                             <Menu.Item key="Mentors">Mentors</Menu.Item>
                         </SubMenu>
+                        <Menu.Item key="messages">
+                            messages
+                        </Menu.Item>
+                        <Menu.Item key="Claim">
+                            Claim
+                        </Menu.Item>
                     </Menu>
                 </Sider>
-                {this.layoutContent(this.props)}
+                <Layout>
+                    <Content style={{ margin: '16px' }}>
+                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+                            {this.layoutContent(this.props)}
+                        </div>
+                    </Content >
+                </Layout >
             </Layout>
         );
     }
