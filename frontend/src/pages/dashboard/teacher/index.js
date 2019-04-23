@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Icon } from 'antd';
-import AddTutorial from '../Tutorials/addTutorial';
+import Claims from '../Claim/claim';
+import Tutorials from '../Tutorials';
 
 
 
@@ -25,26 +26,14 @@ class Teacher extends Component {
             current: e.key,
         });
     }
-    layoutContent = () => {
+    layoutContent = (props) => {
         if (this.state.current === "AddTutorial") {
             return (
-                <Layout>
-                    <Content style={{ margin: '16px' }}>
-                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            <AddTutorial />
-                        </div>
-                    </Content>
-                </Layout>
+                <Tutorials />
             )
         } else if (this.state.current === "Mentors") {
             return (
-                <Layout>
-                    <Content style={{ margin: '16px' }}>
-                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-
-                        </div>
-                    </Content>
-                </Layout>
+                <Claims {...props} />
             )
         }
     }
@@ -69,7 +58,13 @@ class Teacher extends Component {
                         </Menu.Item>
                     </Menu>
                 </Sider>
-                {this.layoutContent()}
+                <Layout>
+                    <Content style={{ margin: '16px' }}>
+                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+                            {this.layoutContent(this.props)}
+                        </div>
+                    </Content>
+                </Layout>
             </Layout>
         );
     }

@@ -24,6 +24,8 @@ type Tutorial{
     _id : ID
     name: String!
     description: String!
+    price: String!
+    duration: String!
     createdDate: String!
     userName: String!
 }
@@ -81,7 +83,7 @@ type Query {
 
 
 type Mutation{
-    addTutorial(name: String!, description: String!, userName: String): Tutorial
+    addTutorial(name: String!, description: String!, price: String!, duration: String!, userName: String): Tutorial
     
     signupUser(firstName: String!, lastName: String!, email: String!, userName: String!, password: String!, isUser:Boolean!, isAdmin: Boolean!, isTeacher: Boolean!, isMentor: Boolean!): Token
     

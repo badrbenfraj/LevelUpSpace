@@ -61,8 +61,8 @@ export const GET_ALL_MESSAGES = gql`
 // Tutorials Mutation
 
 export const ADD_TUTORIAL = gql`
-    mutation($name: String!, $description: String!, $userName: String!){
-        addTutorial( name: $name description: $description userName:$userName){ 
+    mutation($name: String!, $description: String!, $price: String!, $duration: String!, $userName: String!){
+        addTutorial( name: $name description: $description price:$price duration:$duration userName:$userName){ 
             name
         }
     }
@@ -159,6 +159,18 @@ export const GET_CURRENT_USER = gql`
             isAdmin
             isTeacher
             isMentor
+        }
+    }
+`;
+
+export const GET_ALL_USERS = gql`
+    query {
+        getAllUsers{
+            _id
+            firstName
+            lastName
+            joinDate
+            userName
         }
     }
 `;

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Icon } from 'antd';
+import Claims from '../Claim/claim';
 
 
 const { Sider, Content } = Layout;
@@ -23,26 +24,16 @@ class Mentor extends Component {
             current: e.key,
         });
     }
-    layoutContent = () => {
+    layoutContent = (props) => {
         if (this.state.current === "Teachers") {
             return (
-                <Layout>
-                    <Content style={{ margin: '16px' }}>
-                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            
-                        </div>
-                    </Content>
-                </Layout>
+                <Claims  {...props}/>
             )
-        }else if (this.state.current === "Mentors") {
-            return(
-                <Layout>
-                    <Content style={{ margin: '16px' }}>
-                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            
-                        </div>
-                    </Content>
-                </Layout>
+        } else if (this.state.current === "Mentors") {
+            return (
+                <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+
+                </div>
             )
         }
     }
@@ -73,7 +64,13 @@ class Mentor extends Component {
                         </SubMenu>
                     </Menu>
                 </Sider>
-                {this.layoutContent()}
+                <Layout>
+                    <Content style={{ margin: '16px' }}>
+                        <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+                            {this.layoutContent(this.props)}
+                        </div>
+                    </Content>
+                </Layout>
             </Layout>
         );
     }

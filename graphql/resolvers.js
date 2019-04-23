@@ -27,9 +27,7 @@ exports.resolvers = {
         },
 
         getAllUsers: async (root, args, { User }) => {
-            const users = await User.find().sort({
-                firstName
-            });
+            const users = await User.find();
 
             return users;
         },
@@ -61,11 +59,13 @@ exports.resolvers = {
     },
     Mutation: {
         // add tutorial to database
-        addTutorial: async (root, { name, description, userName }, { Tutorial }) => {
+        addTutorial: async (root, { name, description, userName, price, duration }, { Tutorial }) => {
             const newTutorial = await new Tutorial({
                 name,
                 description,
                 userName,
+                price,
+                duration,
                 createdDate: new Date().toISOString()
             }).save();
             return newTutorial;
