@@ -30,7 +30,7 @@ class TutorialDetail extends Component {
                     variables={{ _id }}
                     pollInterval={500}
                 >
-                
+
                     {(deleteTutorial, attrs) => (
                         <td>
                             <Link className="editBtn" to={{

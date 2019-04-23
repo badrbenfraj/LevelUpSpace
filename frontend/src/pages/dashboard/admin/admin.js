@@ -3,7 +3,6 @@ import { Layout, Menu, Icon } from 'antd';
 import Teachers from './teachersList/teachers';
 import Mentors from './mentorsList/mentors';
 import Tutorials from '../Tutorials';
-import Messages from '../../chat/messages';
 import ClaimList from '../Claim/claimList';
 
 const { Sider, Content } = Layout;
@@ -41,10 +40,6 @@ class Admin extends Component {
             return (
                 <Tutorials {...props} />
             )
-        } else if (this.state.current === "messages") {
-            return (
-                <Messages {...props} />
-            )
         } else if (this.state.current === "Claim") {
             return (
                 <ClaimList />
@@ -78,10 +73,8 @@ class Admin extends Component {
                             <Menu.Item key="Teachers">Teachers</Menu.Item>
                             <Menu.Item key="Mentors">Mentors</Menu.Item>
                         </SubMenu>
-                        <Menu.Item key="messages">
-                            messages
-                        </Menu.Item>
                         <Menu.Item key="Claim">
+                            <Icon type="exception" />
                             Claim
                         </Menu.Item>
                     </Menu>

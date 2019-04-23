@@ -9,6 +9,8 @@ const initialState = {
     name: '',
     description: '',
     userName: '',
+    price:'',
+    duration: '',
     error: ''
 }
 
@@ -48,8 +50,8 @@ class AddTutorial extends Component {
     }
 
     validateForm() {
-        const { name, description, userName } = this.state;
-        const isInvalid = !name || !description || userName;
+        const { name, description, userName, price, duration} = this.state;
+        const isInvalid = !name || !description || !price || !duration || userName;
         return isInvalid;
     }
 
@@ -64,7 +66,7 @@ class AddTutorial extends Component {
 
 
     render() {
-        const { name, description } = this.state;
+        const { name, description, price, duration } = this.state;
 
         return (
             <div className="text-center border border-light p-5">
@@ -81,7 +83,7 @@ class AddTutorial extends Component {
 
                                 <Mutation
                                     mutation={ADD_TUTORIAL}
-                                    variables={{ name, description, userName }}
+                                    variables={{ name, description, userName, price, duration }}
                                 >
 
                                     {(addTutorial, { data, loading, error }) => {
@@ -105,11 +107,36 @@ class AddTutorial extends Component {
                                                 </div>
                                                 <div className="form-row mb-4">
                                                     <div className="col">
+                                                        <input
+                                                            type="text"
+                                                            name="price"
+                                                            className="form-control"
+                                                            placeholder="Price"
+                                                            value={price}
+                                                            onChange={this.handleChange.bind(this)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="form-row mb-4">
+                                                    <div className="col">
+                                                        <input
+                                                            type="text"
+                                                            name="duration"
+                                                            className="form-control"
+                                                            placeholder="Duration"
+                                                            value={duration}
+                                                            onChange={this.handleChange.bind(this)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="form-row mb-4">
+                                                    <div className="col">
                                                         <textarea
                                                             className="form-control"
                                                             name="description"
                                                             rows="4"
                                                             cols="50"
+                                                            maxLength="100"
                                                             placeholder="Short description"
                                                             value={description}
                                                             onChange={this.handleChange.bind(this)}

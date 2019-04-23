@@ -10,6 +10,14 @@ const tutorialsSchema = new Schema({
         type: String,
         required: true
     },
+    price:{
+        type: String,
+        required: true
+    },
+    duration:{
+        type: String,
+        required: true
+    },
     createdDate:{
         type: String,
         default: Date.now
