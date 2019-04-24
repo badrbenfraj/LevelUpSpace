@@ -19,26 +19,23 @@ class CartItem extends Component {
         cartItems: JSON.parse(localStorage.getItem('cart')),
         NewCart: JSON.parse(localStorage.getItem('NewCart') || "[]")
     }
-    handleDelete = () => {
-        if (this.state.cartItems) {
-            var json = JSON.parse(localStorage["cart"]);
-            for (let i = 0; i < json.length; i++)
-                if (json[i] !== this.props.tutorial._id) {
-                    const id = json.splice(i, 1);
-                    if (id !== this.state.NewCart[i]) {
-                        const NewCart = [...this.state.NewCart, id];
-                        localStorage.setItem('NewCart', JSON.stringify(NewCart));
-                        return NewCart
-                    }
-                }
-        }
-    }
+    // handleDelete = () => {
+    //     if (this.state.cartItems) {
+    //         var json = JSON.parse(localStorage["cart"]);
+    //         for (let i = 0; i < json.length; i++)
+    //             if (json[i] !== this.props.tutorial._id) {
+    //                 const id = json.splice(i, 1);
+    //                 if (id !== this.state.NewCart[i]) {
+    //                     const NewCart = [...this.state.NewCart, id];
+    //                     localStorage.setItem('NewCart', JSON.stringify(NewCart));
+    //                     return NewCart
+    //                 }
+    //             }
+    //     }
+    // }
     render() {
         const { images, btnDelete } = styles
         const { name, price } = this.props.tutorial
-        console.log(this.handleDelete())
-        console.log(localStorage.getItem('NewCart'))
-        console.log(this.state.NewCart)
         console.log(this.props.tutorial)
         return (
             <tr>
@@ -47,10 +44,10 @@ class CartItem extends Component {
                     <p><b>{name}</b></p>
                 </td>
                 <td>
-                    <p><b>{price}$</b></p>
+                    <p><b>{price}TND</b></p>
                 </td>
                 <td>
-                    <p><button style={btnDelete} onClick={() => this.handleDelete()}>x</button></p>
+                    <p><button style={btnDelete} >x</button></p>
                 </td>
             </tr>
         );

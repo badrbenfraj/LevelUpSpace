@@ -12,7 +12,7 @@ const Signout = ({ history }) => (
   <ApolloConsumer>
     {client => {
       return (
-        <button onClick={() => handleSignout(client, history)}>Signout</button>
+        <button onClick={() => handleSignout(client, history)} className="btn-sm" >Signout</button>
       );
     }}
   </ApolloConsumer>

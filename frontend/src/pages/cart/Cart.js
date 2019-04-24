@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Table, Container, Button } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { Redirect } from 'react-router-dom'
 import { Query } from 'react-apollo';
 import { GET_ALL_TUTORIALS } from '../../queries';
 import CartItem from './cartItem';
@@ -22,10 +23,11 @@ const styles = {
 
 class Cart extends Component {
   state = {
-    cartItems: JSON.parse(localStorage.getItem('cart'))
+    cartItems: JSON.parse(localStorage.getItem('cart')),
+    redirect: false
   }
   cartTable = () => {
-    if(this.state.cartItems){
+    if (this.state.cartItems) {
       return (
         this.state.cartItems.map(item => {
           return (
@@ -49,7 +51,7 @@ class Cart extends Component {
                   }
                 }
                 return (
-  
+
                   <tbody>
                     {cartTutorials()}
                     <tr>
@@ -65,15 +67,32 @@ class Cart extends Component {
             </Query>
           )
         })
-      )  
+      )
+    }
+  }
+  setRedirect = () => {
+    this.setState({
+      redirect: true
+    })
+  }
+
+  handleCheckout = () => {
+    if(this.state.cartItems){
+      if (this.state.redirect) {
+        localStorage.removeItem('cart');
+        return <Redirect to="/my-courses" />
+      }
     }
   }
 
   render() {
     const { centerh1, checkoutBtn, containerPadding } = styles
-    // console.log(cartItems)
+    console.log(this.state.cartItems)
     return (
       <div style={containerPadding}>
+        <Helmet bodyAttributes={{ class: "logInPage" }}>
+          <title>Cart - Level Up Space</title>
+        </Helmet>
         <Container>
           <h1 style={centerh1}>Cart</h1>
           <Table>
@@ -87,7 +106,8 @@ class Cart extends Component {
             {this.cartTable()}
           </Table>
           <div style={checkoutBtn}>
-            <Link to="/checkout"><Button >Check out</Button></Link>
+            <Button onClick={this.setRedirect}>Check out</Button>
+            {this.handleCheckout()}
           </div>
         </Container>
       </div>

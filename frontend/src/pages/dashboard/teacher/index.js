@@ -11,7 +11,7 @@ const { Sider, Content } = Layout;
 class Teacher extends Component {
     state = {
         collapsed: false,
-        current: '1',
+        current: 'AddTutorial',
     };
 
     onCollapse = (collapsed) => {
@@ -31,7 +31,7 @@ class Teacher extends Component {
             return (
                 <Tutorials />
             )
-        } else if (this.state.current === "Mentors") {
+        } else if (this.state.current === "Claims") {
             return (
                 <Claims {...props} />
             )
@@ -55,6 +55,10 @@ class Teacher extends Component {
                         <Menu.Item key="AddTutorial">
                             <Icon type="plus" />
                             <span>Add Tutorial</span>
+                        </Menu.Item>
+                        <Menu.Item key="Claims">
+                            <Icon type="plus" />
+                            <span>Claims</span>
                         </Menu.Item>
                     </Menu>
                 </Sider>

@@ -264,6 +264,9 @@ a.socialMedia i{
 .login-form h2 {
   margin: 0 0 15px;
 }
+.signuplink{
+	color: black !important;
+}
 .form-control, .btn {
       min-height: 38px;
       border-radius: 2px;
@@ -458,8 +461,6 @@ input:hover, select:hover, textarea:hover {
   padding: 1rem 0 0;
 }
 
-
-
 .form_wrap {
   padding: 0 10px;
   }
@@ -469,7 +470,7 @@ input:hover, select:hover, textarea:hover {
   .form_wrap .form_row .form_item .helperText {
     line-height: 1.4rem;
     font-weight: 400;
-    color: var(--mainLighgrey);
+    color: red !important;
     padding: 1rem 3px 0;
 }
 .form_wrap .form_row .form_item.invalid.dirty .invalid_msg {
@@ -523,7 +524,9 @@ input:hover, select:hover, textarea:hover {
   .btn, .btn:hover {
       transition:all .4s ease-in-out;
   }
-
+.black{
+	color: rgba(0, 0, 0, 0.75) !important;
+}
 
 .form_wrap .form_row .form_item .form_label label {
   font-size: 1.5rem;
@@ -1320,4 +1323,8 @@ tr td {
 .btn-sm {
 	padding: 6px 30px 6px 30px !important;
 	font-size: 1.1em !important;
+}
+
+.ant-layout{
+	min-height: 100vh !important;
 }

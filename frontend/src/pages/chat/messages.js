@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client'
 import { Mutation, Query } from 'react-apollo';
+import { Helmet } from 'react-helmet';
 import { SEND_MESSAGE, GET_ALL_MESSAGES } from '../../queries';
 
 const socketUrl = "http://localhost:3001";
@@ -45,6 +46,9 @@ class Messages extends Component {
         const { userName, message } = this.state;
         return (
             <div className="container">
+                <Helmet bodyAttributes={{ class: "logInPage" }}>
+                    <title>Messages - Level Up Space</title>
+                </Helmet>
                 <div className="row">
                     <div className="col-4">
                         <div className="card">

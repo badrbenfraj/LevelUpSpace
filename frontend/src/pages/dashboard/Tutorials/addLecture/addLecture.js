@@ -42,12 +42,6 @@ class AddLecture extends Component {
 
     }
 
-    validateForm() {
-        const { name, description, } = this.state;
-        const isInvalid = !name || !description;
-        return isInvalid;
-    }
-
     render() {
         const { name, description, ID } = this.state;
         console.log(this.props.lecture.section.id)

@@ -29,6 +29,7 @@ import EditLecture from './pages/dashboard/Tutorials/editLecture/editLecture';
 import Messages from './pages/chat/messages';
 import CourseDetail from './pages/courses/courseDetail';
 import Cart from './pages/cart/Cart';
+import MyCoursesList from './pages/dashboard/myCourses';
 
 
 const App = ({ refetch, session }) => {
@@ -54,7 +55,7 @@ const App = ({ refetch, session }) => {
                 )} />
 
                 <Route path="/blog" render={props => (
-                    <MainLayout>
+                    <MainLayout session={session}>
                         <Blog {...props} />
                     </MainLayout>
                 )} />
@@ -142,6 +143,21 @@ const App = ({ refetch, session }) => {
                         withAuth() ? (
                             <MainLayout session={session}>
                                 <UserProfile {...props} session={session} />
+                            </MainLayout>
+                        ) : (
+                                <Redirect
+                                    to={{
+                                        pathname: '/login'
+                                    }}
+                                />
+                            )
+                    } />
+                
+                <Route exact path="/my-courses"
+                    render={props =>
+                        withAuth() ? (
+                            <MainLayout session={session}>
+                                <MyCoursesList {...props} session={session} />
                             </MainLayout>
                         ) : (
                                 <Redirect

@@ -9,14 +9,14 @@ class ProfileHeader extends Component {
     render() {
         const menu = (
             <Menu>
-                <Menu.Item key="0">
-                    <Link to="/dashboard">Dashboard</Link>
+                <Menu.Item key="0" className="text-center">
+                    <Link to="/dashboard" className="black">Dashboard</Link>
                 </Menu.Item>
-                <Menu.Item key="1">
-                    <Link to={`/profile/${this.props.session.getCurrentUser.userName}`}>Profile</Link>
+                <Menu.Item key="1" className="text-center">
+                    <Link to={`/profile/${this.props.session.getCurrentUser.userName}`} className="black">Profile</Link>
                 </Menu.Item>
                 <Menu.Divider />
-                <Menu.Item key="3"><Signout /></Menu.Item>
+                <Menu.Item key="2" className="text-center"><Signout /></Menu.Item>
             </Menu>
         );
         console.log(this.props.session.getCurrentUser.isUser)
@@ -25,6 +25,8 @@ class ProfileHeader extends Component {
                 <div className="container-fluid">
                     <ul>
                         <li><Link className="logo" to="/courses"><strong>LEVELUP SPACE</strong></Link></li>
+                        <li><Link className="ml-4 logo" to="/my-courses"><strong>MY COURSES</strong></Link></li>
+                        <li><Link className="logo" to="/blog"><strong>BLOG</strong></Link></li>
                     </ul>
                     <ul>
                         <li><strong><Link to="/shopping-cart"><Icon type="shopping-cart" style={{ fontSize: '22px', }} theme="outlined"/></Link></strong></li>

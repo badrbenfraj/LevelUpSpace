@@ -98,7 +98,7 @@ exports.resolvers = {
             const user = await User.findOne({ email });
 
             if (!user) {
-                throw new Error('User Not Found');
+                throw new Error('Email Not Found');
             }
 
             const isValidPassword = await bcrypt.compare(password, user.password);
