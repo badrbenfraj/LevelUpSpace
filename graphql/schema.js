@@ -52,6 +52,7 @@ type Messages{
     userName: String!
     createdDate: String!
 }
+
 type Claim{
     _id: ID
     firstName: String!
@@ -59,6 +60,13 @@ type Claim{
     email: String!
     subject: String!
     description: String!
+}
+
+type Order{
+    _id: ID
+    TutorialID: String!
+    userName: String!
+    createdDate: String!
 }
 
 type Query {
@@ -79,6 +87,8 @@ type Query {
     getMessages: [Messages]
 
     getClaims: [Claim]
+
+    getOrders: [Order]
 }
 
 
@@ -116,6 +126,8 @@ type Mutation{
     addMessages(message: String!, userName: String!): Messages
     
     addClaim(firstName: String!, lastName: String!, email: String!, subject: String!, description: String!): Claim
+
+    addOrders(TutorialID: String!, userName: String!): Order
 }
 `;
 

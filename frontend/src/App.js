@@ -30,6 +30,7 @@ import Messages from './pages/chat/messages';
 import CourseDetail from './pages/courses/courseDetail';
 import Cart from './pages/cart/Cart';
 import MyCoursesList from './pages/dashboard/myCourses';
+import Course from './pages/dashboard/myCourses/course';
 
 
 const App = ({ refetch, session }) => {
@@ -108,19 +109,17 @@ const App = ({ refetch, session }) => {
                     </MainLayout>
                 )} />
 
+                <Route exact path="/my-courses/:id" render={props => (
+                    <MainLayout session={session}>
+                        <Course {...props} refetch={refetch} />
+                    </MainLayout>
+                )} />
+
                 <Route exact path="/dashboard"
                     render={props =>
-                        withAuth() ? (
-                            <MainLayout session={session}>
-                                <Dashboard {...props} session={session} />
-                            </MainLayout>
-                        ) : (
-                                <Redirect
-                                    to={{
-                                        pathname: '/login'
-                                    }}
-                                />
-                            )
+                        <MainLayout session={session}>
+                            <Dashboard {...props} session={session} />
+                        </MainLayout>
                     } />
 
                 <Route path="/messages"
@@ -152,7 +151,7 @@ const App = ({ refetch, session }) => {
                                 />
                             )
                     } />
-                
+
                 <Route exact path="/my-courses"
                     render={props =>
                         withAuth() ? (

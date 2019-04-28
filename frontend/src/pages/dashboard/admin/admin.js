@@ -75,7 +75,7 @@ class Admin extends Component {
                         </SubMenu>
                         <Menu.Item key="Claim">
                             <Icon type="exception" />
-                            Claim
+                            <span>Claim</span>
                         </Menu.Item>
                     </Menu>
                 </Sider>

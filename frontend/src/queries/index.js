@@ -10,6 +10,8 @@ export const GET_ALL_TUTORIALS = gql`
         getAllTutorials{
             _id
             name
+            price
+            duration
             description
             createdDate
             userName
@@ -292,4 +294,29 @@ export const GET_ALL_CLAIMS = gql`
             description
         }
     }
+`;
+
+
+//Orders Query
+
+export const GET_ALL_ORDERS = gql`
+    query {
+        getOrders{
+            _id
+            TutorialID
+            userName
+            createdDate
+        }
+    }
+`;
+
+//Orders Mutation
+
+export const ADD_ORDER = gql`
+  mutation($TutorialID: String!, $userName: String!){
+    addOrders(TutorialID: $TutorialID, userName : $userName){
+        TutorialID
+        userName
+      }
+  }
 `;

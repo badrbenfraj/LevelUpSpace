@@ -56,6 +56,10 @@ exports.resolvers = {
             const allClaims = await Claims.find();
             return allClaims;
         },
+        getOrders: async (root, args, { Orders }) => {
+            const allOrders = await Orders.find();
+            return allOrders;
+        },
     },
     Mutation: {
         // add tutorial to database
@@ -266,6 +270,16 @@ exports.resolvers = {
             }).save();
 
             return newClaim;
+        },
+        addOrders: async (root, { TutorialID, userName }, { Orders }) => {
+
+            const newOrder = await new Orders({
+                TutorialID, 
+                userName,
+                createdDate: new Date().toISOString()
+            }).save();
+
+            return newOrder;
         },
     }
 };

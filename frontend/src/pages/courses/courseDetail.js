@@ -6,6 +6,7 @@ import { Query } from 'react-apollo';
 class CourseDetail extends Component {
     state = {
         cart: JSON.parse(localStorage.getItem('cart') || "[]"), 
+        cartp: localStorage.getItem('cart'),
         ID: this.props.match.params.id,
         isAdded: false
     }
