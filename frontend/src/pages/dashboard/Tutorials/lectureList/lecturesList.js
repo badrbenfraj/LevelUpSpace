@@ -9,10 +9,12 @@ class LecturesList extends Component {
     }
     render() {
         console.log(this.props)
+        const { ID } = this.state;
         return (
             <div>
                 <Query
                     query={GET_LECTURES}
+                    variables={{ SectionID: ID }}
                     pollInterval={500}
                 >
                     {({ data, loading, error }) => {

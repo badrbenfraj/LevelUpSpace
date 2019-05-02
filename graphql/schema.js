@@ -69,6 +69,14 @@ type Order{
     createdDate: String!
 }
 
+type Comment{
+    _id: ID
+    comment: String!
+    TutorialID: String!
+    userName: String!
+    createdDate: String!
+}
+
 type Query {
     getCurrentUser: User
 
@@ -80,15 +88,17 @@ type Query {
 
     getAllMentors: [User]
 
-    getSections: [Section]
+    getSections(TutorialID: String!): [Section]
 
-    getLectures: [Lecture]
+    getLectures(SectionID: String!): [Lecture]
 
     getMessages: [Messages]
 
     getClaims: [Claim]
 
     getOrders: [Order]
+
+    getComments(TutorialID: String!): [Comment]
 }
 
 
@@ -128,6 +138,8 @@ type Mutation{
     addClaim(firstName: String!, lastName: String!, email: String!, subject: String!, description: String!): Claim
 
     addOrders(TutorialID: String!, userName: String!): Order
+
+    addComment(comment: String!, userName: String!, TutorialID: String!): Comment
 }
 `;
 

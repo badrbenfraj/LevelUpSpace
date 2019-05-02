@@ -81,13 +81,6 @@ class Cart extends Component {
             >
               {(data, loading, error) => {
                 const userName = data.data.getCurrentUser.userName;
-                const handleChange = (event) => {
-                  const name = event.target.name;
-                  const value = event.target.value;
-                  this.setState({
-                    [name]: value
-                  });
-                }
                 const handleSubmit = (addOrders) => {
                   if(this.state.redirect){
                     addOrders();
@@ -100,12 +93,10 @@ class Cart extends Component {
                   >
                     {(addOrders) => {
                       return (
-                        <form>
+                        <div>
                           {handleSubmit(addOrders)}
-                          <input type="hidden" name="TutorialID" value={TutorialID} onChange={handleChange} />
-                          <input type="hidden" name="username" value={userName} onChange={handleChange} />
                           <Redirect to="/my-courses" />
-                        </form>
+                        </div>
                       )
                     }}
                   </Mutation >

@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { GET_SECTIONS } from '../../queries';
-import { Query } from 'react-apollo';
+import { GET_SECTIONS, ADD_COMMENT, GET_CURRENT_USER, GET_COMMENTS, GET_LECTURES } from '../../queries';
+import { Query, Mutation } from 'react-apollo';
+import moment from "moment";
 
 class CourseDetail extends Component {
     state = {
-        cart: JSON.parse(localStorage.getItem('cart') || "[]"), 
+        cart: JSON.parse(localStorage.getItem('cart') || "[]"),
         cartp: localStorage.getItem('cart'),
         ID: this.props.match.params.id,
-        isAdded: false
+        isAdded: false,
+        commentarea: '',
+        counter: 0
     }
 
 
     addToCart = () => {
-        let id=this.state.ID;
+        let id = this.state.ID;
         this.setState(state => {
             const cart = [...state.cart, id];
             localStorage.setItem('cart', JSON.stringify(cart));
@@ -24,10 +27,31 @@ class CourseDetail extends Component {
         });
     }
 
+    clearState() {
+        this.setState({
+            commentarea: ''
+        })
+    }
+
+    handleChange(event) {
+        const name = event.target.name;
+        const value = event.target.value;
+        this.setState({
+            [name]: value
+        });
+    }
+
+    handleSubmit(event, AddComment) {
+        event.preventDefault();
+        AddComment().then(async () => {
+            this.clearState();
+        })
+    }
+
     render() {
         console.log(this.props.match)
         console.log(this.state.cart)
-        const { ID } = this.state;
+        const { ID, commentarea } = this.state;
         return (
             <div className="container coursesdetail-section">
                 <div className="section-padding"></div>
@@ -55,6 +79,7 @@ class CourseDetail extends Component {
                                 <h3 className="course-title">Courses curriculum</h3>
                                 <Query
                                     query={GET_SECTIONS}
+                                    variables={{ TutorialID: ID }}
                                     pollInterval={500}
                                 >
                                     {({ data, loading, error }) => {
@@ -65,16 +90,40 @@ class CourseDetail extends Component {
                                         const AllTutorials = () => {
                                             if (AllSections !== null) {
                                                 return AllSections.map((section, i) => {
+                                                    let c = i + 1;
                                                     if (ID === section.TutorialID) {
                                                         return (
                                                             <div className="courses-sections-block" key={section._id}>
-                                                                <h3>Section {i}: <span>{section.name}</span></h3>
-                                                                <div className="courses-lecture-box">
-                                                                    <i className="far fa-file"></i>
-                                                                    <span className="lecture-no">Lecture 2.1</span>
-                                                                    <span className="lecture-title">Advanced Database Development</span>
-                                                                    <span className="lecture-time">00:40:00</span>
-                                                                </div>
+                                                                <h3>Section {c}: <span>{section.name}</span></h3>
+                                                                <Query
+                                                                    key={i}
+                                                                    query={GET_LECTURES}
+                                                                    variables={{ SectionID: section._id }}
+                                                                    pollInterval={500}
+                                                                >
+                                                                    {({ data }) => {
+                                                                        const lectures = data.getLectures;
+                                                                        console.log(data)
+                                                                        const AllTutorials = () => {
+                                                                            if (lectures) {
+                                                                                return lectures.map((lecture, i) => {
+                                                                                    return (
+                                                                                        <div className="courses-lecture-box" key={i}>
+                                                                                            <i className="far fa-file"></i>
+                                                                                            <span className="lecture-no">Lecture {c}.{i + 1}</span>
+                                                                                            <span className="lecture-title">{lecture.name}</span>
+                                                                                            <span className="lecture-time">00:40:00</span>
+                                                                                        </div>
+                                                                                    )
+                                                                                })
+
+                                                                            }
+                                                                            return null
+                                                                        }
+                                                                        return AllTutorials()
+                                                                    }}
+                                                                </Query>
+
                                                             </div>
                                                         )
                                                     }
@@ -141,8 +190,8 @@ class CourseDetail extends Component {
                                     onClick={this.addToCart}
                                     disabled={this.state.cart.includes(ID)}
                                 >
-                                    {!this.state.isAdded && !this.state.cart.includes(ID)? "ADD TO CART" : "✔ ADDED"}
-                                    
+                                    {!this.state.isAdded && !this.state.cart.includes(ID) ? "ADD TO CART" : "✔ ADDED"}
+
                                 </button></div>
                             <div className="featuresbox"><img src={window.location.origin + "/images/dolar-ic.png"} alt="dolar-ic" width="27" height="27" /><h3>Price : </h3><span> Free</span></div>
                             <div className="featuresbox"><img src={window.location.origin + "/images/clock-ic.png"} alt="clock-ic" width="24" height="24" /><h3>Duration : </h3><span> 30 days</span></div>
@@ -157,6 +206,91 @@ class CourseDetail extends Component {
                             <p>My name is Ruth. I grew up and studied in…</p>
                         </div>
                     </div>
+                </div>
+                <Query
+                    query={GET_CURRENT_USER}
+                >
+                    {(data, loading, error) => {
+
+                        if (data.data.getCurrentUser) {
+                            const userName = data.data.getCurrentUser.userName;
+                            return (
+                                <Mutation
+                                    mutation={ADD_COMMENT}
+                                    variables={{ comment: commentarea, TutorialID: ID, userName }}
+                                >
+                                    {(AddComment) => {
+                                        return (
+                                            <form className="comment-form" onSubmit={event => this.handleSubmit(event, AddComment)}>
+                                                <h3 className="block-title">Post a Comment</h3>
+                                                <div className="row">
+                                                    <div className="form-group col-md-12">
+                                                        <textarea className="form-control msg"
+                                                            rows="5"
+                                                            placeholder="Write your comment here..."
+                                                            name="commentarea"
+                                                            value={commentarea} onChange={this.handleChange.bind(this)}
+                                                        ></textarea>
+                                                    </div>
+                                                    <div className="form-group col-md-12">
+                                                        <input type="submit" title="Submit" name="Submit" value="Submit" />
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        )
+                                    }}
+                                </Mutation>
+                            )
+                        }
+                        return null
+                    }}
+                </Query>
+                <div className="post-comments">
+                    <Query
+                        query={GET_COMMENTS}
+                        pollInterval={500}
+                        variables={{ TutorialID: ID }}
+                    >
+                        {({ data }) => {
+                            if (data.getComments) {
+                                return <h3 className="block-title">{data.getComments.length} Comments</h3>
+                            }
+                            return <h3 className="block-title">0 Comments</h3>
+                        }}
+                    </Query>
+                    <Query
+                        query={GET_COMMENTS}
+                        pollInterval={500}
+                        variables={{ TutorialID: ID }}
+                    >
+                        {({ data }) => {
+                            console.log(data)
+                            if (data.getComments) {
+                                return data.getComments.map((comment, i) => {
+                                    let dateComponent = moment(comment.createdDate).utc().format('YYYY-MM-DD');
+                                    let timeComponent = moment(comment.createdDate).utc().format('HH:mm');
+                                    return (
+                                        <div className="media" key={comment._id}>
+                                            <div className="media-left">
+                                                <Link title="Martin Guptil" to="#">
+                                                    <img width="112" height="112" className="media-object" src={window.location.origin + "/images/user.png"} alt="Martin Guptil" />
+                                                </Link>
+                                            </div>
+                                            <div className="media-body">
+                                                <div className="media-content">
+                                                    <h4 className="media-heading">
+                                                        {comment.userName}<span> {dateComponent} {timeComponent}</span>
+                                                    </h4>
+                                                    <p> {comment.comment} </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
+                            return null
+                        }}
+                    </Query>
                 </div>
                 <div className="section-padding"></div>
             </div>

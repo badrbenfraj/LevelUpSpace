@@ -9,10 +9,12 @@ class SectionList extends Component {
     }
     render() {
         console.log(this.props.section.id)
+        const { id } = this.state;
         return (
             <div>
                 <Query
                     query={GET_SECTIONS}
+                    variables={{ TutorialID: id }}
                     pollInterval={500}
                 >
                     {({ data, loading, error }) => {
@@ -21,13 +23,10 @@ class SectionList extends Component {
                         const AllTutSections = data.getSections;
                         console.log(AllTutSections)
                         const AllLectures = () => {
-                            if (AllTutSections !== null) {
+                            if (AllTutSections) {
                                 return AllTutSections.map(
                                     (section) => {
-                                        if (section.TutorialID === this.state.id) {
-                                            return <SectionDetail key={section._id} section={section} />
-                                        }
-                                        return null
+                                        return <SectionDetail key={section._id} section={section} />
                                     }
                                 )
                             } else {

@@ -28,40 +28,41 @@ class MyCoursesList extends Component {
                 </Helmet>
                 <h1 style={centerh1}>MY COURSES</h1>
                 <div className="row">
-                <Query
-              query={GET_CURRENT_USER}
-            >
-              {(data, loading, error) => {
-                const userName = data.data.getCurrentUser.userName;
-                return (
                     <Query
-                        query={GET_ALL_ORDERS}
+                        query={GET_CURRENT_USER}
                     >
-                        {({ data, loading, error }) => {
-                            if (loading) return <div>fetching</div>
-                            if (error) return <div>{error}</div>
-                            return data.getOrders.map(order => {
-                                if(userName === order.userName){
-                                    const id = order.TutorialID;
-                                    return (
-                                        <div className="col-md-4 col-sm-6 col-xs-6" key={order._id}>
-                                            <div className="welcome-box">
-                                                <Link to={`/my-courses/${id}`}><img src="images/welcome1.jpg" alt="welcome1" width="370" height="440" /></Link>
-                                                <div>
-                                                    <h3>{order.TutorialID}</h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )
-                                }
-                                return null
-                            })
+                        {(data, loading, error) => {
+                            const userName = data.data.getCurrentUser.userName;
+                            return (
+                                <Query
+                                    query={GET_ALL_ORDERS}
+                                    pollInterval={500}
+                                >
+                                    {({ data, loading, error }) => {
+                                        if (loading) return <div>fetching</div>
+                                        if (error) return <div>{error}</div>
+                                        return data.getOrders.map(order => {
+                                            if (userName === order.userName) {
+                                                const id = order.TutorialID;
+                                                return (
+                                                    <div className="col-md-4 col-sm-6 col-xs-6" key={order._id}>
+                                                        <div className="welcome-box">
+                                                            <Link to={`/my-courses/${id}`}><img src="images/welcome1.jpg" alt="welcome1" width="370" height="440" /></Link>
+                                                            <div>
+                                                                <h3>{order.TutorialID}</h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+                                            return null
+                                        })
+                                    }}
+                                </Query>
+                            )
+
                         }}
                     </Query>
-                )
-
-              }}
-            </Query>
                 </div>
             </div>
         );

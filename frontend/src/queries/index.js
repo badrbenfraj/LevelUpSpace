@@ -20,8 +20,8 @@ export const GET_ALL_TUTORIALS = gql`
 `;
 
 export const GET_SECTIONS = gql`
-    query {
-        getSections{
+    query ($TutorialID: String!) {
+        getSections(TutorialID: $TutorialID){
             _id
             name
             description
@@ -32,8 +32,8 @@ export const GET_SECTIONS = gql`
 `;
 
 export const GET_LECTURES = gql`
-    query {
-        getLectures{
+    query ($SectionID: String!){
+        getLectures(SectionID: $SectionID){
             _id
             name
             description
@@ -315,6 +315,32 @@ export const GET_ALL_ORDERS = gql`
 export const ADD_ORDER = gql`
   mutation($TutorialID: String!, $userName: String!){
     addOrders(TutorialID: $TutorialID, userName : $userName){
+        TutorialID
+        userName
+      }
+  }
+`;
+
+
+//Orders Query
+
+export const GET_COMMENTS = gql`
+    query ($TutorialID: String!){
+        getComments(TutorialID: $TutorialID){
+            _id
+            TutorialID
+            userName
+            createdDate
+            comment
+        }
+    }
+`;
+
+//Orders Mutation
+
+export const ADD_COMMENT = gql`
+  mutation($TutorialID: String!, $userName: String!, $comment: String!){
+    addComment(TutorialID: $TutorialID, userName : $userName, comment : $comment){
         TutorialID
         userName
       }

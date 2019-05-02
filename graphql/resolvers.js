@@ -39,12 +39,12 @@ exports.resolvers = {
             const users = await User.find({ isMentor: { $eq: true } })
             return users;
         },
-        getSections: async (root, args, { Section }) => {
-            const allSections = await Section.find();
+        getSections: async (root, { TutorialID }, { Section }) => {
+            const allSections = await Section.find({ TutorialID });
             return allSections;
         },
-        getLectures: async (root, args, { Lecture }) => {
-            const allLectures = await Lecture.find();
+        getLectures: async (root, { SectionID }, { Lecture }) => {
+            const allLectures = await Lecture.find({ SectionID });
             return allLectures;
         },
         getMessages: async (root, args, { Messages }) => {
@@ -59,6 +59,10 @@ exports.resolvers = {
         getOrders: async (root, args, { Orders }) => {
             const allOrders = await Orders.find();
             return allOrders;
+        },
+        getComments: async (root, { TutorialID }, { Comments }) => {
+            const comment = await Comments.find({ TutorialID });
+            return comment;
         },
     },
     Mutation: {
@@ -274,12 +278,23 @@ exports.resolvers = {
         addOrders: async (root, { TutorialID, userName }, { Orders }) => {
 
             const newOrder = await new Orders({
-                TutorialID, 
+                TutorialID,
                 userName,
                 createdDate: new Date().toISOString()
             }).save();
 
             return newOrder;
+        },
+        addComment: async (root, { TutorialID, userName, comment }, { Comments }) => {
+
+            const newComment = await new Comments({
+                TutorialID,
+                userName,
+                comment,
+                createdDate: new Date().toISOString()
+            }).save();
+
+            return newComment;
         },
     }
 };
