@@ -33,7 +33,7 @@ class Course extends Component {
 
     }
     layoutContent = (props) => {
-        const t = ()=>{
+        const t = () => {
             if (this.state.current === '0') {
                 return (
                     <div>
@@ -72,7 +72,7 @@ class Course extends Component {
                                                             <div key={lecture._id}>{
                                                                 lecture.name}
                                                                 <div>
-                                                                    {lecture.desciption}
+                                                                    {lecture.description}
                                                                 </div>
                                                             </div>
                                                         )
@@ -119,7 +119,6 @@ class Course extends Component {
                                             >
                                                 {({ data }) => {
                                                     const AllLectures = data.getLectures;
-                                                    console.log(data)
                                                     const AllTutorials = () => {
                                                         if (AllLectures) {
                                                             return (
@@ -132,6 +131,12 @@ class Course extends Component {
                                                                     selectedKeys={[this.state.current]}
                                                                     style={{ width: 256 }}
                                                                 >
+                                                                    <SubMenu key={i} title={<span>{section.name} </span>}>
+                                                                        {AllLectures.map((lecture) => {
+                                                                            return <Menu.Item key={lecture._id}>{lecture.name}</Menu.Item>
+                                                                        })
+                                                                        }
+                                                                    </SubMenu>
                                                                     <SubMenu key={i} title={<span>{section.name} </span>}>
                                                                         {AllLectures.map((lecture) => {
                                                                             return <Menu.Item key={lecture._id}>{lecture.name}</Menu.Item>

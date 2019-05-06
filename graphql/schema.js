@@ -77,6 +77,17 @@ type Comment{
     createdDate: String!
 }
 
+type Quiz{
+    _id: ID
+    QuizName: String!
+    SectionID: String!
+    option1: String!
+    option2: String!
+    option3: String!
+    correctAnswer: String!
+    QuizQuestion: String!
+}
+
 type Query {
     getCurrentUser: User
 
@@ -99,6 +110,8 @@ type Query {
     getOrders: [Order]
 
     getComments(TutorialID: String!): [Comment]
+
+    getQuizzes(SectionID: String): [Quiz]
 }
 
 
@@ -140,6 +153,12 @@ type Mutation{
     addOrders(TutorialID: String!, userName: String!): Order
 
     addComment(comment: String!, userName: String!, TutorialID: String!): Comment
+
+    addQuiz(QuizName: String!, option1: String!, option2: String!, option3: String!, correctAnswer: String!, QuizQuestion:String!, SectionID: String!): Quiz
+
+    editQuiz(_id: ID!, QuizName: String!, option1: String!, option2: String!, option3: String!, correctAnswer: String!, QuizQuestion:String!): Quiz
+
+    deleteQuiz(_id: ID): Quiz 
 }
 `;
 

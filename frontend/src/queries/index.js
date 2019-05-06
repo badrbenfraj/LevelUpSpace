@@ -346,3 +346,46 @@ export const ADD_COMMENT = gql`
       }
   }
 `;
+
+//Quiz Query
+
+export const GET_QUIZZES = gql`
+    query ($SectionID: String){
+        getQuizzes(SectionID: $SectionID){
+            _id
+            QuizQuestion
+            SectionID
+            QuizName 
+            option1
+            option2 
+            option3 
+            correctAnswer
+        }
+    }
+`;
+
+//Quiz Mutation
+
+export const ADD_QUIZ = gql`
+  mutation($SectionID: String!, $QuizName: String!, $QuizQuestion: String!, $option1: String!, $option2: String!, $option3: String!, $correctAnswer: String!){
+    addQuiz(SectionID: $SectionID, QuizName: $QuizName, QuizQuestion: $QuizQuestion, option1: $option1, option2: $option2, option3: $option3, correctAnswer: $correctAnswer){
+        SectionID
+      }
+  }
+`;
+
+export const EDIT_QUIZ = gql`
+    mutation($_id: ID!, $QuizName: String!, $QuizQuestion: String!, $option1: String!, $option2: String!, $option3: String!, $correctAnswer: String!){
+        editQuiz(_id: $_id, QuizName: $QuizName, QuizQuestion: $QuizQuestion, option1: $option1, option2: $option2, option3: $option3, correctAnswer: $correctAnswer){
+           _id
+        }
+    }
+`;
+
+export const DELETE_QUIZ = gql`
+  mutation($_id: ID!) {
+    deleteQuiz(_id: $_id) {
+      _id
+    }
+  }
+`;

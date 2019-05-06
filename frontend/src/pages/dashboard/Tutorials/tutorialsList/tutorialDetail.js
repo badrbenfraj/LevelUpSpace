@@ -22,7 +22,7 @@ class TutorialDetail extends Component {
         return (
             <tr>
                 <td>{name}</td>
-                <td style={{maxWidth:'220px', overflow:'hidden', textOverflow: 'hidden', whiteSpace: 'nowrap'}}>{description}</td>
+                <td style={{ maxWidth: '220px', overflow: 'hidden', textOverflow: 'hidden', whiteSpace: 'nowrap' }}>{description}</td>
                 <td>{userName}</td>
 
                 <Mutation

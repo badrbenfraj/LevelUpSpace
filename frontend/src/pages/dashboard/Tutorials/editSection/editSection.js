@@ -8,6 +8,7 @@ import {
     Layout, Menu, Icon,
 } from 'antd';
 import Lectures from '../addLecture';
+import Quiz from '../addQuiz';
 
 
 const { Content, Sider } = Layout;
@@ -106,7 +107,14 @@ class EditSection extends Component {
         } else if (this.state.current === "AddLectures") {
             return (
                 <Content style={{ padding: '20px 50px', minHeight: 280 }}>
-                    <Lectures section={this.state}/>
+                    <Lectures section={this.state} />
+                </Content>
+
+            )
+        } else if (this.state.current === "AddQuiz") {
+            return (
+                <Content style={{ padding: '20px 50px', minHeight: 280 }}>
+                    <Quiz section={this.state} />
                 </Content>
 
             )
@@ -136,6 +144,10 @@ class EditSection extends Component {
                                 <Menu.Item key="AddLectures">
                                     <Icon type="plus" />
                                     <span>Add Lectures</span>
+                                </Menu.Item>
+                                <Menu.Item key="AddQuiz">
+                                    <Icon type="plus" />
+                                    <span>Add Quiz</span>
                                 </Menu.Item>
                             </Menu>
                         </Sider>

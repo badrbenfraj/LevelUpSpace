@@ -64,6 +64,10 @@ exports.resolvers = {
             const comment = await Comments.find({ TutorialID });
             return comment;
         },
+        getQuizzes: async (root, { SectionID }, { Quizzes }) => {
+            const Quiz = await Quizzes.find({ SectionID });
+            return Quiz;
+        },
     },
     Mutation: {
         // add tutorial to database
@@ -295,6 +299,32 @@ exports.resolvers = {
             }).save();
 
             return newComment;
+        },
+        addQuiz: async (root, { QuizQuestion, QuizName, option1, option2, option3, correctAnswer, SectionID }, { Quizzes }) => {
+
+            const newQuiz = await new Quizzes({
+                QuizQuestion,
+                SectionID,
+                QuizName,
+                option1,
+                option2,
+                option3,
+                correctAnswer
+            }).save();
+
+            return newQuiz;
+        },
+        editQuiz: async (root, { _id, QuizQuestion, QuizName, option1, option2, option3, correctAnswer }, { Quizzes }) => {
+            const updatedQuiz = await Quizzes.findOneAndUpdate({ _id }, { $set: { QuizQuestion, QuizName, option1, option2, option3, correctAnswer } }, { new: true });
+            return updatedQuiz;
+        },
+        deleteQuiz: async (root, { _id }, { Quizzes }) => {
+            const quiz = await Quizzes.findOne({ _id });
+
+            if (quiz) {
+                const removeQuiz = await Quizzes.remove(quiz);
+                return removeQuiz;
+            }
         },
     }
 };
