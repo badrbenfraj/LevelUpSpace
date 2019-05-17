@@ -6,7 +6,7 @@ import { DELETE_QUIZ } from '../../../../queries';
 
 class QuizDetail extends Component {
     render() {
-        const { _id, QuizName, QuizQuestion, option1, option2, option3, correctAnswer  } = this.props.quiz;
+        const { _id, QuizName, QuizQuestion, answers, correctAnswer  } = this.props.quiz;
         const handleDelete = deleteQuiz => {
             const confirmDelete = window.confirm(
                 _id.toString()
@@ -34,9 +34,7 @@ class QuizDetail extends Component {
                                     state: {
                                         QuizName,
                                         QuizQuestion,
-                                        option1, 
-                                        option2, 
-                                        option3, 
+                                        answers, 
                                         correctAnswer 
                                     }
                                 }}><i className="fas fa-edit" />Edit</Link>

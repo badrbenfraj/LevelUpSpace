@@ -1,32 +1,44 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
 import { Mutation } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
+import classNames from 'classnames';
 import { message } from 'antd';
-import { ADD_QUIZ } from '../../../../queries';
+import withAuth from '../../../../HOC/withAuth';
 
-const initialState = {
-    QuizName: '',
-    option1: '',
-    option2: '',
-    option3: '',
-    option4: '',
-    answers: [],
-    correctAnswer: '',
-    QuizQuestion: '',
-    error: ''
-}
+import {
+    Layout, Menu, Icon,
+} from 'antd';
+import { EDIT_QUIZ } from '../../../../queries';
+const { Content, Sider } = Layout;
 
-class AddQuiz extends Component {
+
+class EditQuiz extends Component {
     state = {
-        ...initialState,
-        LectureID: this.props.lecture.section.id
+        QuizName: this.props.location.state.QuizName,
+        QuizQuestion: this.props.location.state.QuizQuestion,
+        answers: [],
+        option1: this.props.location.state.answers[0],
+        option2: this.props.location.state.answers[1],
+        option3: this.props.location.state.answers[2],
+        option4: this.props.location.state.answers[3],
+        correctAnswer: this.props.location.state.correctAnswer,
+        id: this.props.match.params.id,
+        collapsed: false,
+        current: 'EditQuiz',
+        error: ''
+    };
+    onCollapse = (collapsed) => {
+        console.log(collapsed);
+        this.setState({ collapsed });
     }
 
 
-    clearState() {
-        this.setState({ ...initialState })
+    handleClick = (e) => {
+        console.log('click ', e);
+        this.setState({
+            current: e.key,
+        });
     }
-
     handleChange(event) {
         const name = event.target.name;
         const value = event.target.value;
@@ -36,42 +48,32 @@ class AddQuiz extends Component {
         });
     }
 
-    handleSubmit(event, addQuiz) {
+    handleSubmit(event, editSection) {
         event.preventDefault();
-        addQuiz().then(async ({ data }) => {
-            message.success('Quiz added successfuly')
-            this.clearState();
-
+        editSection(this.state.id).then(async ({ data }) => {
+            message.success("update was sucess");
+            console.log(data)
         }).catch(error => {
             this.setState({
-                error: "couldn't add quiz"
+                error: "couldn't update tutorial"
             })
         });
 
     }
 
-    validateForm() {
-        const { name, description, } = this.state;
-        const isInvalid = !name || !description;
-        return isInvalid;
-    }
-
-    render() {
-        const { LectureID, QuizQuestion, QuizName, option1, option2, option3, option4, answers, correctAnswer } = this.state;
-        console.log(this.props.lecture.section.id)
-        return (
-            <div className="text-center border border-light p-5">
-                <p className="h4 mb-4">Add New Quiz</p>
-
-                {/* <!--Card content--> */}
-                <div className="card-body px-lg-5 pt-0">
+    layoutContent = (props) => {
+        if (this.state.current === "EditQuiz") {
+            const { QuizQuestion, QuizName, option1, option2, option3, option4, answers, correctAnswer } = this.state;
+            return (
+                <Content style={{ padding: '20px 50px', minHeight: 280 }}>
+                    <h2 className="text-center">Edit {QuizName}</h2>
                     <Mutation
-                        mutation={ADD_QUIZ}
-                        variables={{ LectureID, QuizQuestion, QuizName, answers, correctAnswer }}
+                        mutation={EDIT_QUIZ}
+                        variables={{ _id: this.state.id, QuizQuestion, QuizName, answers, correctAnswer }}
                     >
-                        {(addQuiz) => {
+                        {(editQuiz) => {
                             return (
-                                <form className="text-center" onSubmit={event => this.handleSubmit(event, addQuiz)}>
+                                <form className="text-center" onSubmit={event => this.handleSubmit(event, editQuiz)}>
                                     <div className={classNames({ 'error-label': this.state.error !== '' })}>
                                         {this.state.error}
                                     </div>
@@ -169,16 +171,49 @@ class AddQuiz extends Component {
                                     <button
                                         className="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
                                         type="submit">
-                                        Add Quiz
-                                    </button>
+                                        Save Changes</button>
                                 </form>
                             )
                         }}
                     </Mutation>
-                </div>
-            </div>
+                </Content>
+            )
+        } else if (this.state.current === "AddLectures") {
+            return (
+                <Content style={{ padding: '20px 50px', minHeight: 280 }}>
+
+                </Content>
+
+            )
+        }
+    }
+
+    render() {
+        console.log(this.props)
+        return (
+
+            <Layout>
+                <Content>
+                    <Layout style={{ minHeight: '100vh', background: '#fff' }}>
+                        <Sider width={200} style={{ background: '#fff' }}>
+                            <Menu
+                                mode="inline"
+                                selectedKeys={[this.state.current]}
+                                onClick={this.handleClick}
+                                style={{ height: '100%' }}
+                            >
+                                <Menu.Item key="EditQuiz">
+                                    <Icon type="plus" />
+                                    <span>Edit Quiz</span>
+                                </Menu.Item>
+                            </Menu>
+                        </Sider>
+                        {this.layoutContent()}
+                    </Layout>
+                </Content>
+            </Layout>
         );
     }
 }
 
-export default AddQuiz;
+export default withAuth(session => session && session.getCurrentUser)(withRouter(EditQuiz));

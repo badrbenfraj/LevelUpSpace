@@ -33,7 +33,8 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "cd frontend && npm start",
-    "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\""
+    "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\"",
+    "setup": "concurrently --names \"server,client\" \"npm install \" \" cd frontend && npm install \""
   },
   "repository": {
     "type": "git",

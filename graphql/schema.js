@@ -80,10 +80,8 @@ type Comment{
 type Quiz{
     _id: ID
     QuizName: String!
-    SectionID: String!
-    option1: String!
-    option2: String!
-    option3: String!
+    LectureID: String!
+    answers: [String!]
     correctAnswer: String!
     QuizQuestion: String!
 }
@@ -111,7 +109,7 @@ type Query {
 
     getComments(TutorialID: String!): [Comment]
 
-    getQuizzes(SectionID: String): [Quiz]
+    getQuizzes(LectureID: String): [Quiz]!
 }
 
 
@@ -154,9 +152,9 @@ type Mutation{
 
     addComment(comment: String!, userName: String!, TutorialID: String!): Comment
 
-    addQuiz(QuizName: String!, option1: String!, option2: String!, option3: String!, correctAnswer: String!, QuizQuestion:String!, SectionID: String!): Quiz
+    addQuiz(QuizName: String!, answers: [String!], correctAnswer: String!, QuizQuestion:String!, LectureID: String!): Quiz
 
-    editQuiz(_id: ID!, QuizName: String!, option1: String!, option2: String!, option3: String!, correctAnswer: String!, QuizQuestion:String!): Quiz
+    editQuiz(_id: ID!, QuizName: String!, answers: [String!], correctAnswer: String!, QuizQuestion:String!): Quiz
 
     deleteQuiz(_id: ID): Quiz 
 }

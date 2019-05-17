@@ -21,7 +21,7 @@ class Quiz extends Component {
                             <button type="button" onClick={this.showAddQuiz} className="btn btn-info add-new"><i className="fa fa-plus"></i> Add New</button>
                         </div>
                     </div>
-                    {this.state.visible ? <AddQuiz section={this.props} /> : null}
+                    {this.state.visible ? <AddQuiz lecture={this.props} /> : null}
                 </div>
                 <QuizzesList section={this.props} />
             </div>

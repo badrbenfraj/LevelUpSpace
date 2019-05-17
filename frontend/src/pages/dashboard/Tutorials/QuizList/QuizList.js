@@ -14,7 +14,7 @@ class QuizzesList extends Component {
             <div>
                 <Query
                     query={GET_QUIZZES}
-                    variables={{ SectionID: ID }}
+                    variables={{ LectureID: ID }}
                     pollInterval={500}
                 >
                     {({ data, loading, error }) => {
@@ -35,7 +35,7 @@ class QuizzesList extends Component {
                             <table className="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Tutorial Name</th>
+                                        <th scope="col">Quiz Name</th>
                                         <th scope="col">Description</th>
                                         <th scope="col">Actions</th>
                                     </tr>

@@ -64,8 +64,8 @@ exports.resolvers = {
             const comment = await Comments.find({ TutorialID });
             return comment;
         },
-        getQuizzes: async (root, { SectionID }, { Quizzes }) => {
-            const Quiz = await Quizzes.find({ SectionID });
+        getQuizzes: async (root, { LectureID }, { Quizzes }) => {
+            const Quiz = await Quizzes.find({ LectureID });
             return Quiz;
         },
     },
@@ -300,22 +300,20 @@ exports.resolvers = {
 
             return newComment;
         },
-        addQuiz: async (root, { QuizQuestion, QuizName, option1, option2, option3, correctAnswer, SectionID }, { Quizzes }) => {
+        addQuiz: async (root, { QuizQuestion, QuizName, answers, correctAnswer, LectureID }, { Quizzes }) => {
 
             const newQuiz = await new Quizzes({
                 QuizQuestion,
-                SectionID,
+                LectureID,
                 QuizName,
-                option1,
-                option2,
-                option3,
+                answers,
                 correctAnswer
             }).save();
 
             return newQuiz;
         },
-        editQuiz: async (root, { _id, QuizQuestion, QuizName, option1, option2, option3, correctAnswer }, { Quizzes }) => {
-            const updatedQuiz = await Quizzes.findOneAndUpdate({ _id }, { $set: { QuizQuestion, QuizName, option1, option2, option3, correctAnswer } }, { new: true });
+        editQuiz: async (root, { _id, QuizQuestion, QuizName, answers, correctAnswer }, { Quizzes }) => {
+            const updatedQuiz = await Quizzes.findOneAndUpdate({ _id }, { $set: { QuizQuestion, QuizName, answers, correctAnswer } }, { new: true });
             return updatedQuiz;
         },
         deleteQuiz: async (root, { _id }, { Quizzes }) => {

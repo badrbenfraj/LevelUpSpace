@@ -31,6 +31,7 @@ import CourseDetail from './pages/courses/courseDetail';
 import Cart from './pages/cart/Cart';
 import MyCoursesList from './pages/dashboard/myCourses';
 import Course from './pages/dashboard/myCourses/course';
+import EditQuiz from './pages/dashboard/Tutorials/editQuiz/editQuiz';
 
 
 const App = ({ refetch, session }) => {
@@ -181,6 +182,12 @@ const App = ({ refetch, session }) => {
                                 />
                             )
                     } />
+
+                <Route exact path="/edit-quiz/:id" render={props => (
+                    <MainLayout session={session}>
+                        <EditQuiz {...props} refetch={refetch} />
+                    </MainLayout>
+                )} />
 
                 <Route exact path="/edit-tutorial/:id"
                     render={props =>

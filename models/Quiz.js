@@ -7,7 +7,7 @@ const Quiz = new Schema({
         type: String,
         required: true
     },
-    SectionID: {
+    LectureID: {
         type: String,
         required: true
     },
@@ -15,18 +15,10 @@ const Quiz = new Schema({
         type: String,
         required: true
     },
-    option1: {
+    answers: [{
         type: String,
         required: true
-    },
-    option2: {
-        type: String,
-        required: true
-    },
-    option3: {
-        type: String,
-        required: true
-    },
+    }],
     correctAnswer: {
         type: String,
         required: true

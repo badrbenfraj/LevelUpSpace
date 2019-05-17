@@ -1328,3 +1328,203 @@ tr td {
 .ant-layout{
 	min-height: 100vh !important;
 }
+
+
+.App-header {
+  background-color: #222 !important;
+  padding: 20px !important;
+  color: white !important;
+  text-align: center !important;
+}
+
+.App-intro {
+  font-size: large !important;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.radioCustomLabel {
+  position: relative !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0px !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+}
+.answerOption {
+  width: 150px !important;
+  float: left !important;
+  display: inherit !important;
+  margin-right: 10px !important;
+}
+.next-btn{
+
+}
+.Previous-btn{
+
+}
+.result-link {
+  float: right !important;
+    /* background-color: green; */
+  color: #000000 !important;
+}
+.status{
+  color: green !important;
+}
+.Wrongstatus{
+	color: red !important;
+}
+.list-grp {
+  text-align: left !important;
+    line-height: 1.5 !important;
+    padding: 10px !important;
+    background: #ccc !important;
+}
+.quiz-story{
+  padding: 30px !important;
+  width: 70% !important;
+  background-color: #ccc !important;
+  /* padding-left: 10px; */
+  background-color: #e8e5e5 !important;
+  margin: auto !important;
+  min-height: 400px !important;
+  text-align: center !important;
+  border-radius: 10px !important;
+}
+.selected-btn {
+  background-color: #54dc1c !important;
+}
+.bottom-footer{
+  margin-top: 30px !important;
+  background-color: #ccc !important;
+}
+
+.container {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 3px;
+}
+
+button {
+  width: 150px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+@media (min-width: 769px) {
+  .container {
+    margin: 2.5rem auto;
+  }
+}
+
+/* Result Component */
+.result {
+  padding: 1.5rem 2.5rem;
+}
+
+/* Quiz Component */
+.answerOptions {
+  width: 700px;
+  margin: auto;
+  min-height: 200px;
+}
+
+/* QuestionCount Component */
+.questionCount {
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #eeeeee;
+}
+
+/* Question Component */
+.question {
+  text-align: center;
+}
+
+/* AnswerOption Component */
+.answerOption {
+}
+
+.answerOption:hover {
+  background-color: #eefbfe;
+}
+
+.radioCustomButton {
+  position: absolute;
+  width: auto;
+  opacity: 0;
+}
+
+.radioCustomButton,
+.radioCustomLabel {
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.radioCustomLabel {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 1.5rem 2.5rem 1.5rem 5rem;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.radioCustomButton ~ .radioCustomLabel:before {
+  position: absolute;
+  top: 20px;
+  left: 38px;
+  width: 28px;
+  height: 28px;
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  background: #fff;
+  border: 1px solid #bbb;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.radioCustomButton:checked ~ .radioCustomLabel:before {
+  content: '';
+  background-size: 27px;
+  border-color: #8BC53F;
+}
+
+/* Animation */
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out 0.3s;
+}
+
+.fade-leave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 1;
+}
+
+.fade-leave.fade-leave-active {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-appear {
+  opacity: 0;
+}
+
+.fade-appear.fade-appear-active {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}

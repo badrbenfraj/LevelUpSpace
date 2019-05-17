@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import { Layout, Menu } from 'antd';
-import { GET_SECTIONS, GET_LECTURES } from '../../../queries';
+import { GET_SECTIONS, GET_LECTURES, GET_QUIZZES } from '../../../queries';
+import withAuth from '../../../HOC/withAuth';
+import { withRouter } from 'react-router-dom';
+import QuizIndex from './quiz/QuizIndex';
 
 const { Content, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -12,7 +15,7 @@ class Course extends Component {
     state = {
         openKeys: ['0'],
         ID: this.props.match.params.id,
-        current: '0',
+        current: '0'
     };
 
     onOpenChange = (openKeys) => {
@@ -37,7 +40,7 @@ class Course extends Component {
             if (this.state.current === '0') {
                 return (
                     <div>
-                        hello 0
+                        <h5><strong>Welcome to LevelUp space, here u will find everything u need to learn coding from the beginning to the advance level</strong></h5>
                     </div>
                 )
             }
@@ -69,10 +72,30 @@ class Course extends Component {
                                                 return AllLectures.map(lecture => {
                                                     if (this.state.current === lecture._id) {
                                                         return (
-                                                            <div key={lecture._id}>{
-                                                                lecture.name}
+                                                            <div key={lecture._id}>
+                                                                {lecture.name}
                                                                 <div>
                                                                     {lecture.description}
+                                                                    <Query
+                                                                        query={GET_QUIZZES}
+                                                                        variables={{ LectureID: lecture._id }}
+                                                                    >
+                                                                        {(data, error, loading) => {
+                                                                            const allQuizzes = data.data.getQuizzes
+                                                                            if(allQuizzes){
+                                                                                const tt = () => {
+                                                                                    return allQuizzes.map(e => e._id)
+                                                                                }
+                                                                                if (tt().length > 0) {
+                                                                                    console.log(Boolean(allQuizzes))
+                                                                                    console.log(allQuizzes)
+                                                                                    console.log(tt().length)
+                                                                                    return <QuizIndex quiz={allQuizzes} />
+                                                                                }
+                                                                            }
+                                                                            return null
+                                                                        }}
+                                                                    </Query>
                                                                 </div>
                                                             </div>
                                                         )
@@ -137,12 +160,6 @@ class Course extends Component {
                                                                         })
                                                                         }
                                                                     </SubMenu>
-                                                                    <SubMenu key={i} title={<span>{section.name} </span>}>
-                                                                        {AllLectures.map((lecture) => {
-                                                                            return <Menu.Item key={lecture._id}>{lecture.name}</Menu.Item>
-                                                                        })
-                                                                        }
-                                                                    </SubMenu>
                                                                 </Menu>
                                                             )
                                                         }
@@ -172,4 +189,4 @@ class Course extends Component {
     }
 }
 
-export default Course;
+export default withAuth(session => session && session.getCurrentUser)(withRouter(Course));

@@ -7,6 +7,7 @@ import { EDIT_LECTURE } from '../../../../queries';
 import {
     Layout, Menu, Icon,
 } from 'antd';
+import Quiz from '../addQuiz';
 
 
 const { Content, Sider } = Layout;
@@ -102,6 +103,13 @@ class EditLecture extends Component {
                     </Mutation>
                 </Content>
             )
+        } else if (this.state.current === "AddQuiz") {
+            return (
+                <Content style={{ padding: '20px 50px', minHeight: 280 }}>
+                    <Quiz section={this.state} />
+                </Content>
+
+            )
         }
     }
 
@@ -125,6 +133,10 @@ class EditLecture extends Component {
                                 <Menu.Item key="EditLecture">
                                     <Icon type="plus" />
                                     <span>Edit Lecture</span>
+                                </Menu.Item>
+                                <Menu.Item key="AddQuiz">
+                                    <Icon type="plus" />
+                                    <span>Add Quiz</span>
                                 </Menu.Item>
                             </Menu>
                         </Sider>

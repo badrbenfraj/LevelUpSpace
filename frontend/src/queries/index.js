@@ -350,15 +350,13 @@ export const ADD_COMMENT = gql`
 //Quiz Query
 
 export const GET_QUIZZES = gql`
-    query ($SectionID: String){
-        getQuizzes(SectionID: $SectionID){
+    query ($LectureID: String){
+        getQuizzes(LectureID: $LectureID){
             _id
             QuizQuestion
-            SectionID
+            LectureID
             QuizName 
-            option1
-            option2 
-            option3 
+            answers
             correctAnswer
         }
     }
@@ -367,16 +365,16 @@ export const GET_QUIZZES = gql`
 //Quiz Mutation
 
 export const ADD_QUIZ = gql`
-  mutation($SectionID: String!, $QuizName: String!, $QuizQuestion: String!, $option1: String!, $option2: String!, $option3: String!, $correctAnswer: String!){
-    addQuiz(SectionID: $SectionID, QuizName: $QuizName, QuizQuestion: $QuizQuestion, option1: $option1, option2: $option2, option3: $option3, correctAnswer: $correctAnswer){
-        SectionID
+  mutation($LectureID: String!, $QuizName: String!, $QuizQuestion: String!, $answers: [String!], $correctAnswer: String!){
+    addQuiz(LectureID: $LectureID, QuizName: $QuizName, QuizQuestion: $QuizQuestion, answers: $answers, correctAnswer: $correctAnswer){
+        LectureID
       }
   }
 `;
 
 export const EDIT_QUIZ = gql`
-    mutation($_id: ID!, $QuizName: String!, $QuizQuestion: String!, $option1: String!, $option2: String!, $option3: String!, $correctAnswer: String!){
-        editQuiz(_id: $_id, QuizName: $QuizName, QuizQuestion: $QuizQuestion, option1: $option1, option2: $option2, option3: $option3, correctAnswer: $correctAnswer){
+    mutation($_id: ID!, $QuizName: String!, $QuizQuestion: String!, $answers: [String!], $correctAnswer: String!){
+        editQuiz(_id: $_id, QuizName: $QuizName, QuizQuestion: $QuizQuestion, answers: $answers, correctAnswer: $correctAnswer){
            _id
         }
     }
