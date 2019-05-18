@@ -37,29 +37,13 @@ export const GET_LECTURES = gql`
             _id
             name
             description
+            pictures
+            picturesMime
             createdDate
             SectionID
         }
     }
 `;
-
-
-// Message Query
-
-export const GET_ALL_MESSAGES = gql`
-    query {
-        getMessages{
-            _id
-            userName
-            message
-            createdDate
-        }
-    }
-`;
-
-
-
-
 // Tutorials Mutation
 
 export const ADD_TUTORIAL = gql`
@@ -86,7 +70,6 @@ export const CHANGE_TUTORIAL_NAME = gql`
         }
     }
 `;
-
 
 export const ADD_SECTION = gql`
     mutation($name: String!, $description: String!, $ID: String!){
@@ -115,8 +98,8 @@ export const EDIT_SECTION = gql`
 `;
 
 export const ADD_LECTURE = gql`
-    mutation($name: String!, $description: String!, $ID: String!){
-        addLecture( name: $name description: $description, SectionID:$ID){ 
+    mutation($name: String!, $description: String!, $ID: String!, $pictures: [Upload!]!){
+        addLecture( name: $name, description: $description, SectionID:$ID, pictures: $pictures){ 
             name
         }
     }
@@ -133,13 +116,49 @@ export const DELETE_LECTURE = gql`
 
 
 export const EDIT_LECTURE = gql`
-    mutation($_id: ID!, $newName: String!, $newDescription: String!){
-        editLecture(_id: $_id, newName: $newName, newDescription: $newDescription){
+    mutation($_id: ID!, $newName: String!, $newDescription: String!, $newPictures: [Upload!]!){
+        editLecture(_id: $_id, newName: $newName, newDescription: $newDescription, newPictures: $newPictures){
            _id
         }
     }
 `;
+// Message Query
 
+export const GET_ALL_MESSAGES = gql`
+    query {
+        getMessages{
+            _id
+            userName
+            message
+            createdDate
+        }
+    }
+`;
+
+//Blog Mutation
+export const ADD_BLOGS = gql`
+ mutation($title: String!, $category: String!, $subject: String!, $content: String!, $userName: String!){
+     addBlogs( title: $title, category:$category, subject:$subject, content:$content, userName: $userName){ 
+        title
+     }
+ }
+`;
+
+export const EDIT_BLOGS = gql`
+ mutation($_id: ID!, $newTitle: String!, $newSubject: String!, $newContent: String!, $newCategory: String!){
+     editBlogs(_id: $_id, newTitle: $newTitle, newSubject: $newSubject, newContent:$newContent, newCategory: $newCategory ){
+        _id
+     }
+ }
+`;
+
+export const DELETE_BLOGS = gql`
+mutation($_id: ID!) {
+ deleteBlogs(_id: $_id) {
+   _id
+ }
+}
+`;
 
 
 
@@ -199,15 +218,20 @@ export const GET_ALL_MENTORS = gql`
     }
 `;
 
-
-
-
-
-
-
-
-
-
+// Blog Queries
+export const GET_BLOGS = gql`
+    query {
+        getBlogs{
+            _id
+            title
+            category
+            subject
+            content
+            userName
+            createdDate
+        }
+    }
+`;
 
 // User Mutation
 
@@ -310,18 +334,6 @@ export const GET_ALL_ORDERS = gql`
     }
 `;
 
-//Orders Mutation
-
-export const ADD_ORDER = gql`
-  mutation($TutorialID: String!, $userName: String!){
-    addOrders(TutorialID: $TutorialID, userName : $userName){
-        TutorialID
-        userName
-      }
-  }
-`;
-
-
 //Orders Query
 
 export const GET_COMMENTS = gql`
@@ -336,11 +348,22 @@ export const GET_COMMENTS = gql`
     }
 `;
 
-//Orders Mutation
+//comment Mutation
 
 export const ADD_COMMENT = gql`
   mutation($TutorialID: String!, $userName: String!, $comment: String!){
     addComment(TutorialID: $TutorialID, userName : $userName, comment : $comment){
+        TutorialID
+        userName
+      }
+  }
+`;
+
+//Orders Mutation
+
+export const ADD_ORDER = gql`
+  mutation($TutorialID: String!, $userName: String!){
+    addOrders(TutorialID: $TutorialID, userName : $userName){
         TutorialID
         userName
       }
@@ -369,17 +392,17 @@ export const GET_QUIZZES = gql`
 export const ADD_QUIZ = gql`
   mutation($SectionID: String!, $QuizName: String!, $QuizQuestion: String!, $option1: String!, $option2: String!, $option3: String!, $correctAnswer: String!){
     addQuiz(SectionID: $SectionID, QuizName: $QuizName, QuizQuestion: $QuizQuestion, option1: $option1, option2: $option2, option3: $option3, correctAnswer: $correctAnswer){
-        SectionID
+        QuizNames
       }
   }
 `;
 
 export const EDIT_QUIZ = gql`
-    mutation($_id: ID!, $QuizName: String!, $QuizQuestion: String!, $option1: String!, $option2: String!, $option3: String!, $correctAnswer: String!){
-        editQuiz(_id: $_id, QuizName: $QuizName, QuizQuestion: $QuizQuestion, option1: $option1, option2: $option2, option3: $option3, correctAnswer: $correctAnswer){
-           _id
-        }
-    }
+ mutation($_id: ID!, $newQuizName: String!, $newQuizQuestion: String!, $newOption1: String!, $newOption2: String!, $newOption3: String!, $newCorrectAnswer: String!){
+     editBlogs(_id: $_id, newQuizName: $newQuizName, newQuizQuestion: $newQuizQuestion, newOption1:$newOption1, newOption2: $newOption2, newOption3: $newOption3, newCorrectAnswer: $newCorrectAnswer){
+        _id
+     }
+ }
 `;
 
 export const DELETE_QUIZ = gql`

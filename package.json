@@ -8,25 +8,37 @@
   },
   "dependencies": {
     "apollo-cache-inmemory": "^1.5.1",
+    "apollo-link-context": "^1.0.17",
+    "apollo-link-error": "^1.1.10",
     "apollo-link-http": "^1.5.11",
+    "apollo-link-retry": "^2.2.13",
     "apollo-server-express": "^2.4.8",
+    "axios": "^0.18.0",
     "bcrypt": "^3.0.4",
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.19.0",
     "concurrently": "^4.1.0",
+    "connect-multiparty": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "graphql": "^14.1.1",
     "graphql-tools": "^4.0.4",
+    "graphql-upload": "^8.0.6",
     "jsonwebtoken": "^8.5.0",
     "mongoose": "^5.4.16",
+    "nedb": "^1.8.0",
     "nodemailer": "^5.1.1",
     "nodemailer-express-handlebars": "^3.0.0",
+    "pusher": "^2.2.0",
+    "pusher-js": "^4.4.0",
     "react-apollo": "^2.5.1",
+    "react-ckeditor-component": "^1.1.0",
+    "react-spinkit": "^3.0.0",
+    "server.js": "^1.0.0",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.19.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -44,5 +56,6 @@
   "bugs": {
     "url": "https://github.com/badrbenfraj/LevelUpSpace/issues"
   },
-  "homepage": "https://github.com/badrbenfraj/LevelUpSpace#readme"
+  "homepage": "https://github.com/badrbenfraj/LevelUpSpace#readme",
+  "keywords": []
 }

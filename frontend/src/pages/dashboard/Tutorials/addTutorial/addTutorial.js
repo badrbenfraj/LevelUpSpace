@@ -3,7 +3,8 @@ import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
 import { message } from 'antd';
 import { ADD_TUTORIAL, GET_CURRENT_USER } from '../../../../queries';
-import { Mutation, Query } from 'react-apollo'
+import { Mutation, Query } from 'react-apollo';
+
 
 const initialState = {
     name: '',
@@ -13,7 +14,6 @@ const initialState = {
     duration: '',
     error: ''
 }
-
 
 
 class AddTutorial extends Component {
@@ -144,22 +144,26 @@ class AddTutorial extends Component {
                                                         </textarea>
                                                     </div>
                                                 </div>
-
+                                                
                                                 <input hidden="hidden" name="userName" value={userName} readOnly />
                                                 {userName}
+                                                
                                                 <button
                                                     className="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
                                                     type="submit">
                                                     Add Tutorial
                                                 </button>
+                                                
                                             </form>
                                         );
 
                                     }}
+                                   
                                 </Mutation>
                             )
                         }}
                     </Query>
+                    
                 </div>
 
             </div>

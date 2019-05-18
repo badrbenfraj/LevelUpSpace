@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { message } from 'antd';
 import withAuth from '../../../../HOC/withAuth';
 import { EDIT_LECTURE } from '../../../../queries';
+import Upload from '../cloudinaryUpload'
 import {
     Layout, Menu, Icon,
 } from 'antd';
@@ -16,8 +17,10 @@ class EditLecture extends Component {
         id: this.props.match.params.id,
         name: this.props.location.state.lectureName.name,
         description: this.props.location.state.lectureDescription.description,
+        pictures: this.props.location.state.lectureDescription.pictures,
         collapsed: false,
         current: 'EditLecture',
+        error: ''
     };
 
     onCollapse = (collapsed) => {
@@ -47,7 +50,7 @@ class EditLecture extends Component {
             console.log(data)
         }).catch(error => {
             this.setState({
-                error: "couldn't update tutorial"
+                error: "couldn't update lecture"
             })
         });
     }
@@ -60,7 +63,7 @@ class EditLecture extends Component {
                     <h2 className="text-center">Edit {LectureName} Section</h2>
                     <Mutation
                         mutation={EDIT_LECTURE}
-                        variables={{ _id: this.state.id, newName: this.state.name, newDescription: this.state.description }}
+                        variables={{ _id: this.state.id, newName: this.state.name, newDescription: this.state.description, newPictures: this.state.pictures }}
                         pollInterval={500}
                     >
                         {(editLecture) => {
@@ -92,6 +95,9 @@ class EditLecture extends Component {
                                             </textarea>
                                         </div>
                                     </div>
+                                    
+                                    <Upload onChange={pictures => this.setState({ rawPictures: pictures })} />
+
                                     <button
                                         className="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
                                         type="submit">
@@ -110,6 +116,7 @@ class EditLecture extends Component {
         console.log(this.props.location.state.lectureName.name)
         console.log(this.state.name)
         console.log(this.state.description)
+        console.log(this.state.pictures)
         return (
 
             <Layout>

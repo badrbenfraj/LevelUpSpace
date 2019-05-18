@@ -1,25 +1,21 @@
+
 import React, { Component } from 'react';
-import classNames from 'classnames';
 import { Mutation } from 'react-apollo';
 import { ADD_LECTURE } from '../../../../queries';
-import { message } from 'antd';
+import classNames from 'classnames';
 
-const initialState = {
-    name: '',
-    description: '',
-    error: ''
-}
 
 class AddLecture extends Component {
     state = {
-        ...initialState,
-        ID: this.props.lecture.section.id
+        name: '',
+        description: '',
+        pictures: [],
+        selectedFile: null,
+        loading: false,
+        error: '',
     }
 
 
-    clearState() {
-        this.setState({ ...initialState })
-    }
 
     handleChange(event) {
         const name = event.target.name;
@@ -28,24 +24,30 @@ class AddLecture extends Component {
             [name]: value
         });
     }
+
     handleSubmit(event, addLecture) {
+        const {pictures}= this.state;
+        const { name, description, selectedFile } = this.state;
+        const ID = this.props.lecture.section.id;
+
         event.preventDefault();
-        addLecture().then(async ({ data }) => {
-            message.success('Lecture added successfuly')
-            this.clearState();
 
-        }).catch(error => {
-            this.setState({
-                error: "couldn't add lecture"
-            })
-        });
-
+        addLecture({variables:{ name, description, ID, selectedFile, pictures }});
     }
 
+    handleFilesChange = ({ target: { files } }) => this.setState({ pictures: files });
+
+    onCompleted = (response) => console.log("complete: ", response)
+
+    onError = error => console.log("Error: ", error)
+
     render() {
-        const { name, description, ID } = this.state;
-        console.log(this.props.lecture.section.id)
+        const {pictures}= this.state;
+        const { name, description, selectedFile } = this.state;
+        const ID = this.props.lecture.section.id;
+
         return (
+           
             <div className="text-center border border-light p-5">
                 <p className="h4 mb-4">Add New Lecture</p>
                 {this.props.lecture.section.id}
@@ -53,7 +55,8 @@ class AddLecture extends Component {
                 <div className="card-body px-lg-5 pt-0">
                     <Mutation
                         mutation={ADD_LECTURE}
-                        variables={{ name, description, ID }}
+                            onCompleted={this.onCompleted}
+                            onError={this.onError}
                     >
                         {(addLecture) => {
                             return (
@@ -87,6 +90,11 @@ class AddLecture extends Component {
                                             </textarea>
                                         </div>
                                     </div>
+
+                                        <div>
+                                            <input type="file" onChange={this.handleFilesChange} />
+                                        </div>
+                                     
 
                                     <button
                                         className="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"

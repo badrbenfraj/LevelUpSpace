@@ -4,6 +4,8 @@ import Teachers from './teachersList/teachers';
 import Mentors from './mentorsList/mentors';
 import Tutorials from '../Tutorials';
 import ClaimList from '../Claim/claimList';
+import AddBlogsHome from '../Blog/AddBlog/index';
+
 
 const { Sider, Content } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -44,7 +46,12 @@ class Admin extends Component {
             return (
                 <ClaimList />
             )
+        } else if (this.state.current === "addBlogs") {
+            return (
+                <AddBlogsHome />
+            )
         }
+
 
     }
     render() {
@@ -76,6 +83,10 @@ class Admin extends Component {
                         <Menu.Item key="Claim">
                             <Icon type="exception" />
                             <span>Claim</span>
+                        </Menu.Item>
+                        <Menu.Item key="addBlogs">
+                            <Icon type="exception" />
+                            <span> Blog</span>
                         </Menu.Item>
                     </Menu>
                 </Sider>

@@ -3,11 +3,10 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: './variables.env' });
 const cors = require('cors');
-const nodemailer = require ('nodemailer');
-const hbs =require ('nodemailer-express-handlebars');
+const nodemailer = require('nodemailer');
+const hbs = require('nodemailer-express-handlebars');
 // bring in graphql express middleware
 const { ApolloServer } = require('apollo-server-express');
-
 const http = require('http');
 const socketIO = require('socket.io');
 
@@ -20,9 +19,12 @@ const Section = require('./models/Section');
 const Lecture = require('./models/Lecture');
 const Messages = require('./models/Messages');
 const Claims = require('./models/Claim');
+const Blogs = require('./models/Blogs');
 const Orders = require('./models/Order');
 const Comments = require('./models/Comment');
-const Quizzes = require('./models/Quiz');
+const Quiz = require('./models/Quiz');
+
+
 
 // connect to database
 mongoose
@@ -32,6 +34,8 @@ mongoose
   })
   .catch(err => console.log(err));
 const PORT = process.env.PORT || 3001;
+
+
 // Initializes application
 const app = express();
 const server = http.Server(app);
@@ -41,23 +45,26 @@ const io = socketIO(server);
 //     origin: 'http://localhost:3000/',
 //     credentials: 'same-origin' // <-- REQUIRED backend setting
 //   };
+
+
 app.use(cors("*"));
 
 
 // Set up JWT authentication middleware
-app.use(async (req, res, next) => {
+app.use(async (req, response, next) => {
   const token = req.headers["authorization"];
   if (token !== "null") {
     try {
       const currentUser = await jwt.verify(token, process.env.SECRET);
       req.currentUser = currentUser;
-      console.log(currentUser)
+      // console.log(currentUser)
     } catch (err) {
       console.error(err);
     }
   }
   next();
 });
+
 
 app.post('/password-reset', (req, response) => {
 
@@ -92,6 +99,8 @@ app.post('/password-reset', (req, response) => {
   });
 
 });
+app.use('/static', express.static('./server/static'));
+
 
 // Create schema
 const schema = new ApolloServer({
@@ -105,24 +114,34 @@ const schema = new ApolloServer({
       Lecture,
       Messages,
       Claims,
+      Blogs,
       Orders,
       Comments,
-      Quizzes,
+      Quiz,
       currentUser: req.currentUser
     }
   }
 });
+
+
 // Connect schemas with GraphQL
 schema.applyMiddleware({ app });
 
 io.on('connection', (socket) => {
   console.log(socket.id);
 
-  socket.on('SEND_MESSAGE', function(data){
-      io.emit('RECEIVE_MESSAGE', data);
+  socket.on('SEND_MESSAGE', function (data) {
+    io.emit('RECEIVE_MESSAGE', data);
   })
 });
 
 server.listen({ port: PORT }, () =>
   console.log(`🚀 Server ready at http://localhost:3001${schema.graphqlPath}`)
 )
+
+app.get('/', (req, response) => {
+  mongoose.find({}, (err, data) => {
+    if (err) return response.status(500).send(err);
+    response.json(data);
+  });
+});

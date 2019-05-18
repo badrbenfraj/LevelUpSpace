@@ -15,7 +15,7 @@ class CourseDetail extends Component {
     }
 
 
-    addToCart = () => {
+    addToCart = () => { 
         let id = this.state.ID;
         this.setState(state => {
             const cart = [...state.cart, id];

@@ -1,29 +1,31 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
     
-const lecturesSchema = new Schema({
-    name:{
+const Blogs = new Schema({
+    userName:{
         type: String,
         required: true
     },
-    description:{
+    title:{
         type: String,
         required: true
     },
-    pictures:{
+    category:{
         type: String,
         required: true
     },
-    picturesMime:{
-        type: String
+    subject:{
+        type: String,
+        required: true
+    },
+    content:{
+        type: String,
+        required: true
     },
     createdDate:{
         type: String,
         default: Date.now
     },
-    SectionID:{
-        type: String
-    }
 })
 
-module.exports = mongoose.model('Lecture', lecturesSchema)
+module.exports = mongoose.model('Blogs', Blogs)

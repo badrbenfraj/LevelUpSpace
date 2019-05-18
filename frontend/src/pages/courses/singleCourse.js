@@ -4,15 +4,17 @@ import { Link } from 'react-router-dom';
 import { GET_ALL_USERS } from '../../queries';
 import CourseDetail from './courseDetail';
 
+
 class SingleCourse extends Component {
     r = <CourseDetail {...this.props}/>
     render() {
         console.log(this.props)
         const { _id, name, userName, description } = this.props.tutorial;
+        
         return (
             <div className="col-md-4 col-sm-6 col-xs-6" >
                 <div className="welcome-box">
-                    <img src="images/welcome1.jpg" alt="welcome1" width="370" height="440" />
+                    
                     <div className="welcome-title">
                         <h3>{name}</h3>
                     </div>

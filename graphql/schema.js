@@ -1,5 +1,8 @@
-const { gql } = require('apollo-server-express');
-exports.typeDefs = gql`
+const { gql } = require('apollo-server-express');   
+ exports.typeDefs = gql`
+
+
+
 type User {
     _id: ID
     firstName: String! 
@@ -42,6 +45,8 @@ type Lecture{
     _id : ID
     name: String!
     description: String!
+    pictures: String
+    picturesMime: String
     createdDate: String!
     SectionID: String!
 }
@@ -88,6 +93,16 @@ type Quiz{
     QuizQuestion: String!
 }
 
+type Blogs{ 
+    _id : ID
+    title: String!
+    category: String!
+    subject: String!
+    content: String!
+    userName: String!
+    createdDate: String!
+}
+
 type Query {
     getCurrentUser: User
 
@@ -112,6 +127,8 @@ type Query {
     getComments(TutorialID: String!): [Comment]
 
     getQuizzes(SectionID: String): [Quiz]
+    
+    getBlogs: [Blogs]
 }
 
 
@@ -140,11 +157,11 @@ type Mutation{
 
     editSection(_id: ID!, newName: String!, newDescription: String!): Section
 
-    addLecture(name: String!, description: String!, SectionID: String!): Lecture
+    addLecture(name: String!, description: String!, SectionID: String!, pictures: [Upload!]!): Lecture
 
     deleteLecture(_id: ID): Lecture
 
-    editLecture(_id: ID!, newName: String!, newDescription: String!): Lecture
+    editLecture(_id: ID!, newName: String!, newDescription: String!, newPictures: [Upload!]!): Lecture
 
     addMessages(message: String!, userName: String!): Messages
     
@@ -156,9 +173,15 @@ type Mutation{
 
     addQuiz(QuizName: String!, option1: String!, option2: String!, option3: String!, correctAnswer: String!, QuizQuestion:String!, SectionID: String!): Quiz
 
-    editQuiz(_id: ID!, QuizName: String!, option1: String!, option2: String!, option3: String!, correctAnswer: String!, QuizQuestion:String!): Quiz
+    editQuiz(_id: ID!, newQuizName: String!, newOption1: String!, newOption2: String!, newOption3: String!, newCorrectAnswer: String!, QuizQuestion:String!): Quiz
 
     deleteQuiz(_id: ID): Quiz 
+    
+    addBlogs(title: String!, category: String!, subject: String!, content: String!, userName: String): Blogs
+
+    editBlogs(_id: ID! newTitle: String!, newCategory: String!, newSubject: String!, newContent: String!): Blogs
+
+    deleteBlogs(_id: ID!): Blogs
 }
 `;
 

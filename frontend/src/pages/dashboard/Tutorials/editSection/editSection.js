@@ -7,8 +7,9 @@ import { EDIT_SECTION } from '../../../../queries';
 import {
     Layout, Menu, Icon,
 } from 'antd';
+import classNames from 'classnames';
 import Lectures from '../addLecture';
-import Quiz from '../addQuiz';
+import Quiz from '../addQuiz/index';
 
 
 const { Content, Sider } = Layout;
@@ -20,6 +21,7 @@ class EditSection extends Component {
         description: this.props.location.state.sectionDescription.description,
         collapsed: false,
         current: 'EditSection',
+        error: ''
     };
     onCollapse = (collapsed) => {
         console.log(collapsed);
@@ -68,6 +70,9 @@ class EditSection extends Component {
                         {(editSection) => {
                             return (
                                 <form className="text-center mt-5" onSubmit={event => this.handleSubmit(event, editSection)}>
+                                <div className={classNames({ 'error-label': this.state.error !== '' })}>
+                                        {this.state.error}
+                                    </div>
                                     <div className="form-row mb-4">
                                         <div className="col">
                                             <input

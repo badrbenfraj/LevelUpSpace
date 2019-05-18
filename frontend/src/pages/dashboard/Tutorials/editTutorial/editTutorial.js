@@ -5,10 +5,11 @@ import { message } from 'antd';
 import withAuth from '../../../../HOC/withAuth';
 import { CHANGE_TUTORIAL_NAME } from '../../../../queries';
 import Section from '../addSection';
+import classNames from 'classnames';
+
 import {
     Layout, Menu, Icon,
 } from 'antd';
-
 const { Content, Sider } = Layout;
 
 class EditTutorial extends Component {
@@ -18,6 +19,7 @@ class EditTutorial extends Component {
         description: this.props.location.state.tutorialDescription.description,
         collapsed: false,
         current: 'EditTutorial',
+        error: '',
     };
 
     onCollapse = (collapsed) => {
@@ -66,7 +68,11 @@ class EditTutorial extends Component {
                     >
                         {(changeTutorialName) => {
                             return (
+                                
                                 <form className="text-center mt-5" onSubmit={event => this.handleSubmit(event, changeTutorialName)}>
+                                 <div className={classNames({ 'error-label': this.state.error !== '' })}>
+                                        {this.state.error}
+                                    </div>
                                     <div className="form-row mb-4">
                                         <div className="col">
                                             <input
@@ -93,6 +99,7 @@ class EditTutorial extends Component {
                                             </textarea>
                                         </div>
                                     </div>
+                                    
                                     <button
                                         className="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
                                         type="submit">

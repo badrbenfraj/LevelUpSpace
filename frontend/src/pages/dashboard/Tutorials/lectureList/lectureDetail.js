@@ -6,7 +6,7 @@ import { DELETE_LECTURE } from '../../../../queries';
 
 class LectureDetail extends Component {
     render() {
-        const { _id, name, description, SectionID } = this.props.lecture;
+        const { _id, name, description, pictures, picturesMime, SectionID } = this.props.lecture;
         const handleDelete = deleteLecture => {
             const confirmDelete = window.confirm(
                 _id.toString()
@@ -22,6 +22,7 @@ class LectureDetail extends Component {
             <tr>
                 <td>{name}</td>
                 <td>{description}</td>
+                {pictures && picturesMime && <img src={`data:${picturesMime};base64,${pictures}`} width="370" height="440"/>}
                 <Mutation
                     mutation={DELETE_LECTURE}
                     variables={{_id}}

@@ -31,7 +31,8 @@ import CourseDetail from './pages/courses/courseDetail';
 import Cart from './pages/cart/Cart';
 import MyCoursesList from './pages/dashboard/myCourses';
 import Course from './pages/dashboard/myCourses/course';
-
+import EditBlog from './pages/dashboard/Blog/EditBlog/editBlogs';
+import EditQuiz from './pages/dashboard/Tutorials/editQuiz/editQuizzes'
 
 const App = ({ refetch, session }) => {
     return (
@@ -226,6 +227,38 @@ const App = ({ refetch, session }) => {
                                 />
                             )
                     } />
+                <Route exact path="/edit-blogs/:id"
+                    render={props =>
+                        withAuth() ? (
+                            <MainLayout session={session}>
+                                <EditBlog {...props} session={session} />
+                            </MainLayout>
+                        ) : (
+                                <Redirect
+                                    to={{
+                                        pathname: '/login'
+                                    }}
+                                />
+                            )
+                    } />
+                <Route exact path="/edit-section/:id/edit-Quiz/:id"
+                    render={props =>
+                        withAuth() ? (
+                            <MainLayout session={session}>
+                                <EditQuiz {...props} session={session} />
+                            </MainLayout>
+                        ) : (
+                                <Redirect
+                                    to={{
+                                        pathname: '/login'
+                                    }}
+                                />
+                            )
+                    } />
+                )
+        } />
+
+
 
                 <Route path="/" render={props => (
                     <MainLayout session={session}>
