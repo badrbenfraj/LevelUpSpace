@@ -46,6 +46,7 @@ class Messages extends Component {
     }
     render() {
         const { userName, message } = this.state;
+        console.log(this.props)
         return (
             <div className="container">
                 <Helmet bodyAttributes={{ class: "logInPage" }}>

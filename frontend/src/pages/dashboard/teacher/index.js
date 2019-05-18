@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import Claims from '../Claim/claim';
 import Tutorials from '../Tutorials';
+import AddBlogsHome from '../Blog/AddBlog';
 
 
 
@@ -35,6 +36,10 @@ class Teacher extends Component {
             return (
                 <Claims {...props} />
             )
+        } else if (this.state.current === "addBlogs") {
+            return (
+                <AddBlogsHome />
+            )
         }
     }
     render() {
@@ -59,6 +64,10 @@ class Teacher extends Component {
                         <Menu.Item key="Claims">
                             <Icon type="plus" />
                             <span>Claims</span>
+                        </Menu.Item>
+                        <Menu.Item key="addBlogs">
+                            <Icon type="edit" />
+                            <span> Blog</span>
                         </Menu.Item>
                     </Menu>
                 </Sider>

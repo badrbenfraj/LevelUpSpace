@@ -30,20 +30,18 @@ class QuizIndex extends Component {
     console.log(index)
     console.log("for selected question number " + (this.state.counter + 1) + " answer is " + index + " selected");
     let Qindex = (this.state.counter)
-    // create map and store all selecred answers with quiz Questions
+    // create map and store all selected answers with quiz Questions
     obj[Qindex] = index;
     this.setState({ selectedAnswers: obj })
 
   }
 
   componentWillMount() {
-    if (this.props.quiz) {
-      this.setState({
-        question: this.props.quiz[0].QuizQuestion,
-        answerOptions: this.props.quiz[0].answers,
-        allQuestions: this.props.quiz
-      });
-    }
+    this.setState({
+      question: this.props.quiz[0].QuizQuestion,
+      answerOptions: this.props.quiz[0].answers,
+      allQuestions: this.props.quiz
+    });
   }
 
 
@@ -71,7 +69,7 @@ class QuizIndex extends Component {
       answer: ''
     });
   }
-  
+
   getResults() {
     const answersCount = this.state.answersCount;
     const answersCountKeys = Object.keys(answersCount);

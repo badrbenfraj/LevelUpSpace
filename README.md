@@ -2,6 +2,9 @@
 
 In the project directory, you can run:
 
+### `npm rum setup`
+runs npm install at the server and front side.
+
 ### `npm start`
 Runs the app with node command.<br/>
 Open [http://localhost:3001/graphql](http://localhost:3001/graphql) to view it in the browser.

@@ -82,7 +82,7 @@ class Course extends Component {
                                                                     >
                                                                         {(data, error, loading) => {
                                                                             const allQuizzes = data.data.getQuizzes
-                                                                            if(allQuizzes){
+                                                                            if (allQuizzes) {
                                                                                 const tt = () => {
                                                                                     return allQuizzes.map(e => e._id)
                                                                                 }
@@ -176,15 +176,19 @@ class Course extends Component {
                         }}
                     </Query>
                 </Sider>
-                <Layout style={{ padding: '0 24px 24px' }}>
+                <Layout style={{ padding: '0 0 24px 24px' }}>
                     <Content style={{
-                        background: '#fff', padding: 24, margin: 0, minHeight: 280,
+                        background: '#fff', padding: 24, margin: 0, minHeight: 280, textAlign: 'justify'
                     }}
                     >
                         {this.layoutContent(this.props)}
                     </Content>
+                    <Sider width={256} style={{ background: '#fff', padding: '10px', borderLeft: '1px solid #e8e8e8' }}>
+                        <input type='text' />
+                    </Sider>
                 </Layout>
             </Layout>
+
         );
     }
 }

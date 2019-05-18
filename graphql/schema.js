@@ -86,6 +86,16 @@ type Quiz{
     QuizQuestion: String!
 }
 
+type Blogs{ 
+    _id : ID
+    title: String!
+    category: String!
+    subject: String!
+    content: String!
+    userName: String!
+    createdDate: String!
+}
+
 type Query {
     getCurrentUser: User
 
@@ -110,6 +120,8 @@ type Query {
     getComments(TutorialID: String!): [Comment]
 
     getQuizzes(LectureID: String): [Quiz]!
+
+    getBlogs: [Blogs]
 }
 
 
@@ -157,6 +169,12 @@ type Mutation{
     editQuiz(_id: ID!, QuizName: String!, answers: [String!], correctAnswer: String!, QuizQuestion:String!): Quiz
 
     deleteQuiz(_id: ID): Quiz 
+
+    addBlogs(title: String!, category: String!, subject: String!, content: String!, userName: String): Blogs
+
+    editBlogs(_id: ID! newTitle: String!, newCategory: String!, newSubject: String!, newContent: String!): Blogs
+
+    deleteBlogs(_id: ID!): Blogs
 }
 `;
 

@@ -23,6 +23,7 @@ const Claims = require('./models/Claim');
 const Orders = require('./models/Order');
 const Comments = require('./models/Comment');
 const Quizzes = require('./models/Quiz');
+const Blogs = require('./models/Blogs');
 
 // connect to database
 mongoose
@@ -108,6 +109,7 @@ const schema = new ApolloServer({
       Orders,
       Comments,
       Quizzes,
+      Blogs,
       currentUser: req.currentUser
     }
   }

@@ -387,3 +387,43 @@ export const DELETE_QUIZ = gql`
     }
   }
 `;
+
+// Blog Queries
+export const GET_BLOGS = gql`
+    query {
+        getBlogs{
+            _id
+            title
+            category
+            subject
+            content
+            userName
+            createdDate
+        }
+    }
+`;
+
+//Blog Mutation
+export const ADD_BLOGS = gql`
+ mutation($title: String!, $category: String!, $subject: String!, $content: String!, $userName: String!){
+     addBlogs( title: $title, category:$category, subject:$subject, content:$content, userName: $userName){ 
+        title
+     }
+ }
+`;
+
+export const EDIT_BLOGS = gql`
+ mutation($_id: ID!, $newTitle: String!, $newSubject: String!, $newContent: String!, $newCategory: String!){
+     editBlogs(_id: $_id, newTitle: $newTitle, newSubject: $newSubject, newContent:$newContent, newCategory: $newCategory ){
+        _id
+     }
+ }
+`;
+
+export const DELETE_BLOGS = gql`
+mutation($_id: ID!) {
+ deleteBlogs(_id: $_id) {
+   _id
+ }
+}
+`;

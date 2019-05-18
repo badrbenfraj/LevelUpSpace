@@ -34,7 +34,7 @@ function Quiz(props) {
         {props.answerOptions.map(renderAnswerOptions)}
       </ul>
       <div className="bottom-footer" >
-        {props.counter > 0 ? (<button className="Previous-btn" onClick={props.setPreviousQuestion} >Previous</button>) : (<div></div>)}
+        {props.counter > 0 ? (<button className="Previous-btn Quizbtn" onClick={props.setPreviousQuestion} >Previous</button>) : (<div></div>)}
 
         {props.counter < props.questionTotal - 1 && props.selectedAnswer ? (<button className="next-btn" onClick={props.setNextQuestion} >Next</button>) : (<div></div>)}
 

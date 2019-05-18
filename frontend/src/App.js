@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
 
 import './css/App.css';
@@ -21,7 +21,6 @@ import SentryError from './raven';
 import UserProfile from './pages/dashboard/user_profile';
 import NotFound from './pages/error_404';
 import FAQ from './pages/Policies_and_conditions/faq';
-import withAuth from './HOC/withAuth';
 import ForgotPassword from './pages/Auth/resetPassword';
 import EditTutorial from './pages/dashboard/Tutorials/editTutorial/editTutorial';
 import EditSection from './pages/dashboard/Tutorials/editSection/editSection';
@@ -32,6 +31,8 @@ import Cart from './pages/cart/Cart';
 import MyCoursesList from './pages/dashboard/myCourses';
 import Course from './pages/dashboard/myCourses/course';
 import EditQuiz from './pages/dashboard/Tutorials/editQuiz/editQuiz';
+import EditBlogs from './pages/dashboard/Blog/EditBlog/editBlogs';
+import BlogPost from './pages/Blog/blogPost';
 
 
 const App = ({ refetch, session }) => {
@@ -122,65 +123,31 @@ const App = ({ refetch, session }) => {
                             <Dashboard {...props} session={session} />
                         </MainLayout>
                     } />
-
+                <Route exact path="/edit-blog/:id"
+                    render={props =>
+                        <MainLayout session={session}>
+                            <EditBlogs {...props} refetch={refetch} />
+                        </MainLayout>
+                    } />
                 <Route path="/messages"
                     render={props =>
-                        withAuth() ? (
-                            <MainLayout session={session}>
-                                <Messages {...props} session={session} />
-                            </MainLayout>
-                        ) : (
-                                <Redirect
-                                    to={{
-                                        pathname: '/login'
-                                    }}
-                                />
-                            )
+                        <MainLayout session={session}>
+                            <Messages {...props} refetch={refetch} session={session} />
+                        </MainLayout>
                     } />
 
                 <Route exact path="/profile/:userName"
                     render={props =>
-                        withAuth() ? (
-                            <MainLayout session={session}>
-                                <UserProfile {...props} session={session} />
-                            </MainLayout>
-                        ) : (
-                                <Redirect
-                                    to={{
-                                        pathname: '/login'
-                                    }}
-                                />
-                            )
+                        <MainLayout session={session}>
+                            <UserProfile {...props} refetch={refetch} session={session} />
+                        </MainLayout>
                     } />
 
                 <Route exact path="/my-courses"
                     render={props =>
-                        withAuth() ? (
-                            <MainLayout session={session}>
-                                <MyCoursesList {...props} session={session} />
-                            </MainLayout>
-                        ) : (
-                                <Redirect
-                                    to={{
-                                        pathname: '/login'
-                                    }}
-                                />
-                            )
-                    } />
-
-                <Route exact path="/messages"
-                    render={props =>
-                        withAuth() ? (
-                            <MainLayout session={session}>
-                                <NotFound {...props} session={session} />
-                            </MainLayout>
-                        ) : (
-                                <Redirect
-                                    to={{
-                                        pathname: '/login'
-                                    }}
-                                />
-                            )
+                        <MainLayout session={session}>
+                            <MyCoursesList {...props} refetch={refetch} />
+                        </MainLayout>
                     } />
 
                 <Route exact path="/edit-quiz/:id" render={props => (
@@ -191,47 +158,30 @@ const App = ({ refetch, session }) => {
 
                 <Route exact path="/edit-tutorial/:id"
                     render={props =>
-                        withAuth() ? (
-                            <MainLayout session={session}>
-                                <EditTutorial {...props} session={session} />
-                            </MainLayout>
-                        ) : (
-                                <Redirect
-                                    to={{
-                                        pathname: '/login'
-                                    }}
-                                />
-                            )
+                        <MainLayout session={session}>
+                            <EditTutorial {...props} refetch={refetch} />
+                        </MainLayout>
                     } />
 
                 <Route exact path="/edit-tutorial/:id/edit-section/:id"
                     render={props =>
-                        withAuth() ? (
-                            <MainLayout session={session}>
-                                <EditSection {...props} session={session} />
-                            </MainLayout>
-                        ) : (
-                                <Redirect
-                                    to={{
-                                        pathname: '/login'
-                                    }}
-                                />
-                            )
+                        <MainLayout session={session}>
+                            <EditSection {...props} refetch={refetch} />
+                        </MainLayout>
                     } />
 
                 <Route exact path="/edit-section/:id/edit-lecture/:id"
                     render={props =>
-                        withAuth() ? (
-                            <MainLayout session={session}>
-                                <EditLecture {...props} session={session} />
-                            </MainLayout>
-                        ) : (
-                                <Redirect
-                                    to={{
-                                        pathname: '/login'
-                                    }}
-                                />
-                            )
+                        <MainLayout session={session}>
+                            <EditLecture {...props} refetch={refetch} />
+                        </MainLayout>
+                    } />
+
+                <Route exact path="/post/:id"
+                    render={props =>
+                        <MainLayout session={session}>
+                            <BlogPost {...props} refetch={refetch} />
+                        </MainLayout>
                     } />
 
                 <Route path="/" render={props => (

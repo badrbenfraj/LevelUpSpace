@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import Claims from '../Claim/claim';
+import AddBlogsHome from '../Blog/AddBlog';
 
 
 const { Sider, Content } = Layout;
@@ -9,7 +10,7 @@ const SubMenu = Menu.SubMenu;
 class Mentor extends Component {
     state = {
         collapsed: false,
-        current: '1',
+        current: 'Claims',
     };
 
     onCollapse = (collapsed) => {
@@ -25,15 +26,13 @@ class Mentor extends Component {
         });
     }
     layoutContent = (props) => {
-        if (this.state.current === "Teachers") {
+        if (this.state.current === "Claims") {
             return (
-                <Claims  {...props}/>
+                <Claims  {...props} />
             )
-        } else if (this.state.current === "Mentors") {
+        } else if (this.state.current === "addBlogs") {
             return (
-                <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-
-                </div>
+                <AddBlogsHome />
             )
         }
     }
@@ -59,8 +58,13 @@ class Mentor extends Component {
                             key="sub2"
                             title={<span><Icon type="team" /><span>Trainers</span></span>}
                         >
-                            <Menu.Item key="Teachers">Teachers</Menu.Item>
-                            <Menu.Item key="Mentors">Mentors</Menu.Item>
+                            <Menu.Item key="Claims">
+                                Claims
+                            </Menu.Item>
+                            <Menu.Item key="addBlogs">
+                                <Icon type="edit" />
+                                <span> Blog</span>
+                            </Menu.Item>
                         </SubMenu>
                     </Menu>
                 </Sider>

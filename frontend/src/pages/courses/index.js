@@ -10,19 +10,6 @@ class Courses extends Component {
         term: ""
     }
 
-    // handleAddToCart = () => {
-    //     let x = {
-    //         id:this.state.ID
-    //     }
-    //     this.setState(state => {
-    //         const cart = [...state.cart, x];
-    //         return {
-    //             cart,
-    //             isAdded: true,
-    //         };
-    //     });
-    // }
-
     handleSearch(event) {
         this.setState({ term: event.target.value });
     }
@@ -52,7 +39,7 @@ class Courses extends Component {
                         if (error) return <div>{error}</div>
                         const allTutorials = data.getAllTutorials
                         const Tutorials = () => {
-                            return allTutorials.filter(searchingFor(term)).map(tutorial => <SingleCourse addToCart={this.handleAddToCart} key={tutorial._id} tutorial={tutorial} />)
+                            return allTutorials.filter(searchingFor(term)).map(tutorial => <SingleCourse key={tutorial._id} tutorial={tutorial} />)
                         }
                         console.log(data.getAllTutorials)
                         return (

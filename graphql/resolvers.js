@@ -68,6 +68,10 @@ exports.resolvers = {
             const Quiz = await Quizzes.find({ LectureID });
             return Quiz;
         },
+        getBlogs: async (root, args, { Blogs }) => {
+            const allBlogs = await Blogs.find();
+            return allBlogs;
+        },
     },
     Mutation: {
         // add tutorial to database
@@ -322,6 +326,31 @@ exports.resolvers = {
             if (quiz) {
                 const removeQuiz = await Quizzes.remove(quiz);
                 return removeQuiz;
+            }
+        },
+        addBlogs: async (root, { title, category, subject, content, userName }, { Blogs }) => {
+            const newBlog = await new Blogs({
+                title,
+                category,
+                subject,
+                content,
+                userName,
+                createdDate: new Date().toISOString()
+            }).save();
+            return newBlog;
+        },
+        editBlogs: async (root, { _id, newTitle, newCategory, newSubject, newContent }, { Blogs }) => {
+
+            const changeBlogs = await Blogs.findOneAndUpdate({ _id }, { $set: { title: newTitle, category: newCategory, subject: newSubject, content: newContent } }, { new: true });
+            return changeBlogs;
+
+        },
+        deleteBlogs: async (root, { _id }, { Blogs }) => {
+            const blog = await Blogs.findOne({ _id });
+
+            if (blog) {
+                const removeBlogs = await Blogs.remove(blog);
+                return removeBlogs;
             }
         },
     }
