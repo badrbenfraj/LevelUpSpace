@@ -2157,3 +2157,9 @@ input[type="file"] {
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
 }
+.TutorialMessage{
+	padding:  0px 0px 0px 15px !important
+}
+.dv-star-rating-star i{
+	font-size: 20px;
+}

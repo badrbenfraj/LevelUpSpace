@@ -9,8 +9,10 @@ const initialState = {
     name: '',
     description: '',
     userName: '',
-    price:'',
+    price: '',
     duration: '',
+    selectedFile: null,
+    pictures: [],
     error: ''
 }
 
@@ -49,8 +51,10 @@ class AddTutorial extends Component {
 
     }
 
+    handleFilesChange = ({ target: { files } }) => this.setState({ pictures: files });
+
     validateForm() {
-        const { name, description, userName, price, duration} = this.state;
+        const { name, description, userName, price, duration } = this.state;
         const isInvalid = !name || !description || !price || !duration || userName;
         return isInvalid;
     }
@@ -63,10 +67,12 @@ class AddTutorial extends Component {
         );
     }
 
+    onCompleted = (response) => console.log("complete: ", response)
 
+    onError = error => console.log("Error: ", error)
 
     render() {
-        const { name, description, price, duration } = this.state;
+        const { name, description, price, duration, selectedFile, pictures } = this.state;
 
         return (
             <div className="text-center border border-light p-5">
@@ -83,7 +89,9 @@ class AddTutorial extends Component {
 
                                 <Mutation
                                     mutation={ADD_TUTORIAL}
-                                    variables={{ name, description, userName, price, duration }}
+                                    variables={{ name, description, userName, price, duration, selectedFile, pictures }}
+                                    onCompleted={this.onCompleted}
+                                    onError={this.onError}
                                 >
 
                                     {(addTutorial, { data, loading, error }) => {
@@ -145,8 +153,12 @@ class AddTutorial extends Component {
                                                     </div>
                                                 </div>
 
+                                                <div>
+                                                    <input type="file" onChange={this.handleFilesChange} accept="image/png, image/jpeg" required/>
+                                                </div>
+
                                                 <input hidden="hidden" name="userName" value={userName} readOnly />
-                                                {userName}
+
                                                 <button
                                                     className="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
                                                     type="submit">

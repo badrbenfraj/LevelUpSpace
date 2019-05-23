@@ -5,14 +5,15 @@ import { GET_ALL_USERS } from '../../queries';
 import CourseDetail from './courseDetail';
 
 class SingleCourse extends Component {
-    r = <CourseDetail {...this.props}/>
+    r = <CourseDetail {...this.props} />
     render() {
         console.log(this.props)
-        const { _id, name, userName, description } = this.props.tutorial;
+        const { _id, name, userName, pictures, picturesMime, description } = this.props.tutorial;
+        console.log(pictures)
         return (
             <div className="col-md-4 col-sm-6 col-xs-6" >
                 <div className="welcome-box">
-                    <img src="images/welcome1.jpg" alt="welcome1" width="370" height="440" />
+                    {pictures && picturesMime && <img src={`data:${picturesMime};base64,${pictures}`} alt="" width="370" height="440" />}
                     <div className="welcome-title">
                         <h3>{name}</h3>
                     </div>
@@ -40,7 +41,15 @@ class SingleCourse extends Component {
                             <li><i className="fa fa-calendar" aria-hidden="true"></i>Course duration : <span>3 Yr</span></li>
                             <li><i className="fa fa-graduation-cap" aria-hidden="true"></i>Degree Level : <span>Master’s Degree</span></li>
                         </ul>
-                        <Link to={`/course/${_id}`}>Apply now</Link>
+                        <Link to={{
+                            pathname: `/course/${_id}`,
+                            state: {
+                                name,
+                                userName,
+                                pictures,
+                                picturesMime
+                            }
+                        }}>Apply now</Link>
                     </div>
                 </div>
             </div>

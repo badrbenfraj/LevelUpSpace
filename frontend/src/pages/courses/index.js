@@ -6,7 +6,7 @@ import { GET_ALL_TUTORIALS } from '../../queries';
 import SingleCourse from './singleCourse';
 
 class Courses extends Component {
-    state= {
+    state = {
         term: ""
     }
 
@@ -23,35 +23,28 @@ class Courses extends Component {
         console.log(JSON.parse(localStorage.getItem('cart')))
         return (
             <div className="container welcome-section welcome2">
-            <Helmet bodyAttributes={{ class: "logInPage" }}>
-                <title>COURSES - Level Up Space</title>
-            </Helmet>
+                <Helmet bodyAttributes={{ class: "logInPage" }}>
+                    <title>COURSES - Level Up Space</title>
+                </Helmet>
                 <div className="section-padding"></div>
                 <SearchBox
                     handleSearch={this.handleSearch.bind(this)}
                 />
-
-                <Query
-                    query={GET_ALL_TUTORIALS}
-                >
-                    {({ loading, error, data }) => {
-                        if (loading) return <div>fetching</div>
-                        if (error) return <div>{error}</div>
-                        const allTutorials = data.getAllTutorials
-                        const Tutorials = () => {
+                <div className="row">
+                    <Query
+                        query={GET_ALL_TUTORIALS}
+                        pollInterval={500}
+                    >
+                        {({ loading, error, data }) => {
+                            if (loading) return <div>fetching</div>
+                            if (error) return <div>{error}</div>
+                            const allTutorials = data.getAllTutorials
+                            console.log(data.getAllTutorials)
                             return allTutorials.filter(searchingFor(term)).map(tutorial => <SingleCourse key={tutorial._id} tutorial={tutorial} />)
-                        }
-                        console.log(data.getAllTutorials)
-                        return (
-                            <div className="row">
-                                {Tutorials()}
-                                {console.log(Tutorials())}
-                            </div>
-                        )
-                    }}
+                        }}
 
-                </Query>
-
+                    </Query>
+                </div>
                 <div className="section-padding"></div>
             </div>
         );

@@ -3,7 +3,8 @@ import { Helmet } from 'react-helmet';
 import { Query } from 'react-apollo';
 import { withRouter, Link } from 'react-router-dom';
 import withAuth from '../../../HOC/withAuth'
-import { GET_ALL_ORDERS, GET_CURRENT_USER } from '../../../queries';
+import { GET_ALL_ORDERS, GET_CURRENT_USER, GET_TUTORIAL } from '../../../queries';
+import CourseTitle from './courseTitle';
 
 const styles = {
     centerh1: {
@@ -45,14 +46,28 @@ class MyCoursesList extends Component {
                                             if (userName === order.userName) {
                                                 const id = order.TutorialID;
                                                 return (
-                                                    <div className="col-md-4 col-sm-6 col-xs-6" key={order._id}>
-                                                        <div className="welcome-box">
-                                                            <Link to={`/my-courses/${id}`}><img src="images/welcome1.jpg" alt="welcome1" width="370" height="440" /></Link>
-                                                            <div>
-                                                                <h3>{order.TutorialID}</h3>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    <Query
+                                                        query={GET_TUTORIAL}
+                                                        variables={{TutorialID: id}}
+                                                        key={order._id}
+                                                    >
+                                                        {({ data }) => {
+                                                            const tut = data.getTutorial
+                                                            if(tut){
+                                                                return (
+                                                                    <div className="col-md-4 col-sm-6 col-xs-6">
+                                                                        <div className="welcome-box">
+                                                                            <Link to={`/my-courses/${id}`}><img src="images/welcome1.jpg" alt="welcome1" width="370" height="440" /></Link>
+                                                                            {console.log(tut)}
+                                                                            {console.log(id)}
+                                                                            <CourseTitle TutorialTitle={tut}/>
+                                                                        </div>
+                                                                    </div>
+                                                                )
+                                                            }
+                                                            return null
+                                                        }}
+                                                    </Query>
                                                 )
                                             }
                                             return null

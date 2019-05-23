@@ -15,6 +15,22 @@ export const GET_ALL_TUTORIALS = gql`
             description
             createdDate
             userName
+            pictures
+            picturesMime
+        }
+    }
+`;
+
+export const GET_TUTORIAL = gql`
+    query ($TutorialID: ID){
+        getTutorial(_id: $TutorialID){
+            _id
+            name
+            price
+            duration
+            description
+            createdDate
+            userName
         }
     }
 `;
@@ -57,14 +73,50 @@ export const GET_ALL_MESSAGES = gql`
     }
 `;
 
+// Message Mutation
+
+export const SEND_MESSAGE = gql`
+    mutation($message: String!, $userName: String!){
+        addMessages(message: $message, userName: $userName){
+            message
+            userName
+        }
+    }
+`;
 
 
+// TutorialMessages Query
+
+export const GET_ALL_TUTORIALMESSAGES = gql`
+    query($TutorialID: String!) {
+        getTutorialMessages(TutorialID: $TutorialID){
+            _id
+            userName
+            message
+            TutorialID
+            createdDate
+        }
+    }
+`;
+
+
+// TutorialMessages Mutation
+
+export const SEND_TUTORIALMESSAGE = gql`
+    mutation($TutorialID: String!, $message: String!, $userName: String!){
+        addTutorialMessages(TutorialID: $TutorialID, message: $message, userName: $userName){
+            message
+            userName
+            TutorialID
+        }
+    }
+`;
 
 // Tutorials Mutation
 
 export const ADD_TUTORIAL = gql`
-    mutation($name: String!, $description: String!, $price: String!, $duration: String!, $userName: String!){
-        addTutorial( name: $name description: $description price:$price duration:$duration userName:$userName){ 
+    mutation($name: String!, $description: String!, $price: String!, $duration: String!, $userName: String!, $pictures: [Upload!]!){
+        addTutorial( name: $name description: $description price:$price duration:$duration userName:$userName, pictures: $pictures){ 
             name
         }
     }
@@ -260,17 +312,6 @@ export const DELETE_USER = gql`
 `;
 
 
-// Message Mutation
-
-export const SEND_MESSAGE = gql`
-    mutation($message: String!, $userName: String!){
-        addMessages(message: $message, userName: $userName){
-            message
-            userName
-        }
-    }
-`;
-
 //Claim mutation
 export const ADD_CLAIM = gql`
   mutation($firstName: String!, $lastName: String!, $email: String!, $subject: String!, $description: String!){
@@ -322,7 +363,7 @@ export const ADD_ORDER = gql`
 `;
 
 
-//Orders Query
+//Comments Query
 
 export const GET_COMMENTS = gql`
     query ($TutorialID: String!){
@@ -336,12 +377,35 @@ export const GET_COMMENTS = gql`
     }
 `;
 
-//Orders Mutation
+//Comments Mutation
 
 export const ADD_COMMENT = gql`
   mutation($TutorialID: String!, $userName: String!, $comment: String!){
     addComment(TutorialID: $TutorialID, userName : $userName, comment : $comment){
         TutorialID
+        userName
+      }
+  }
+`;
+
+export const GET_BLOG_COMMENTS = gql`
+    query ($BlogID: String!){
+        getBlogComments(BlogID: $BlogID){
+            _id
+            BlogID
+            userName
+            createdDate
+            comment
+        }
+    }
+`;
+
+//Comments Mutation
+
+export const ADD_BLOG_COMMENT = gql`
+  mutation($BlogID: String!, $userName: String!, $comment: String!){
+    addBlogComment(BlogID: $BlogID, userName : $userName, comment : $comment){
+        BlogID
         userName
       }
   }

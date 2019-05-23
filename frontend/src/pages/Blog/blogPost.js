@@ -1,8 +1,40 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
+import { Mutation, Query } from 'react-apollo';
+import { ADD_BLOG_COMMENT, GET_CURRENT_USER, GET_BLOG_COMMENTS } from '../../queries';
+import moment from "moment";
 
 class BlogPost extends Component {
+    state = {
+        ID: this.props.match.params.id,
+        commentarea: '',
+
+    }
+
+    clearState() {
+        this.setState({
+            commentarea: ''
+        })
+    }
+
+    handleChange(event) {
+        const name = event.target.name;
+        const value = event.target.value;
+        this.setState({
+            [name]: value
+        });
+    }
+
+    handleSubmit(event, addBlogComment) {
+        event.preventDefault();
+        addBlogComment().then(async () => {
+            this.clearState();
+        })
+    }
+
     render() {
+        console.log(this.props)
+        const { ID, commentarea } = this.state;
         return (
             <div className="container blog blogpost">
                 <div className="section-padding"></div>
@@ -43,68 +75,93 @@ class BlogPost extends Component {
                                 <div className="post-ic"><span className="icon icon-Pencil"></span></div>
                             </div>
                         </article>
+                        <Query
+                            query={GET_CURRENT_USER}
+                        >
+                            {(data, loading, error) => {
+
+                                if (data.data.getCurrentUser) {
+                                    const userName = data.data.getCurrentUser.userName;
+                                    return (
+                                        <Mutation
+                                            mutation={ADD_BLOG_COMMENT}
+                                            variables={{ comment: commentarea, BlogID: ID, userName }}
+                                        >
+                                            {(addBlogComment) => {
+                                                return (
+                                                    <form className="comment-form" onSubmit={event => this.handleSubmit(event, addBlogComment)}>
+                                                        <h3 className="block-title">Post a Comment</h3>
+                                                        <div className="row">
+                                                            <div className="form-group col-md-12">
+                                                                <textarea className="form-control msg"
+                                                                    rows="5"
+                                                                    placeholder="Write your comment here..."
+                                                                    name="commentarea"
+                                                                    value={commentarea} onChange={this.handleChange.bind(this)}
+                                                                    required
+                                                                ></textarea>
+                                                            </div>
+                                                            <div className="form-group col-md-12">
+                                                                <input type="submit" title="Submit" name="Submit" value="Submit" />
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                )
+                                            }}
+                                        </Mutation>
+                                    )
+                                }
+                                return null
+                            }}
+                        </Query>
                         <div className="post-comments">
-                            <h3 className="block-title">3 Comments</h3>
-                            <div className="media">
-                                <div className="media-left">
-                                    <Link title="Martin Guptil" to="#">
-                                        <img width="112" height="112" className="media-object" src="images/comment1.jpg" alt="Martin Guptil" />
-                                    </Link>
-                                </div>
-                                <div className="media-body">
-                                    <div className="media-content">
-                                        <h4 className="media-heading">
-                                            Martin Guptil<span>Sep 23, 2015</span>
-                                        </h4>
-                                        <p>You bet your life Speed Racer he will see it through. Its mission explore  to strange news worlds seek out new life and new civilizations gone before.</p>
-                                        <Link to="#" title="Reply">Reply</Link>
-                                    </div>
-                                    <div className="media">
-                                        <div className="media-left">
-                                            <Link title="Lierd Yuis" to="#">
-                                                <img width="112" height="112" className="media-object" src="images/comment2.jpg" alt="Alfred Marshal" />
-                                            </Link>
-                                        </div>
-                                        <div className="media-body">
-                                            <div className="media-content">
-                                                <h4 className="media-heading">
-                                                    Lierd Yuis<span>Sep 23, 2015</span>
-                                                </h4>
-                                                <p>You bet your life Speed Racer he will see it through. Its mission explore  to strange news worlds seek out new life and new civilizations gone before.</p>
-                                                <Link to="#" title="Reply">Reply</Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="media">
-                                <div className="media-left">
-                                    <Link title="Micheal Jicob" to="#">
-                                        <img width="112" height="112" className="media-object" src="images/comment3.jpg" alt="Stephen Hawk" />
-                                    </Link>
-                                </div>
-                                <div className="media-body">
-                                    <div className="media-content last">
-                                        <h4 className="media-heading">
-                                            Micheal Jicob<span>Sep 23, 2015</span>
-                                        </h4>
-                                        <p>You bet your life Speed Racer he will see it through. Its mission explore  to strange news worlds seek out new life and new civilizations gone before.</p>
-                                        <Link to="#" title="Reply">Reply</Link>
-                                    </div>
-                                </div>
-                            </div>
+                            <Query
+                                query={GET_BLOG_COMMENTS}
+                                pollInterval={500}
+                                variables={{ BlogID: ID }}
+                            >
+                                {({ data }) => {
+                                    if (data.getBlogComments) {
+                                        return <h3 className="block-title">{data.getBlogComments.length} Comments</h3>
+                                    }
+                                    return <h3 className="block-title">0 Comments</h3>
+                                }}
+                            </Query>
+                            <Query
+                                query={GET_BLOG_COMMENTS}
+                                pollInterval={500}
+                                variables={{ BlogID: ID }}
+                            >
+                                {({ data }) => {
+                                    console.log(data)
+                                    if (data.getBlogComments) {
+                                        return data.getBlogComments.map((comment, i) => {
+                                            let dateComponent = moment(comment.createdDate).utc().format('YYYY-MM-DD');
+                                            let timeComponent = moment(comment.createdDate).utc().format('HH:mm');
+                                            return (
+                                                <div className="media" key={comment._id}>
+                                                    <div className="media-left">
+                                                        <Link title="Martin Guptil" to="#">
+                                                            <img width="112" height="112" className="media-object" src={window.location.origin + "/images/user.png"} alt="Martin Guptil" />
+                                                        </Link>
+                                                    </div>
+                                                    <div className="media-body">
+                                                        <div className="media-content">
+                                                            <h4 className="media-heading">
+                                                                {comment.userName}<span> {dateComponent} {timeComponent}</span>
+                                                            </h4>
+                                                            <p> {comment.comment} </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                    return null
+                                }}
+                            </Query>
                         </div>
-                        <form className="comment-form">
-                            <h3 className="block-title">Post a Comment</h3>
-                            <div className="row">
-                                <div className="form-group col-md-12">
-                                    <textarea className="form-control msg" rows="5" placeholder="Write your comment here..."></textarea>
-                                </div>
-                                <div className="form-group col-md-12">
-                                    <input type="submit" title="Submit" name="Submit" value="Submit" />
-                                </div>
-                            </div>
-                        </form>
+
                     </div>
                     <div className="col-md-3 col-sm-4 widget-area">
                         <aside className="widget widget_categories">

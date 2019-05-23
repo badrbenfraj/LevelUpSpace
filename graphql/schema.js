@@ -25,6 +25,8 @@ type Tutorial{
     name: String!
     description: String!
     price: String!
+    pictures: String
+    picturesMime: String
     duration: String!
     createdDate: String!
     userName: String!
@@ -53,6 +55,14 @@ type Messages{
     createdDate: String!
 }
 
+type TutorialMessages{ 
+    _id : ID
+    message: String!
+    userName: String!
+    TutorialID: String!
+    createdDate: String!
+}
+
 type Claim{
     _id: ID
     firstName: String!
@@ -73,6 +83,14 @@ type Comment{
     _id: ID
     comment: String!
     TutorialID: String!
+    userName: String!
+    createdDate: String!
+}
+
+type BlogComment{
+    _id: ID
+    comment: String!
+    BlogID: String!
     userName: String!
     createdDate: String!
 }
@@ -101,6 +119,8 @@ type Query {
 
     getAllTutorials:[Tutorial]
 
+    getTutorial(_id: ID):[Tutorial]
+
     getAllUsers: [User]
 
     getAllTeachers: [User]
@@ -113,11 +133,15 @@ type Query {
 
     getMessages: [Messages]
 
+    getTutorialMessages(TutorialID: String!): [TutorialMessages]
+
     getClaims: [Claim]
 
     getOrders: [Order]
 
     getComments(TutorialID: String!): [Comment]
+
+    getBlogComments(BlogID: String!): [BlogComment]
 
     getQuizzes(LectureID: String): [Quiz]!
 
@@ -126,7 +150,7 @@ type Query {
 
 
 type Mutation{
-    addTutorial(name: String!, description: String!, price: String!, duration: String!, userName: String): Tutorial
+    addTutorial(name: String!, description: String!, price: String!, duration: String!, userName: String, pictures: [Upload!]!): Tutorial
     
     signupUser(firstName: String!, lastName: String!, email: String!, userName: String!, password: String!, isUser:Boolean!, isAdmin: Boolean!, isTeacher: Boolean!, isMentor: Boolean!): Token
     
@@ -142,7 +166,7 @@ type Mutation{
 
     deleteTutorial(_id: ID): Tutorial
 
-    changeTutorialName(_id: ID!, newName: String!, newDescription: String!): Tutorial
+    changeTutorialName(_id: ID!, newName: String!, newDescription: String!, newPictures: [Upload!]!): Tutorial
 
     addSection(name: String!, description: String!, TutorialID: String!): Section
 
@@ -157,12 +181,16 @@ type Mutation{
     editLecture(_id: ID!, newName: String!, newDescription: String!): Lecture
 
     addMessages(message: String!, userName: String!): Messages
+
+    addTutorialMessages(TutorialID: String!, message: String!, userName: String!): TutorialMessages
     
     addClaim(firstName: String!, lastName: String!, email: String!, subject: String!, description: String!): Claim
 
     addOrders(TutorialID: String!, userName: String!): Order
 
     addComment(comment: String!, userName: String!, TutorialID: String!): Comment
+
+    addBlogComment(comment: String!, userName: String!, BlogID: String!): BlogComment
 
     addQuiz(QuizName: String!, answers: [String!], correctAnswer: String!, QuizQuestion:String!, LectureID: String!): Quiz
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import { Layout, Menu } from 'antd';
-import { GET_SECTIONS, GET_LECTURES, GET_QUIZZES } from '../../../queries';
+import { GET_SECTIONS, GET_LECTURES, GET_QUIZZES, GET_ALL_TUTORIALMESSAGES, SEND_TUTORIALMESSAGE } from '../../../queries';
 import withAuth from '../../../HOC/withAuth';
 import { withRouter } from 'react-router-dom';
 import QuizIndex from './quiz/QuizIndex';
@@ -15,9 +15,18 @@ class Course extends Component {
     state = {
         openKeys: ['0'],
         ID: this.props.match.params.id,
+        userName: this.props.session.getCurrentUser.userName,
+        message: '',
         current: '0'
     };
+    sendMessage = (ev, addTutorialMessages) => {
+        ev.preventDefault();
 
+        addTutorialMessages().then(async () => {
+            this.setState({ message: '' });
+        })
+
+    }
     onOpenChange = (openKeys) => {
         const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
         if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
@@ -118,9 +127,10 @@ class Course extends Component {
 
     }
     render() {
-        const { ID } = this.state;
+        const { ID, userName, message } = this.state;
+        console.log(this.props)
         return (
-            <Layout>
+            <Layout style={{ minHeight: '100vh' }}>
                 <Sider width={256} style={{ background: '#fff' }}>
                     <Query
                         query={GET_SECTIONS}
@@ -176,15 +186,62 @@ class Course extends Component {
                         }}
                     </Query>
                 </Sider>
-                <Layout style={{ padding: '0 0 24px 24px' }}>
+                <Layout style={{ padding: '0 0 0px 24px' }}>
                     <Content style={{
                         background: '#fff', padding: 24, margin: 0, minHeight: 280, textAlign: 'justify'
                     }}
                     >
                         {this.layoutContent(this.props)}
                     </Content>
-                    <Sider width={256} style={{ background: '#fff', padding: '10px', borderLeft: '1px solid #e8e8e8' }}>
-                        <input type='text' />
+                    <Sider width={256} style={{ background: '#fff', borderLeft: '1px solid #e8e8e8', height: '100vh' }}>
+                        <div className="row">
+                            <div className="col TutorialMessage" style={{ position: 'fixed', bottom: '0px', width: '271px' }}>
+                                <div className="card">
+                                    <div className="card-body">
+                                        <div className="messages" >
+                                            <Query
+                                                query={GET_ALL_TUTORIALMESSAGES}
+                                                pollInterval={500}
+                                                variables={{ TutorialID: ID }}
+                                            >
+                                                {({ loading, error, data }) => {
+                                                    if (loading) return <div>fetching</div>
+                                                    if (error) return <div>{error}</div>
+                                                    const allMsg = data.getTutorialMessages;
+                                                    return allMsg.map(message => {
+                                                        return (
+                                                            <div key={message._id}>
+                                                                <p>{message.userName}: {message.message}</p>
+                                                            </div>
+                                                        )
+                                                    })
+
+                                                }}
+                                            </Query>
+                                        </div>
+                                    </div>
+                                    <Mutation
+                                        mutation={SEND_TUTORIALMESSAGE}
+                                        variables={{ TutorialID: ID, message, userName }}
+                                    >
+                                        {(addTutorialMessages) => {
+                                            return (
+                                                <div className="card-footer">
+                                                    <form onSubmit={event => this.sendMessage(event, addTutorialMessages)}>
+                                                        <input type="hidden" placeholder="Username" value={userName} readOnly />
+                                                        <br />
+                                                        <input type="text" placeholder="Message" className="form-control" value={message} onChange={ev => this.setState({ message: ev.target.value })} />
+                                                        <button className="btn btn-primary form-control">
+                                                            Send
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            )
+                                        }}
+                                    </Mutation>
+                                </div>
+                            </div>
+                        </div>
                     </Sider>
                 </Layout>
             </Layout>

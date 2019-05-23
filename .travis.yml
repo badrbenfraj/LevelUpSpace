@@ -1,6 +1,15 @@
 language: node_js
 node_js:
-  - "10.13.0"
-before_install:
-  - npm i -g npm@6.8.0
-cache: npm
+  - "stable"
+cache:
+  directories:
+  - node_modules
+script:
+  - npm run build
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $github_token
+  local_dir: build
+  on:
+    branch: master

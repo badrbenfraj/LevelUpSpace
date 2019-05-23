@@ -113,7 +113,7 @@ const App = ({ refetch, session }) => {
 
                 <Route exact path="/my-courses/:id" render={props => (
                     <MainLayout session={session}>
-                        <Course {...props} refetch={refetch} />
+                        <Course {...props} refetch={refetch} session={session} />
                     </MainLayout>
                 )} />
 

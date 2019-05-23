@@ -21,8 +21,13 @@ exports.resolvers = {
             return user;
         },
         // return all tutorials from database
-        getAllTutorials: async (root, args, { Tutorial }) => {
+        getAllTutorials: async (root, agrs, { Tutorial }) => {
             const allTutorials = await Tutorial.find();
+            return allTutorials;
+        },
+
+        getTutorial: async (root, { _id }, { Tutorial }) => {
+            const allTutorials = await Tutorial.find({ _id });
             return allTutorials;
         },
 
@@ -52,6 +57,11 @@ exports.resolvers = {
 
             return allMessages;
         },
+        getTutorialMessages: async (root, { TutorialID }, { TutorialMessages }) => {
+            const allMessages = await TutorialMessages.find({ TutorialID });
+
+            return allMessages;
+        },
         getClaims: async (root, args, { Claims }) => {
             const allClaims = await Claims.find();
             return allClaims;
@@ -62,6 +72,14 @@ exports.resolvers = {
         },
         getComments: async (root, { TutorialID }, { Comments }) => {
             const comment = await Comments.find({ TutorialID });
+            return comment;
+        },
+        getComments: async (root, { TutorialID }, { Comments }) => {
+            const comment = await Comments.find({ TutorialID });
+            return comment;
+        },
+        getBlogComments: async (root, { BlogID }, { BlogComment }) => {
+            const comment = await BlogComment.find({ BlogID });
             return comment;
         },
         getQuizzes: async (root, { LectureID }, { Quizzes }) => {
@@ -75,12 +93,33 @@ exports.resolvers = {
     },
     Mutation: {
         // add tutorial to database
-        addTutorial: async (root, { name, description, userName, price, duration }, { Tutorial }) => {
+        addTutorial: async (root, { name, description, userName, price, pictures, duration }, { Tutorial }) => {
+            console.log('name: ', name)
+            const { mimetype, createReadStream } = await pictures[0];
+            const stream = createReadStream();
+
+            const pictureData = await new Promise((resolve, reject) => {
+                let chunks = [];
+
+                stream.once('error', reject);
+
+                stream.once('end', () => {
+                    const buffer = Buffer.concat(chunks);
+
+                    resolve(buffer.toString('base64'))
+                });
+
+                stream.on('data', (chunk) => {
+                    chunks.push(chunk);
+                });
+            });
             const newTutorial = await new Tutorial({
                 name,
                 description,
                 userName,
                 price,
+                pictures: pictureData,
+                picturesMime: mimetype,
                 duration,
                 createdDate: new Date().toISOString()
             }).save();
@@ -271,6 +310,16 @@ exports.resolvers = {
             }).save();
             return newMessage;
         },
+        addTutorialMessages: async (root, { TutorialID, message, userName }, { TutorialMessages }) => {
+
+            const newMessage = await new TutorialMessages({
+                TutorialID,
+                message,
+                userName,
+                createdDate: new Date().toISOString()
+            }).save();
+            return newMessage;
+        },
         addClaim: async (root, { firstName, lastName, email, subject, description }, { Claims }) => {
 
             const newClaim = await new Claims({
@@ -304,6 +353,19 @@ exports.resolvers = {
 
             return newComment;
         },
+
+        addBlogComment: async (root, { BlogID, userName, comment }, { BlogComment }) => {
+
+            const newComment = await new BlogComment({
+                BlogID,
+                userName,
+                comment,
+                createdDate: new Date().toISOString()
+            }).save();
+
+            return newComment;
+        },
+
         addQuiz: async (root, { QuizQuestion, QuizName, answers, correctAnswer, LectureID }, { Quizzes }) => {
 
             const newQuiz = await new Quizzes({

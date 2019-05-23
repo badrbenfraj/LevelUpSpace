@@ -18,6 +18,13 @@ const tutorialsSchema = new Schema({
         type: String,
         required: true
     },
+    pictures:{
+        type: String,
+        required: true
+    },
+    picturesMime:{
+        type: String
+    },
     createdDate:{
         type: String,
         default: Date.now

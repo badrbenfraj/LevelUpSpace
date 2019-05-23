@@ -3,17 +3,21 @@ import { Link } from 'react-router-dom';
 import { GET_SECTIONS, ADD_COMMENT, GET_CURRENT_USER, GET_COMMENTS, GET_LECTURES } from '../../queries';
 import { Query, Mutation } from 'react-apollo';
 import moment from "moment";
+import StarRatingComponent from 'react-star-rating-component';
 
 class CourseDetail extends Component {
     state = {
         cart: JSON.parse(localStorage.getItem('cart') || "[]"),
         cartp: localStorage.getItem('cart'),
         ID: this.props.match.params.id,
+        CourseName: this.props.location.state.name,
+        TeacherName: this.props.location.state.userName,
+        picture: this.props.location.state.pictures,
+        pictureMime: this.props.location.state.picturesMime,
         isAdded: false,
         commentarea: '',
-        counter: 0
+        rating: 0
     }
-
 
     addToCart = () => {
         let id = this.state.ID;
@@ -48,17 +52,23 @@ class CourseDetail extends Component {
         })
     }
 
+    onStarClick(nextValue, prevValue, name) {
+        this.setState({ rating: nextValue });
+    }
+
     render() {
         console.log(this.props.match)
         console.log(this.state.cart)
-        const { ID, commentarea } = this.state;
+        console.log(this.props.location.state)
+        const { ID, commentarea, CourseName, rating, TeacherName, picture, picturesMime } = this.state;
+        console.log(rating)
         return (
             <div className="container coursesdetail-section">
                 <div className="section-padding"></div>
                 <div className="row">
                     <div className="col-md-9 col-sm-8 event-contentarea">
                         <div className="coursesdetail-block">
-                            <img src={window.location.origin + "/images/event-coursesdetail.jpg"} alt="event-coursesdetail" width="825" height="500" />
+                            {picture && picturesMime && <img src={`data:${picturesMime};base64,${picture}`} alt={CourseName} width="825" height="500" />}
                             <div className="course-description">
                                 <h3 className="course-title">Courses Description</h3>
                                 <p>Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit.Sed non mauris vitae erat consequat auctor eu in elit. Class aptent taciti.Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam quis nostrum exercitationem ullam corporis suscipit.</p>
@@ -87,53 +97,44 @@ class CourseDetail extends Component {
                                         if (error) return <div>{error}</div>
                                         const AllSections = data.getSections;
                                         console.log(AllSections)
-                                        const AllTutorials = () => {
-                                            if (AllSections !== null) {
-                                                return AllSections.map((section, i) => {
-                                                    let c = i + 1;
-                                                    if (ID === section.TutorialID) {
-                                                        return (
-                                                            <div className="courses-sections-block" key={section._id}>
-                                                                <h3>Section {c}: <span>{section.name}</span></h3>
-                                                                <Query
-                                                                    key={i}
-                                                                    query={GET_LECTURES}
-                                                                    variables={{ SectionID: section._id }}
-                                                                    pollInterval={500}
-                                                                >
-                                                                    {({ data }) => {
-                                                                        const lectures = data.getLectures;
-                                                                        console.log(data)
-                                                                        const AllTutorials = () => {
-                                                                            if (lectures) {
-                                                                                return lectures.map((lecture, i) => {
-                                                                                    return (
-                                                                                        <div className="courses-lecture-box" key={i}>
-                                                                                            <i className="far fa-file"></i>
-                                                                                            <span className="lecture-no">Lecture {c}.{i + 1}</span>
-                                                                                            <span className="lecture-title">{lecture.name}</span>
-                                                                                            <span className="lecture-time">00:40:00</span>
-                                                                                        </div>
-                                                                                    )
-                                                                                })
-
-                                                                            }
-                                                                            return null
-                                                                        }
-                                                                        return AllTutorials()
-                                                                    }}
-                                                                </Query>
-
-                                                            </div>
-                                                        )
-                                                    }
-                                                    return null
-                                                })
-                                            } else {
-                                                return 'No data found'
-                                            }
+                                        if (AllSections !== null) {
+                                            return AllSections.map((section, i) => {
+                                                let c = i + 1;
+                                                if (ID === section.TutorialID) {
+                                                    return (
+                                                        <div className="courses-sections-block" key={section._id}>
+                                                            <h3>Section {c}: <span>{section.name}</span></h3>
+                                                            <Query
+                                                                key={i}
+                                                                query={GET_LECTURES}
+                                                                variables={{ SectionID: section._id }}
+                                                                pollInterval={500}
+                                                            >
+                                                                {({ data }) => {
+                                                                    const lectures = data.getLectures;
+                                                                    console.log(data)
+                                                                    if (lectures) {
+                                                                        return lectures.map((lecture, i) => {
+                                                                            return (
+                                                                                <div className="courses-lecture-box" key={i}>
+                                                                                    <i className="far fa-file"></i>
+                                                                                    <span className="lecture-no">Lecture {c}.{i + 1}</span>
+                                                                                    <span className="lecture-title">{lecture.name}</span>
+                                                                                    <span className="lecture-time">00:40:00</span>
+                                                                                </div>
+                                                                            )
+                                                                        })
+                                                                    }
+                                                                    return null
+                                                                }}
+                                                            </Query>
+                                                        </div>
+                                                    )
+                                                }
+                                                return null
+                                            })
                                         }
-                                        return AllTutorials()
+                                        return null
                                     }}
                                 </Query>
                             </div>
@@ -176,15 +177,17 @@ class CourseDetail extends Component {
                     </div>
                     <div className="col-md-3 col-sm-4 event-sidebar">
                         <div className="courses-features">
-                            <h3>Improve Your CSS Workflow with SASS</h3>
-                            <ul>
-                                <li><Link to="#" title="1 Star"><i className="far fa-star"></i></Link></li>
-                                <li><Link to="#" title="2 Star"><i className="far fa-star"></i></Link></li>
-                                <li><Link to="#" title="3 Star"><i className="far fa-star"></i></Link></li>
-                                <li><Link to="#" title="4 Star"><i className="far fa-star"></i></Link></li>
-                                <li><Link to="#" title="5 Star"><i className="far fa-star"></i></Link></li>
-                            </ul>
-                            <span>( 0  Review )</span>
+                            <h3>{CourseName}</h3>
+
+                            <StarRatingComponent
+                                name="rate1"
+                                starCount={5}
+                                value={rating}
+                                onStarClick={this.onStarClick.bind(this)}
+                            />
+                            <div>
+                                <span style={{ marginBottom: '18px' }}>( 0  Review )</span>
+                            </div>
                             <div className="featuresbox text-center">
                                 <button className="btn btn-round btn-sm "
                                     onClick={this.addToCart}
@@ -201,7 +204,7 @@ class CourseDetail extends Component {
                         </div>
                         <div className="courses-staff">
                             <img src={window.location.origin + "/images/staff.jpg"} alt="staff" width="275" height="288" />
-                            <h3>Charlie Brown</h3>
+                            <h3>{TeacherName}</h3>
                             <span>Web Designer</span>
                             <p>My name is Ruth. I grew up and studied in…</p>
                         </div>

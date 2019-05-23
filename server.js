@@ -19,11 +19,13 @@ const Tutorial = require('./models/Tutorial');
 const Section = require('./models/Section');
 const Lecture = require('./models/Lecture');
 const Messages = require('./models/Messages');
+const TutorialMessages = require('./models/TutorialMessages');
 const Claims = require('./models/Claim');
 const Orders = require('./models/Order');
 const Comments = require('./models/Comment');
 const Quizzes = require('./models/Quiz');
 const Blogs = require('./models/Blogs');
+const BlogComment = require('./models/BlogComments');
 
 // connect to database
 mongoose
@@ -105,9 +107,11 @@ const schema = new ApolloServer({
       Section,
       Lecture,
       Messages,
+      TutorialMessages,
       Claims,
       Orders,
       Comments,
+      BlogComment,
       Quizzes,
       Blogs,
       currentUser: req.currentUser
