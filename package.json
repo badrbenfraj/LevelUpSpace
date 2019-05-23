@@ -35,6 +35,7 @@
     "server": "nodemon server.js",
     "client": "cd frontend && npm start",
     "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\"",
+    "devbuild": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run build --silent\"",
     "setup": "concurrently --names \"server,client\" \"npm install \" \" cd frontend && npm install \""
   },
   "repository": {
