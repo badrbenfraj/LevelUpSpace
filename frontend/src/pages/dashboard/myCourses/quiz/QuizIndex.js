@@ -4,27 +4,18 @@ import Result from './Result';
 
 class QuizIndex extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      counter: 0,
-      questionId: 1,
-      question: '',
-      answerOptions: [],
-      allQuestions: [],
-      answer: '',
-      selectedAnswers: {},
-      result: ''
-    };
-    this.setNextQuestion = this.setNextQuestion.bind(this);
-    this.setPreviousQuestion = this.setPreviousQuestion.bind(this);
-    this.handleAnswerSelected = this.handleAnswerSelected.bind(this);
-    this.viewreults = this.viewreults.bind(this);
-
-
+  state = {
+    counter: 0,
+    questionId: 1,
+    question: '',
+    answerOptions: [],
+    allQuestions: [],
+    answer: '',
+    selectedAnswers: {},
+    result: ''
   }
-  handleAnswerSelected(e) {
+  
+  handleAnswerSelected = (e) => {
     let obj = this.state.selectedAnswers;
     let index = e.target.value;
     console.log(index)
@@ -45,7 +36,7 @@ class QuizIndex extends Component {
   }
 
 
-  setNextQuestion() {
+  setNextQuestion = () => {
     const counter = this.state.counter + 1;
     const questionId = this.state.questionId + 1;
 
@@ -57,7 +48,7 @@ class QuizIndex extends Component {
       answer: ''
     });
   }
-  setPreviousQuestion() {
+  setPreviousQuestion = () => {
     const counter = this.state.counter - 1;
     const questionId = this.state.questionId - 1;
 
@@ -109,7 +100,7 @@ class QuizIndex extends Component {
       <Result quizResult={this.state.allQuestions} answers={this.state.selectedAnswers} />
     );
   }
-  viewreults(e) {
+  viewreults = (e) => {
     e.preventDefault();
     this.setState({ result: true })
   }

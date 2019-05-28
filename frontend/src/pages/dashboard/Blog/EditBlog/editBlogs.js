@@ -63,7 +63,7 @@ class EditBlog extends Component {
         this.setState({ content: content });
     };
 
-    handleChange(event) {
+    handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         this.setState({
@@ -97,7 +97,7 @@ class EditBlog extends Component {
                                                 className="form-control"
                                                 placeholder="Blog title"
                                                 value={this.state.title}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                             />
                                         </div>
                                     </div>
@@ -110,7 +110,7 @@ class EditBlog extends Component {
                                                 cols="50"
                                                 placeholder="blog category"
                                                 value={this.state.category}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                             >
                                             </textarea>
                                         </div>
@@ -124,7 +124,7 @@ class EditBlog extends Component {
                                                 cols="50"
                                                 placeholder="blog subject"
                                                 value={this.state.subject}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                             >
                                             </textarea>
                                         </div>
@@ -133,7 +133,7 @@ class EditBlog extends Component {
                                         name="content"
                                         content={this.state.content}
                                         events={{ change: this.handleEditorChange }}
-                                        />
+                                    />
                                     <button
                                         className="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
                                         type="submit">

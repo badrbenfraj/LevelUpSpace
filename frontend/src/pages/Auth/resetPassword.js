@@ -4,7 +4,7 @@ import { Mutation } from 'react-apollo';
 import { RESET_PASSWORD } from './../../queries';
 import { withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const initialState = {
     email: '',
@@ -13,7 +13,7 @@ const initialState = {
 
 class ForgotPassword extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super();
         this.state = {
             ...initialState
@@ -21,10 +21,10 @@ class ForgotPassword extends React.Component {
     }
 
     clearState() {
-        this.setState({...initialState})
+        this.setState({ ...initialState })
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         this.setState({
@@ -34,9 +34,9 @@ class ForgotPassword extends React.Component {
 
     handleSubmit(event, passwordReset) {
         event.preventDefault();
-        passwordReset().then(async ({data}) => {
+        passwordReset().then(async ({ data }) => {
             this.clearState();
-            this.props.history.push('/signin');
+            this.props.history.push('/login');
 
         }).catch(error => {
             this.setState({
@@ -54,16 +54,16 @@ class ForgotPassword extends React.Component {
 
     head() {
         return (
-            <Helmet bodyAttributes={{class: "accountRecoveryPage"}}>
+            <Helmet bodyAttributes={{ class: "accountRecoveryPage" }}>
                 <title>Account recovery - Level Up Space</title>
             </Helmet>
         );
     }
 
-    render(){
+    render() {
 
         const { email } = this.state;
-        
+
         return (
             <div className="column column_12_12">
                 {this.head()}
@@ -85,7 +85,7 @@ class ForgotPassword extends React.Component {
 
                                         <p>Please enter the email address associated with your account and we will email you a temporary password.</p>
 
-                                        <div className={classNames({'error-label' : this.state.error !== ''})}>
+                                        <div className={classNames({ 'error-label': this.state.error !== '' })}>
                                             {this.state.error}
                                         </div>
 
@@ -93,7 +93,7 @@ class ForgotPassword extends React.Component {
 
                                             <div className="form_item">
                                                 <div className="form_input">
-                                                    <input type="email" name="email" placeholder="Email" value={email} onChange={this.handleChange.bind(this)} />
+                                                    <input type="email" name="email" placeholder="Email" value={email} onChange={this.handleChange} />
                                                     <span className="bottom_border"></span>
                                                 </div>
                                             </div>
@@ -105,20 +105,20 @@ class ForgotPassword extends React.Component {
                                                 Remembered your password? <Link to="/signin">Sign-in</Link>
                                             </p>
                                         </div>
-                                    
+
                                         <div className="form_buttons">
                                             <button type="submit" className="btn"
-                                            disabled={ loading || this.validateForm() }>
-                                            Reset</button>
+                                                disabled={loading || this.validateForm()}>
+                                                Reset</button>
                                         </div>
-                                    
+
                                     </div>
 
-                                </form> 
+                                </form>
 
                             );
                         }}
-                        
+
                     </Mutation>
 
                 </div>

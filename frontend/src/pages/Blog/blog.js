@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom'
 import { Query } from 'react-apollo';
 import { GET_BLOGS } from '../../queries';
 import moment from "moment";
-import { Breadcrumb, Icon } from 'antd';
+import { Breadcrumb, Icon, Spin } from 'antd';
+
+const antIcon = <Icon type="loading" style={{ fontSize: 44 }} />;
 
 class Blogs extends Component {
 	render() {
@@ -29,7 +31,7 @@ class Blogs extends Component {
 								query={GET_BLOGS}
 							>
 								{(data, loading, error) => {
-									if (loading) return <div>fetching</div>
+									if (loading) return <Spin indicator={antIcon} className="text-center" />
 									if (error) return <div>{error}</div>
 									const allblogs = data.data.getBlogs
 									if (allblogs) {
@@ -40,7 +42,7 @@ class Blogs extends Component {
 												<article className="type-post" key={blog._id}>
 													<div className="entry-cover">
 														<Link title="Cover" to="blogpost-page.html">
-															<img width="800" height="470" alt="latestnews" src={window.location.origin + "/images/blog1.jpg"} />
+															<img width="800" height="470" alt="latestnews" src={blog.image} />
 														</Link>
 													</div>
 													<div className="entry-block">

@@ -1,5 +1,10 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+var generator = require('generate-password');
+const nodemailer = require('nodemailer');
+const pug = require('pug');
+const juice = require('juice');
+const htmlToText = require('html-to-text');
 
 const createToken = (user, secret, expiresIn) => {
 
@@ -70,6 +75,10 @@ exports.resolvers = {
             const allOrders = await Orders.find();
             return allOrders;
         },
+        getSpecificOrder: async (root, { userName, TutorialID }, { Orders }) => {
+            const allOrders = await Orders.find({ userName, TutorialID });
+            return allOrders;
+        },
         getComments: async (root, { TutorialID }, { Comments }) => {
             const comment = await Comments.find({ TutorialID });
             return comment;
@@ -93,39 +102,20 @@ exports.resolvers = {
     },
     Mutation: {
         // add tutorial to database
-        addTutorial: async (root, { name, description, userName, price, pictures, duration }, { Tutorial }) => {
-            console.log('name: ', name)
-            const { mimetype, createReadStream } = await pictures[0];
-            const stream = createReadStream();
+        addTutorial: async (root, { name, description, userName, price, image, duration }, { Tutorial }) => {
 
-            const pictureData = await new Promise((resolve, reject) => {
-                let chunks = [];
-
-                stream.once('error', reject);
-
-                stream.once('end', () => {
-                    const buffer = Buffer.concat(chunks);
-
-                    resolve(buffer.toString('base64'))
-                });
-
-                stream.on('data', (chunk) => {
-                    chunks.push(chunk);
-                });
-            });
             const newTutorial = await new Tutorial({
                 name,
                 description,
                 userName,
                 price,
-                pictures: pictureData,
-                picturesMime: mimetype,
+                image,
                 duration,
                 createdDate: new Date().toISOString()
             }).save();
             return newTutorial;
         },
-        signupUser: async (root, { firstName, lastName, email, userName, password, isUser, isAdmin, isTeacher, isMentor }, { User }) => {
+        signupUser: async (root, { firstName, lastName, email, userName, password, isUser, isAdmin, isTeacher, isMentor, profileImage }, { User }) => {
 
             const user = await User.findOne({ email, userName });
 
@@ -143,7 +133,8 @@ exports.resolvers = {
                 isUser,
                 isAdmin,
                 isTeacher,
-                isMentor
+                isMentor,
+                profileImage
             }).save();
 
             return { token: createToken(newUser, process.env.SECRET, "1hr") };
@@ -196,10 +187,53 @@ exports.resolvers = {
 
         },
 
-        passwordReset: async (root, { email }, { User }) => {
+        editProfileImage: async (root, { email, profileImage }, { User }) => {
 
+            const user = await User.findOneAndUpdate({ email }, { $set: { profileImage } }, { new: true });
+
+            if (!user) {
+                throw new Error('User Not Found');
+            }
+
+            return user;
+
+        },
+
+        passwordReset: async (root, { email }, { User }) => {
+            const user = await User.find({ email });
+            const userFirstname = user[0].firstName;
             const saltRounds = 10;
-            const generatedPassword = generator.generate({ length: 10, numbers: true });
+            const generatedPassword = generator.generate({ length: 16, numbers: true });
+
+            const generateHTML = (filename, options = {}) => {
+                const html = pug.renderFile(`${__dirname}/../assets/${filename}.pug`, options);
+                const inlined = juice(html);
+                return inlined;
+            }
+
+            const mailer = nodemailer.createTransport({
+                host: process.env.NODEMAILER_HOST,
+                port: process.env.NODEMAILER_PORT,
+                auth: {
+                    user: process.env.NODEMAILER_AUTH_USER,
+                    pass: process.env.NODEMAILER_AUTH_PW
+                }
+            });
+            const html = generateHTML('resetPassword', {generatedPassword, userFirstname, email});
+            const text = htmlToText.fromString(html);
+            mailer.sendMail({
+                from: process.env.NODEMAILER_FROM_EMAIL,
+                to: email,
+                subject: 'LevelUpSpace - Password Reset',
+                html,
+                text
+            }, function (err, res) {
+                if (err) {
+                    // console.log(err)
+                    return response.status(500).send('500 - Internal Server Error')
+                }
+                response.status(200).send('200 - The request has succeeded.')
+            });
 
             return bcrypt.hash(generatedPassword, saltRounds).then(async function (hash) {
 
@@ -207,19 +241,6 @@ exports.resolvers = {
 
                 if (!user) {
                     throw new Error('User Not Found');
-                } else {
-
-                    const data = {
-                        email,
-                        generatedPassword
-                    }
-                    axios.post(`/password-reset`, data)
-                        .then(function (response) {
-                            // console.log('Email sent!');
-                        })
-                        .catch(function (error) {
-                            // console.log(error);
-                        });
                 }
                 return user;
             });
@@ -275,13 +296,14 @@ exports.resolvers = {
             const updatedName = await Section.findOneAndUpdate({ _id }, { $set: { name: newName, description: newDescription } }, { new: true });
             return updatedName;
         },
-        addLecture: async (root, { name, description, SectionID }, { Lecture }) => {
+        addLecture: async (root, { name, description, SectionID, video }, { Lecture }) => {
             const lecture = await Lecture.findOne({ name });
             if (!lecture) {
                 const newLecture = await new Lecture({
                     name,
                     description,
                     SectionID,
+                    video,
                     createdDate: new Date().toISOString()
                 }).save();
                 return newLecture;
@@ -390,13 +412,14 @@ exports.resolvers = {
                 return removeQuiz;
             }
         },
-        addBlogs: async (root, { title, category, subject, content, userName }, { Blogs }) => {
+        addBlogs: async (root, { title, category, subject, content, userName, image }, { Blogs }) => {
             const newBlog = await new Blogs({
                 title,
                 category,
                 subject,
                 content,
                 userName,
+                image,
                 createdDate: new Date().toISOString()
             }).save();
             return newBlog;

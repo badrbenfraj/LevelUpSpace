@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
-import { message } from 'antd';
+import { message, Progress } from 'antd';
 import { ADD_TUTORIAL, GET_CURRENT_USER } from '../../../../queries';
 import { Mutation, Query } from 'react-apollo'
+import Dropzone from 'react-dropzone';
+import axios from 'axios';
+
 
 const initialState = {
     name: '',
@@ -11,9 +14,10 @@ const initialState = {
     userName: '',
     price: '',
     duration: '',
+    error: '',
+    image: '',
     selectedFile: null,
-    pictures: [],
-    error: ''
+    progress: 0
 }
 
 
@@ -29,7 +33,7 @@ class AddTutorial extends Component {
         this.setState({ ...initialState })
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         this.setState({
@@ -37,21 +41,47 @@ class AddTutorial extends Component {
         });
     }
 
-    handleSubmit(event, addTutorial) {
+    handleSubmit = async (event, addTutorial) => {
         event.preventDefault();
-        addTutorial().then(async ({ data }) => {
-            message.success('Section added successfuly')
-            this.clearState();
-
-        }).catch(error => {
+        const data = new FormData();
+        const file = this.state.selectedFile
+        data.append('file', file);
+        data.append('upload_preset', 'LevelUpSpace');
+        await axios.post('https://api.cloudinary.com/v1_1/levelup/image/upload', data, {
+            onUploadProgress: (progressBar) => {
+                let progress = Math.round(progressBar.loaded * 100 / progressBar.total)
+                this.setState({
+                    progress
+                })
+            }
+        }).then(({ data: { secure_url } }) => {
+            console.log(secure_url)
             this.setState({
-                error: "couldn't add tutorial"
-            })
+                image: secure_url
+            });
+            console.log(this.state.image)
+            addTutorial({
+                variables: { image: this.state.image }
+            }).then(async () => {
+                message.success('Tutorial added successfuly')
+                this.clearState();
+            }).catch(error => {
+                this.setState({
+                    error: "couldn't add tutorial"
+                })
+            });
         });
-
+        console.log(this.state.progress)
     }
 
-    handleFilesChange = ({ target: { files } }) => this.setState({ pictures: files });
+    handleFilesChange = (image) => {
+        console.log(image[0])
+        const selectedFile = image[0]
+        console.log(selectedFile)
+        this.setState({
+            selectedFile
+        })
+    }
 
     validateForm() {
         const { name, description, userName, price, duration } = this.state;
@@ -72,8 +102,8 @@ class AddTutorial extends Component {
     onError = error => console.log("Error: ", error)
 
     render() {
-        const { name, description, price, duration, selectedFile, pictures } = this.state;
-
+        const { name, description, price, duration, progress } = this.state;
+        console.log(progress)
         return (
             <div className="text-center border border-light p-5">
 
@@ -89,7 +119,7 @@ class AddTutorial extends Component {
 
                                 <Mutation
                                     mutation={ADD_TUTORIAL}
-                                    variables={{ name, description, userName, price, duration, selectedFile, pictures }}
+                                    variables={{ name, description, price, duration, userName }}
                                     onCompleted={this.onCompleted}
                                     onError={this.onError}
                                 >
@@ -109,7 +139,7 @@ class AddTutorial extends Component {
                                                             className="form-control"
                                                             placeholder="Tutorial name"
                                                             value={name}
-                                                            onChange={this.handleChange.bind(this)}
+                                                            onChange={this.handleChange}
                                                         />
                                                     </div>
                                                 </div>
@@ -121,7 +151,7 @@ class AddTutorial extends Component {
                                                             className="form-control"
                                                             placeholder="Price"
                                                             value={price}
-                                                            onChange={this.handleChange.bind(this)}
+                                                            onChange={this.handleChange}
                                                         />
                                                     </div>
                                                 </div>
@@ -133,7 +163,7 @@ class AddTutorial extends Component {
                                                             className="form-control"
                                                             placeholder="Duration"
                                                             value={duration}
-                                                            onChange={this.handleChange.bind(this)}
+                                                            onChange={this.handleChange}
                                                         />
                                                     </div>
                                                 </div>
@@ -147,14 +177,25 @@ class AddTutorial extends Component {
                                                             maxLength="100"
                                                             placeholder="Short description"
                                                             value={description}
-                                                            onChange={this.handleChange.bind(this)}
+                                                            onChange={this.handleChange}
                                                         >
                                                         </textarea>
                                                     </div>
                                                 </div>
 
-                                                <div>
-                                                    <input type="file" onChange={this.handleFilesChange} accept="image/png, image/jpeg" required/>
+                                                <div style={{ marginRight: '50px', marginLeft: '50px' }}>
+                                                    {/* <input type="file" onChange={this.handleFilesChange} accept="*" required /> */}
+                                                    <Dropzone onDrop={this.handleFilesChange} className="dropzone" accept="image/*">
+                                                        {({ getRootProps, getInputProps }) => (
+                                                            <div {...getRootProps({ className: 'dropzone' })}>
+                                                                <input {...getInputProps()} />
+                                                                <p>Drag 'n' drop some files here, or click to select files</p>
+                                                            </div>
+                                                        )}
+                                                    </Dropzone>
+
+                                                    {this.state.progress !== 0 ? (<Progress percent={progress} />) : null}<br />
+                                                    {this.state.image && <img src={this.state.image} alt={this.state.image} width={200} />}
                                                 </div>
 
                                                 <input hidden="hidden" name="userName" value={userName} readOnly />

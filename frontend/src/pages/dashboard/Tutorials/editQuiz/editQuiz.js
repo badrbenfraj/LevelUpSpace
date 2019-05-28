@@ -39,7 +39,7 @@ class EditQuiz extends Component {
             current: e.key,
         });
     }
-    handleChange(event) {
+    handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         this.setState({
@@ -85,7 +85,7 @@ class EditQuiz extends Component {
                                                 className="form-control"
                                                 placeholder="Quiz name"
                                                 value={QuizName}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                                 required
                                             />
                                         </div>
@@ -98,7 +98,7 @@ class EditQuiz extends Component {
                                                 className="form-control"
                                                 placeholder="Question"
                                                 value={QuizQuestion}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                                 required
                                             />
                                         </div>
@@ -111,7 +111,7 @@ class EditQuiz extends Component {
                                                 className="form-control"
                                                 placeholder="option1"
                                                 value={option1}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                                 required
                                             />
                                         </div>
@@ -124,7 +124,7 @@ class EditQuiz extends Component {
                                                 className="form-control"
                                                 placeholder="option2"
                                                 value={option2}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                                 required
                                             />
                                         </div>
@@ -137,7 +137,7 @@ class EditQuiz extends Component {
                                                 className="form-control"
                                                 placeholder="option3"
                                                 value={option3}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                                 required
                                             />
                                         </div>
@@ -150,7 +150,7 @@ class EditQuiz extends Component {
                                                 className="form-control"
                                                 placeholder="option4"
                                                 value={option4}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                                 required
                                             />
                                         </div>
@@ -163,7 +163,7 @@ class EditQuiz extends Component {
                                                 className="form-control"
                                                 placeholder="correctAnswer"
                                                 value={correctAnswer}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                                 required
                                             />
                                         </div>

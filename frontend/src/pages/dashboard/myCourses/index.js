@@ -35,6 +35,7 @@ class MyCoursesList extends Component {
                         {(data, loading, error) => {
                             const userName = data.data.getCurrentUser.userName;
                             return (
+
                                 <Query
                                     query={GET_ALL_ORDERS}
                                     pollInterval={500}
@@ -46,28 +47,35 @@ class MyCoursesList extends Component {
                                             if (userName === order.userName) {
                                                 const id = order.TutorialID;
                                                 return (
-                                                    <Query
-                                                        query={GET_TUTORIAL}
-                                                        variables={{TutorialID: id}}
+                                                    <div
+                                                        className="col-md-4 col-sm-6 col-xs-6"
                                                         key={order._id}
                                                     >
-                                                        {({ data }) => {
-                                                            const tut = data.getTutorial
-                                                            if(tut){
-                                                                return (
-                                                                    <div className="col-md-4 col-sm-6 col-xs-6">
-                                                                        <div className="welcome-box">
-                                                                            <Link to={`/my-courses/${id}`}><img src="images/welcome1.jpg" alt="welcome1" width="370" height="440" /></Link>
-                                                                            {console.log(tut)}
-                                                                            {console.log(id)}
-                                                                            <CourseTitle TutorialTitle={tut}/>
-                                                                        </div>
-                                                                    </div>
-                                                                )
-                                                            }
-                                                            return null
-                                                        }}
-                                                    </Query>
+                                                        <Query
+                                                            query={GET_TUTORIAL}
+                                                            variables={{ TutorialID: id }}
+                                                        >
+                                                            {({ data }) => {
+                                                                const tut = data.getTutorial
+                                                                if (tut) {
+                                                                    return tut.map((tutorial) => {
+                                                                        return (
+                                                                            <div
+                                                                                className="welcome-box"
+                                                                                key={tutorial._id}
+                                                                            >
+                                                                                <Link to={`/my-courses/${id}`}><img src={tutorial.image} alt={tutorial.name} width="370" height="440" /></Link>
+                                                                                {console.log(tut)}
+                                                                                {console.log(id)}
+                                                                                <CourseTitle TutorialTitle={tutorial} />
+                                                                            </div>
+                                                                        )
+                                                                    })
+                                                                }
+                                                                return null
+                                                            }}
+                                                        </Query>
+                                                    </div>
                                                 )
                                             }
                                             return null
@@ -78,6 +86,7 @@ class MyCoursesList extends Component {
 
                         }}
                     </Query>
+
                 </div>
             </div>
         );

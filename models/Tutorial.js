@@ -18,12 +18,9 @@ const tutorialsSchema = new Schema({
         type: String,
         required: true
     },
-    pictures:{
+    image:{
         type: String,
         required: true
-    },
-    picturesMime:{
-        type: String
     },
     createdDate:{
         type: String,

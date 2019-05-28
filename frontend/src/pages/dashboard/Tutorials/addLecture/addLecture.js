@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Mutation } from 'react-apollo';
 import { ADD_LECTURE } from '../../../../queries';
-import { message } from 'antd';
+import { message, Progress } from 'antd';
+import Dropzone from 'react-dropzone';
+import axios from 'axios';
 
 const initialState = {
     name: '',
     description: '',
-    error: ''
+    error: '',
+    video: '',
+    progress: 0
 }
 
 class AddLecture extends Component {
@@ -16,18 +20,18 @@ class AddLecture extends Component {
         ID: this.props.lecture.section.id
     }
 
-
     clearState() {
         this.setState({ ...initialState })
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         this.setState({
             [name]: value
         });
     }
+
     handleSubmit(event, addLecture) {
         event.preventDefault();
         addLecture().then(async ({ data }) => {
@@ -42,8 +46,30 @@ class AddLecture extends Component {
 
     }
 
+    handleFilesChange = async (video) => {
+        const data = new FormData();
+        console.log(video[0])
+        data.append('file', video[0]);
+        data.append('upload_preset', 'LevelUpSpace');
+        const res = await axios.post('https://api.cloudinary.com/v1_1/levelup/video/upload', data, {
+            onUploadProgress: (progressBar) => {
+                let progress = Math.round(progressBar.loaded * 100 / progressBar.total)
+                this.setState({
+                    progress
+                })
+            }
+        });
+        console.log(this.state.progress)
+        const file = await res;
+        console.log(file)
+        console.log(file.data.secure_url)
+        this.setState({
+            video: file.data.secure_url
+        });
+    }
+
     render() {
-        const { name, description, ID } = this.state;
+        const { name, description, ID, progress, video } = this.state;
         console.log(this.props.lecture.section.id)
         return (
             <div className="text-center border border-light p-5">
@@ -53,7 +79,7 @@ class AddLecture extends Component {
                 <div className="card-body px-lg-5 pt-0">
                     <Mutation
                         mutation={ADD_LECTURE}
-                        variables={{ name, description, ID }}
+                        variables={{ name, description, ID, video }}
                     >
                         {(addLecture) => {
                             return (
@@ -69,7 +95,7 @@ class AddLecture extends Component {
                                                 className="form-control"
                                                 placeholder="Lecture name"
                                                 value={name}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                             />
                                         </div>
                                     </div>
@@ -82,10 +108,23 @@ class AddLecture extends Component {
                                                 cols="50"
                                                 placeholder="Short description"
                                                 value={description}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                             >
                                             </textarea>
                                         </div>
+                                    </div>
+
+                                    <div style={{ marginRight: '50px', marginLeft: '50px' }}>
+                                        {/* <input type="file" onChange={this.handleFilesChange} accept="*" required /> */}
+                                        <Dropzone onDrop={this.handleFilesChange} className="dropzone" accept="video/*">
+                                            {({ getRootProps, getInputProps }) => (
+                                                <div {...getRootProps({ className: 'dropzone' })}>
+                                                    <input {...getInputProps()} />
+                                                    <p>Drag 'n' drop some files here, or click to select files</p>
+                                                </div>
+                                            )}
+                                        </Dropzone>
+                                        {this.state.progress !== 0 ? (<Progress percent={progress} />) : null}<br />
                                     </div>
 
                                     <button

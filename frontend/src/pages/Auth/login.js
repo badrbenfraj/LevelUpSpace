@@ -27,7 +27,7 @@ class Signin extends React.Component {
         this.setState({ ...initialState })
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         this.setState({
@@ -107,7 +107,7 @@ class Signin extends React.Component {
 
                                             <div className="form_item">
                                                 <div className="form_input">
-                                                    <input type="email" name="email" placeholder="Email" value={email} onChange={this.handleChange.bind(this)} />
+                                                    <input type="email" name="email" placeholder="Email" autoComplete="email" value={email} onChange={this.handleChange} />
                                                     <span className="bottom_border"></span>
                                                 </div>
                                             </div>
@@ -118,7 +118,7 @@ class Signin extends React.Component {
 
                                             <div className="form_item">
                                                 <div className="form_input">
-                                                    <input type="password" name="password" placeholder="Password" value={password} onChange={this.handleChange.bind(this)} />
+                                                    <input type="password" name="password" autoComplete="current-password" placeholder="Password" value={password} onChange={this.handleChange} />
                                                     <span className="bottom_border"></span>
                                                 </div>
                                             </div>
@@ -133,7 +133,7 @@ class Signin extends React.Component {
                                                 Forgot your password? <Link to="/account-recovery">Reset here</Link>
                                             </p>
                                         </div>
-                                        <input type="hidden" name="role" value="user" onChange={this.handleChange.bind(this)} />
+                                        <input type="hidden" name="role" value="user" onChange={this.handleChange} />
                                         <div className="form_buttons">
                                             <button type="submit" className="btn"
                                                 disabled={loading || this.validateForm()}>

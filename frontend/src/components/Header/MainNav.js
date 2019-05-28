@@ -11,34 +11,27 @@ import { Popover, Button } from 'antd';
 
 
 class MainNav extends Component {
-  constructor(props) {
-    super(props);
-    this.togglle = this.togglle.bind(this);
-    this.toggle = this.toggle.bind(this);
-    this.onMouseEnter = this.onMouseEnter.bind(this);
-    this.onMouseLeave = this.onMouseLeave.bind(this);
-    this.state = {
-      dropdownOpen: false,
-      isOpen: false
-    };
+  state = {
+    dropdownOpen: false,
+    isOpen: false
   }
-  togglle() {
+  togglle = () => {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
 
-  toggle() {
+  toggle = () => {
     this.setState(prevState => ({
       dropdownOpen: !prevState.dropdownOpen
     }));
   }
 
-  onMouseEnter() {
+  onMouseEnter = () => {
     this.setState({ dropdownOpen: true });
   }
 
-  onMouseLeave() {
+  onMouseLeave = () => {
     this.setState({ dropdownOpen: false });
   }
   render() {

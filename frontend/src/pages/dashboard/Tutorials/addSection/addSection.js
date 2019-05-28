@@ -11,17 +11,17 @@ const initialState = {
 }
 
 class AddSection extends Component {
+
     state = {
         ...initialState,
         ID: this.props.section.id
     }
 
-
     clearState() {
         this.setState({ ...initialState })
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         this.setState({
@@ -76,7 +76,7 @@ class AddSection extends Component {
                                                 className="form-control"
                                                 placeholder="Section name"
                                                 value={name}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                             />
                                         </div>
                                     </div>
@@ -89,17 +89,17 @@ class AddSection extends Component {
                                                 cols="50"
                                                 placeholder="Short description"
                                                 value={description}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                             >
                                             </textarea>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="TutorialID" value={this.state.ID} readOnly/>
+                                    <input type="hidden" name="TutorialID" value={this.state.ID} readOnly />
                                     <button
                                         className="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
                                         type="submit">
                                         Add Section
-                        </button>
+                                    </button>
                                 </form>
                             )
                         }}

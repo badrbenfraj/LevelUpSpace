@@ -106,6 +106,11 @@ class Course extends Component {
                                                                         }}
                                                                     </Query>
                                                                 </div>
+                                                                <div className='text-center pt-5'>
+                                                                    <video width="70%" height="auto" controls>
+                                                                        <source src={lecture.video} />
+                                                                    </video>
+                                                                </div>
                                                             </div>
                                                         )
                                                     }

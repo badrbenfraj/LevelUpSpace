@@ -34,7 +34,7 @@ class AddTeacher extends Component {
         this.setState({ ...initialState })
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         this.setState({
@@ -43,7 +43,7 @@ class AddTeacher extends Component {
         });
     }
 
-    confirmPW() {
+    confirmPW = () => {
         const { password, passwordConfirm } = this.state
         const isMatch = password !== passwordConfirm && password.length <= 7;
         this.setState({
@@ -53,7 +53,7 @@ class AddTeacher extends Component {
 
     handleSubmit(event, signupUser) {
         event.preventDefault();
-        signupUser().then( () => {
+        signupUser().then(() => {
             this.clearState();
         }).catch(error => {
             this.setState({
@@ -77,7 +77,7 @@ class AddTeacher extends Component {
         );
     }
 
-    gen() {
+    gen = () => {
         const pwd = generator.generate({
             length: 14,
             numbers: true
@@ -118,7 +118,7 @@ class AddTeacher extends Component {
                                                 className="form-control"
                                                 placeholder="First name"
                                                 value={firstName}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                             />
                                         </div>
                                         <div className="col">
@@ -128,7 +128,7 @@ class AddTeacher extends Component {
                                                 className="form-control"
                                                 placeholder="Last name"
                                                 value={lastName}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                             />
                                         </div>
                                     </div>
@@ -141,7 +141,7 @@ class AddTeacher extends Component {
                                                 className="form-control"
                                                 placeholder="E-mail"
                                                 value={email}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                             />
                                         </div>
                                         <div className="col">
@@ -151,7 +151,7 @@ class AddTeacher extends Component {
                                                 name="userName"
                                                 placeholder="Username"
                                                 value={userName}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                             />
                                         </div>
                                     </div>
@@ -165,7 +165,7 @@ class AddTeacher extends Component {
                                                 placeholder="Password"
                                                 name="password"
                                                 value={password}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                             />
                                         </div>
                                         <div className="col">
@@ -175,8 +175,8 @@ class AddTeacher extends Component {
                                                 placeholder="Repeat Password"
                                                 name="passwordConfirm"
                                                 value={passwordConfirm}
-                                                onChange={this.handleChange.bind(this)}
-                                                onBlur={this.confirmPW.bind(this)}
+                                                onChange={this.handleChange}
+                                                onBlur={this.confirmPW}
                                             />
                                         </div>
                                     </div>
@@ -191,7 +191,7 @@ class AddTeacher extends Component {
 
                         }}
                     </Mutation>
-                    <button className="passgen" onClick={this.gen.bind(this)}>generate password</button>
+                    <button className="passgen" onClick={this.gen}>generate password</button>
                     <button className="copypassgen" data-clipboard-text={password}>copy password</button>
                 </div>
 

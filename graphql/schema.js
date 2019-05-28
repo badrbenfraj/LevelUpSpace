@@ -25,8 +25,7 @@ type Tutorial{
     name: String!
     description: String!
     price: String!
-    pictures: String
-    picturesMime: String
+    image: String
     duration: String!
     createdDate: String!
     userName: String!
@@ -46,6 +45,7 @@ type Lecture{
     description: String!
     createdDate: String!
     SectionID: String!
+    video: String!
 }
 
 type Messages{ 
@@ -110,6 +110,7 @@ type Blogs{
     category: String!
     subject: String!
     content: String!
+    image: String
     userName: String!
     createdDate: String!
 }
@@ -139,6 +140,8 @@ type Query {
 
     getOrders: [Order]
 
+    getSpecificOrder(TutorialID: String!, userName: String!): [Order]
+
     getComments(TutorialID: String!): [Comment]
 
     getBlogComments(BlogID: String!): [BlogComment]
@@ -150,15 +153,17 @@ type Query {
 
 
 type Mutation{
-    addTutorial(name: String!, description: String!, price: String!, duration: String!, userName: String, pictures: [Upload!]!): Tutorial
+    addTutorial(name: String!, description: String!, price: String!, duration: String!, userName: String, image: [Upload!]!): Tutorial
     
-    signupUser(firstName: String!, lastName: String!, email: String!, userName: String!, password: String!, isUser:Boolean!, isAdmin: Boolean!, isTeacher: Boolean!, isMentor: Boolean!): Token
+    signupUser(firstName: String!, lastName: String!, email: String!, userName: String!, password: String!, isUser:Boolean!, isAdmin: Boolean!, isTeacher: Boolean!, isMentor: Boolean!, profileImage: String!): Token
     
     signinUser(email: String!, password: String!): Token
 
     changeEmail(currentEmail: String!, newEmail: String!): User
 
     changePassword(email: String!, password: String!): User
+
+    editProfileImage(email: String!, profileImage: String!): User
 
     passwordReset(email: String!): User
 
@@ -174,7 +179,7 @@ type Mutation{
 
     editSection(_id: ID!, newName: String!, newDescription: String!): Section
 
-    addLecture(name: String!, description: String!, SectionID: String!): Lecture
+    addLecture(name: String!, description: String!, SectionID: String!, video: [Upload!]!): Lecture
 
     deleteLecture(_id: ID): Lecture
 
@@ -198,7 +203,7 @@ type Mutation{
 
     deleteQuiz(_id: ID): Quiz 
 
-    addBlogs(title: String!, category: String!, subject: String!, content: String!, userName: String): Blogs
+    addBlogs(title: String!, category: String!, subject: String!, content: String!, userName: String, image: String!): Blogs
 
     editBlogs(_id: ID! newTitle: String!, newCategory: String!, newSubject: String!, newContent: String!): Blogs
 

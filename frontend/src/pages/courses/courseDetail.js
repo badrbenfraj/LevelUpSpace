@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { GET_SECTIONS, ADD_COMMENT, GET_CURRENT_USER, GET_COMMENTS, GET_LECTURES } from '../../queries';
+import { GET_SECTIONS, ADD_COMMENT, GET_CURRENT_USER, GET_COMMENTS, GET_LECTURES, GET_SPECIFIC_ORDER } from '../../queries';
 import { Query, Mutation } from 'react-apollo';
 import moment from "moment";
 import StarRatingComponent from 'react-star-rating-component';
@@ -12,8 +12,7 @@ class CourseDetail extends Component {
         ID: this.props.match.params.id,
         CourseName: this.props.location.state.name,
         TeacherName: this.props.location.state.userName,
-        picture: this.props.location.state.pictures,
-        pictureMime: this.props.location.state.picturesMime,
+        picture: this.props.location.state.image,
         isAdded: false,
         commentarea: '',
         rating: 0
@@ -37,7 +36,7 @@ class CourseDetail extends Component {
         })
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         this.setState({
@@ -52,7 +51,7 @@ class CourseDetail extends Component {
         })
     }
 
-    onStarClick(nextValue, prevValue, name) {
+    onStarClick = (nextValue, prevValue, name) => {
         this.setState({ rating: nextValue });
     }
 
@@ -60,7 +59,7 @@ class CourseDetail extends Component {
         console.log(this.props.match)
         console.log(this.state.cart)
         console.log(this.props.location.state)
-        const { ID, commentarea, CourseName, rating, TeacherName, picture, picturesMime } = this.state;
+        const { ID, commentarea, CourseName, rating, TeacherName, picture } = this.state;
         console.log(rating)
         return (
             <div className="container coursesdetail-section">
@@ -68,7 +67,7 @@ class CourseDetail extends Component {
                 <div className="row">
                     <div className="col-md-9 col-sm-8 event-contentarea">
                         <div className="coursesdetail-block">
-                            {picture && picturesMime && <img src={`data:${picturesMime};base64,${picture}`} alt={CourseName} width="825" height="500" />}
+                            {picture && <img src={picture} alt={CourseName} width="825" height="500" />}
                             <div className="course-description">
                                 <h3 className="course-title">Courses Description</h3>
                                 <p>Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit.Sed non mauris vitae erat consequat auctor eu in elit. Class aptent taciti.Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam quis nostrum exercitationem ullam corporis suscipit.</p>
@@ -176,26 +175,106 @@ class CourseDetail extends Component {
                         </nav>
                     </div>
                     <div className="col-md-3 col-sm-4 event-sidebar">
+
                         <div className="courses-features">
-                            <h3>{CourseName}</h3>
+                            <Query
+                                query={GET_CURRENT_USER}
+                            >
+                                {(data, loading, error) => {
 
-                            <StarRatingComponent
-                                name="rate1"
-                                starCount={5}
-                                value={rating}
-                                onStarClick={this.onStarClick.bind(this)}
-                            />
-                            <div>
-                                <span style={{ marginBottom: '18px' }}>( 0  Review )</span>
-                            </div>
-                            <div className="featuresbox text-center">
-                                <button className="btn btn-round btn-sm "
-                                    onClick={this.addToCart}
-                                    disabled={this.state.cart.includes(ID)}
-                                >
-                                    {!this.state.isAdded && !this.state.cart.includes(ID) ? "ADD TO CART" : "✔ ADDED"}
+                                    if (!data.data.getCurrentUser) {
+                                        return (
+                                            <div className="text-center">
+                                                <h3>{CourseName}</h3>
+                                                <StarRatingComponent
+                                                    name="rate1"
+                                                    starCount={5}
+                                                    value={rating}
+                                                    editing={false}
+                                                />
+                                                <div>
+                                                    <span style={{ marginBottom: '18px' }}>( 0  Review )</span>
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                    return <div className="text-center">
+                                        <h3>{CourseName}</h3>
+                                        <StarRatingComponent
+                                            name="rate1"
+                                            starCount={5}
+                                            value={rating}
+                                            onStarClick={this.onStarClick}
+                                        />
+                                        <div>
+                                            <span style={{ marginBottom: '18px' }}>( 0  Review )</span>
+                                        </div>
+                                    </div>
+                                }}
+                            </Query>
 
-                                </button></div>
+                            <Query
+                                query={GET_CURRENT_USER}
+                            >
+                                {(data, loading, error) => {
+
+                                    if (data.data.getCurrentUser) {
+                                        const userName = data.data.getCurrentUser.userName;
+                                        console.log(ID)
+                                        console.log(userName)
+                                        return (
+                                            <Query
+                                                query={GET_SPECIFIC_ORDER}
+                                                pollInterval={500}
+                                                variables={{ TutorialID: ID, userName }}
+                                            >
+                                                {(data) => {
+                                                    const allOrders = data.data.getSpecificOrder;
+                                                    console.log(data)
+                                                    if (allOrders) {
+                                                        return (
+                                                            <div>
+                                                                {allOrders.length !== 0 ? (allOrders.map((order) => {
+                                                                    console.log(order)
+                                                                    return (
+                                                                        <div className="featuresbox text-center" key={order._id}>
+                                                                            <button className="btn btn-round btn-sm">
+                                                                                <Link to={`/my-courses/${ID}`}><strong>START</strong></Link>
+                                                                            </button>
+                                                                        </div>
+                                                                    )
+                                                                })) : (
+                                                                        <div className="featuresbox text-center">
+                                                                            <button className="btn btn-round btn-sm "
+                                                                                onClick={this.addToCart}
+                                                                                disabled={this.state.cart.includes(ID)}
+                                                                            >
+                                                                                {!this.state.isAdded && !this.state.cart.includes(ID) ? "ADD TO CART" : "✔ ADDED"}
+                                                                            </button>
+                                                                        </div>
+                                                                    )}
+                                                            </div>
+                                                        )
+                                                    }
+                                                    return null
+                                                }}
+                                            </Query>
+                                        )
+                                    }
+                                    return (
+                                        <div className="featuresbox text-center">
+                                            Signin Or Signup
+                                            <button className="btn btn-round btn-sm "
+                                                onClick={this.addToCart}
+                                                disabled={true}
+                                            >
+                                                {!this.state.isAdded && !this.state.cart.includes(ID) ? "ADD TO CART" : "✔ ADDED"}
+                                            </button>
+                                        </div>
+                                    )
+                                }}
+                            </Query>
+
                             <div className="featuresbox"><img src={window.location.origin + "/images/dolar-ic.png"} alt="dolar-ic" width="27" height="27" /><h3>Price : </h3><span> Free</span></div>
                             <div className="featuresbox"><img src={window.location.origin + "/images/clock-ic.png"} alt="clock-ic" width="24" height="24" /><h3>Duration : </h3><span> 30 days</span></div>
                             <div className="featuresbox"><img src={window.location.origin + "/images/cup-ic.png"} alt="cup-ic" width="24" height="23" /><h3>Lectures : </h3><span> 10</span></div>
@@ -205,8 +284,6 @@ class CourseDetail extends Component {
                         <div className="courses-staff">
                             <img src={window.location.origin + "/images/staff.jpg"} alt="staff" width="275" height="288" />
                             <h3>{TeacherName}</h3>
-                            <span>Web Designer</span>
-                            <p>My name is Ruth. I grew up and studied in…</p>
                         </div>
                     </div>
                 </div>
@@ -232,7 +309,7 @@ class CourseDetail extends Component {
                                                             rows="5"
                                                             placeholder="Write your comment here..."
                                                             name="commentarea"
-                                                            value={commentarea} onChange={this.handleChange.bind(this)}
+                                                            value={commentarea} onChange={this.handleChange}
                                                         ></textarea>
                                                     </div>
                                                     <div className="form-group col-md-12">

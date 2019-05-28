@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: './variables.env' });
 const cors = require('cors');
-const nodemailer = require ('nodemailer');
-const hbs =require ('nodemailer-express-handlebars');
 // bring in graphql express middleware
 const { ApolloServer } = require('apollo-server-express');
 
@@ -62,39 +60,6 @@ app.use(async (req, res, next) => {
   next();
 });
 
-app.post('/password-reset', (req, response) => {
-
-  var mailer = nodemailer.createTransport({
-    host: process.env.NODEMAILER_HOST,
-    auth: {
-      user: process.env.NODEMAILER_AUTH_USER,
-      pass: process.env.NODEMAILER_AUTH_PW
-    }
-  });
-
-  mailer.use('compile', hbs({
-    viewPath: 'assets/email_templates',
-    extName: '.hbs'
-  }));
-
-  mailer.sendMail({
-    from: process.env.NODEMAILER_FROM_EMAIL,
-    to: req.body.email,
-    subject: 'Level Up Space - Password Reset',
-    template: 'passwordReset',
-    context: {
-      email: req.body.email,
-      password: req.body.generatedPassword
-    }
-  }, function (err, res) {
-    if (err) {
-      // console.log(err)
-      return response.status(500).send('500 - Internal Server Error')
-    }
-    response.status(200).send('200 - The request has succeeded.')
-  });
-
-});
 
 // Create schema
 const schema = new ApolloServer({

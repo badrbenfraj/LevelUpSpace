@@ -14,6 +14,10 @@ const lecturesSchema = new Schema({
         type: String,
         default: Date.now
     },
+    video:{
+        type: String,
+        required: true
+    },
     SectionID:{
         type: String
     }

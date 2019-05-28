@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown, Icon } from 'antd';
 import { Link } from 'react-router-dom';
-import { Avatar, Icon } from 'antd';
 
 import Signout from '../../pages/Auth/signout';
 
@@ -29,13 +28,15 @@ class ProfileHeader extends Component {
                         <li><Link className="logo" to="/blog"><strong>BLOG</strong></Link></li>
                     </ul>
                     <ul>
-                        <li><strong><Link to="/shopping-cart"><Icon type="shopping-cart" style={{ fontSize: '22px', }} theme="outlined"/></Link></strong></li>
-                        <li><strong><Link to="/messages"><Icon type="message" style={{ fontSize: '22px', }} theme="outlined"/></Link></strong></li>
+                        <li><strong><Link to="/shopping-cart"><Icon type="shopping-cart" style={{ fontSize: '22px', }} theme="outlined" /></Link></strong></li>
+                        <li><strong><Link to="/messages"><Icon type="message" style={{ fontSize: '22px', }} theme="outlined" /></Link></strong></li>
                         <li>
 
                             <Dropdown overlay={menu} trigger={['click']} className="navbar-right">
                                 <Link className="ant-dropdown-link" to="#">
-                                    <Avatar style={{ backgroundColor: '#87d068' }} icon="user" />
+                                    <span className="ant-avatar ant-avatar-circle ant-avatar-icon mr-1" >
+                                        <img src={this.props.session.getCurrentUser.profileImage} alt="profileImage" />
+                                    </span>
                                     <strong> {this.props.session.getCurrentUser.userName}</strong>
                                 </Link>
                             </Dropdown>

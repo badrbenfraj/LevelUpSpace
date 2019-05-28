@@ -17,7 +17,7 @@ class BlogPost extends Component {
         })
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         this.setState({
@@ -97,7 +97,7 @@ class BlogPost extends Component {
                                                                     rows="5"
                                                                     placeholder="Write your comment here..."
                                                                     name="commentarea"
-                                                                    value={commentarea} onChange={this.handleChange.bind(this)}
+                                                                    value={commentarea} onChange={this.handleChange}
                                                                     required
                                                                 ></textarea>
                                                             </div>

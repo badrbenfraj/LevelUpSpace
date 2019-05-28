@@ -32,7 +32,7 @@ class EditTutorial extends Component {
             current: e.key,
         });
     }
-    handleChange(event) {
+    handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         this.setState({
@@ -75,7 +75,7 @@ class EditTutorial extends Component {
                                                 className="form-control"
                                                 placeholder="Tutorial name"
                                                 value={this.state.name}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                             />
                                         </div>
                                     </div>
@@ -88,7 +88,7 @@ class EditTutorial extends Component {
                                                 cols="50"
                                                 placeholder="Short description"
                                                 value={this.state.description}
-                                                onChange={this.handleChange.bind(this)}
+                                                onChange={this.handleChange}
                                             >
                                             </textarea>
                                         </div>
@@ -106,7 +106,7 @@ class EditTutorial extends Component {
         } else if (this.state.current === "AddSections") {
             return (
                 <Content style={{ padding: '20px 50px', minHeight: 280 }}>
-                    <Section tutorial={this.state}/>
+                    <Section tutorial={this.state} />
                 </Content>
 
             )

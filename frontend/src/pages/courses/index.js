@@ -4,13 +4,16 @@ import { Query } from 'react-apollo';
 import { Helmet } from 'react-helmet';
 import { GET_ALL_TUTORIALS } from '../../queries';
 import SingleCourse from './singleCourse';
+import { Icon, Spin } from 'antd';
+
+const antIcon = <Icon type="loading" style={{ fontSize: 44 }} />;
 
 class Courses extends Component {
     state = {
         term: ""
     }
 
-    handleSearch(event) {
+    handleSearch = (event) => {
         this.setState({ term: event.target.value });
     }
     render() {
@@ -28,7 +31,7 @@ class Courses extends Component {
                 </Helmet>
                 <div className="section-padding"></div>
                 <SearchBox
-                    handleSearch={this.handleSearch.bind(this)}
+                    handleSearch={this.handleSearch}
                 />
                 <div className="row">
                     <Query
@@ -36,8 +39,9 @@ class Courses extends Component {
                         pollInterval={500}
                     >
                         {({ loading, error, data }) => {
-                            if (loading) return <div>fetching</div>
+                            if (loading) return <Spin indicator={antIcon} className="text-center" />
                             if (error) return <div>{error}</div>
+                            console.log(loading)
                             const allTutorials = data.getAllTutorials
                             console.log(data.getAllTutorials)
                             return allTutorials.filter(searchingFor(term)).map(tutorial => <SingleCourse key={tutorial._id} tutorial={tutorial} />)

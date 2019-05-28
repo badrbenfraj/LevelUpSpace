@@ -20,7 +20,8 @@ const initialState = {
     isUser: false,
     isAdmin: false,
     isTeacher: false,
-    isMentor: false
+    isMentor: false,
+    profileImage: 'https://res.cloudinary.com/levelup/image/upload/v1558875579/LevelUpSpace/ccvqgljtzmxfzq8shcav.png'
 }
 new Clipboard('.copypassgen');
 
@@ -31,27 +32,20 @@ class Signup extends Component {
         ...initialState
     }
 
-
     clearState() {
         this.setState({ ...initialState })
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         this.setState({
             [name]: value,
             isUser: true
         });
-        // if(name==="isUser") {
-        //     this.setState({
-        //         value: true
-        //     })
-        // }
-
     }
 
-    confirmPW() {
+    confirmPW = () => {
         const { password, passwordConfirm } = this.state
         const isMatch = password !== passwordConfirm && password.length <= 7;
         this.setState({
@@ -89,7 +83,7 @@ class Signup extends Component {
         );
     }
 
-    gen() {
+    gen = () => {
         const pwd = generator.generate({
             length: 14,
             numbers: true
@@ -104,7 +98,7 @@ class Signup extends Component {
 
     render() {
 
-        const { firstName, lastName, email, userName, password, passwordConfirm, isUser, isAdmin, isTeacher, isMentor } = this.state;
+        const { firstName, lastName, email, userName, password, passwordConfirm, isUser, isAdmin, isTeacher, isMentor, profileImage } = this.state;
 
         return (
             <div className="column column_12_12">
@@ -127,7 +121,10 @@ class Signup extends Component {
                         Join now
                     </h1>
 
-                    <Mutation mutation={SIGNUP_USER} variables={{ firstName, lastName, email, userName, password, isUser, isAdmin, isTeacher, isMentor }}>
+                    <Mutation
+                        mutation={SIGNUP_USER}
+                        variables={{ firstName, lastName, email, userName, password, isUser, isAdmin, isTeacher, isMentor, profileImage }}
+                    >
 
                         {(signupUser, { data, loading, error }) => {
 
@@ -142,7 +139,7 @@ class Signup extends Component {
                                         <div className="form_row">
                                             <div className="form_item">
                                                 <div className="form_input">
-                                                    <input type="text" name="firstName" placeholder="First Name" value={firstName} onChange={this.handleChange.bind(this)} />
+                                                    <input type="text" name="firstName" placeholder="First Name" value={firstName} onChange={this.handleChange} />
                                                     <span className="bottom_border"></span>
                                                 </div>
                                             </div>
@@ -151,7 +148,7 @@ class Signup extends Component {
                                         <div className="form_row">
                                             <div className="form_item">
                                                 <div className="form_input">
-                                                    <input type="text" name="lastName" placeholder="Last Name" value={lastName} onChange={this.handleChange.bind(this)} />
+                                                    <input type="text" name="lastName" placeholder="Last Name" value={lastName} onChange={this.handleChange} />
                                                     <span className="bottom_border"></span>
                                                 </div>
                                             </div>
@@ -161,7 +158,7 @@ class Signup extends Component {
                                         <div className="form_row">
                                             <div className="form_item">
                                                 <div className="form_input">
-                                                    <input type="email" name="email" placeholder="Email" value={email} onChange={this.handleChange.bind(this)} />
+                                                    <input type="email" name="email" placeholder="Email" value={email} onChange={this.handleChange} />
                                                     <span className="bottom_border"></span>
                                                 </div>
                                             </div>
@@ -170,7 +167,7 @@ class Signup extends Component {
                                         <div className="form_row">
                                             <div className="form_item">
                                                 <div className="form_input">
-                                                    <input type="text" name="userName" placeholder="Username" value={userName} onChange={this.handleChange.bind(this)} />
+                                                    <input type="text" name="userName" placeholder="Username" value={userName} onChange={this.handleChange} />
                                                     <span className="bottom_border"></span>
                                                 </div>
 
@@ -186,7 +183,7 @@ class Signup extends Component {
                                             </div>
                                             <div className="form_item">
                                                 <div className="form_input">
-                                                    <input type="password" name="password" placeholder="Password" value={password} onChange={this.handleChange.bind(this)} />
+                                                    <input type="password" name="password" placeholder="Password" value={password} onChange={this.handleChange} />
                                                     <span className="bottom_border"></span>
                                                 </div>
 
@@ -199,7 +196,7 @@ class Signup extends Component {
                                         <div className="form_row">
                                             <div className="form_item">
                                                 <div className="form_input">
-                                                    <input type="password" name="passwordConfirm" placeholder="Password confirm" value={passwordConfirm} onChange={this.handleChange.bind(this)} onBlur={this.confirmPW.bind(this)} />
+                                                    <input type="password" name="passwordConfirm" placeholder="Password confirm" value={passwordConfirm} onChange={this.handleChange} onBlur={this.confirmPW} />
                                                     <span className="bottom_border"></span>
                                                 </div>
                                             </div>
@@ -216,7 +213,7 @@ class Signup extends Component {
 
                         }}
                     </Mutation>
-                    <button className="passgen" onClick={this.gen.bind(this)}>generate password</button>
+                    <button className="passgen" onClick={this.gen}>generate password</button>
                     <button className="copypassgen" data-clipboard-text={password}>copy password</button>
                 </div>
             </div>

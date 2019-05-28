@@ -2034,7 +2034,6 @@ input[type="file"] {
   position: relative;
   max-width: 800px;
   margin: 0 auto;
-  background: #fff;
   border-radius: 3px;
 }
 
@@ -2043,11 +2042,6 @@ input[type="file"] {
   padding: 20px;
   border-radius: 8px;
   background-color: #ffffff;
-}
-@media (min-width: 769px) {
-  .container {
-    margin: 2.5rem auto;
-  }
 }
 
 /* Result Component */
@@ -2162,4 +2156,22 @@ input[type="file"] {
 }
 .dv-star-rating-star i{
 	font-size: 20px;
+}
+.dropzone{
+	border-width: '2px';
+	border-color: lightgrey;
+	border: dashed;
+  border-radius: 4px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+  padding: 30px;
+  width: 100%;
+  transition: all 0.5s;
+}
+.dropzone p{
+	display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+	margin-inline-end: 0px;
 }

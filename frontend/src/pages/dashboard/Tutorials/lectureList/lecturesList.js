@@ -23,7 +23,7 @@ class LecturesList extends Component {
                         const AllTutSectionsLectures = data.getLectures;
                         console.log(AllTutSectionsLectures)
                         const AllLectures = () => {
-                            if (AllTutSectionsLectures !== null) {
+                            if (AllTutSectionsLectures) {
                                 return AllTutSectionsLectures.map(
                                     (lecture) => {
                                         if (lecture.SectionID === this.state.ID) {
@@ -32,8 +32,6 @@ class LecturesList extends Component {
                                         return null
                                     }
                                 )
-                            } else {
-                                return 'No data found'
                             }
                         }
                         return (

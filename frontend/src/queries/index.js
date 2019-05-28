@@ -15,8 +15,7 @@ export const GET_ALL_TUTORIALS = gql`
             description
             createdDate
             userName
-            pictures
-            picturesMime
+            image
         }
     }
 `;
@@ -31,6 +30,7 @@ export const GET_TUTORIAL = gql`
             description
             createdDate
             userName
+            image
         }
     }
 `;
@@ -55,6 +55,7 @@ export const GET_LECTURES = gql`
             description
             createdDate
             SectionID
+            video
         }
     }
 `;
@@ -115,8 +116,8 @@ export const SEND_TUTORIALMESSAGE = gql`
 // Tutorials Mutation
 
 export const ADD_TUTORIAL = gql`
-    mutation($name: String!, $description: String!, $price: String!, $duration: String!, $userName: String!, $pictures: [Upload!]!){
-        addTutorial( name: $name description: $description price:$price duration:$duration userName:$userName, pictures: $pictures){ 
+    mutation($name: String!, $description: String!, $price: String!, $duration: String!, $userName: String!, $image: [Upload!]!){
+        addTutorial( name: $name description: $description price:$price duration:$duration userName:$userName, image: $image){ 
             name
         }
     }
@@ -167,8 +168,8 @@ export const EDIT_SECTION = gql`
 `;
 
 export const ADD_LECTURE = gql`
-    mutation($name: String!, $description: String!, $ID: String!){
-        addLecture( name: $name description: $description, SectionID:$ID){ 
+    mutation($name: String!, $description: String!, $ID: String!, $video: [Upload!]!){
+        addLecture( name: $name, description: $description, SectionID: $ID, video: $video){ 
             name
         }
     }
@@ -264,8 +265,8 @@ export const GET_ALL_MENTORS = gql`
 // User Mutation
 
 export const SIGNUP_USER = gql`
-    mutation($firstName: String!, $lastName: String!, $email: String!, $userName: String!, $password: String!, $isUser:Boolean!, $isAdmin: Boolean!, $isTeacher: Boolean!, $isMentor: Boolean!){
-        signupUser(firstName: $firstName, lastName: $lastName, email: $email, userName: $userName, password: $password, isUser:$isUser, isAdmin:$isAdmin, isTeacher:$isTeacher, isMentor:$isMentor){ 
+    mutation($firstName: String!, $lastName: String!, $email: String!, $userName: String!, $password: String!, $isUser:Boolean!, $isAdmin: Boolean!, $isTeacher: Boolean!, $isMentor: Boolean!, $profileImage: String!){
+        signupUser(firstName: $firstName, lastName: $lastName, email: $email, userName: $userName, password: $password, isUser:$isUser, isAdmin:$isAdmin, isTeacher:$isTeacher, isMentor:$isMentor, profileImage: $profileImage){ 
             token 
         }
     }
@@ -291,6 +292,14 @@ export const CHANGE_PASSWORD = gql`
     mutation($email: String!, $password: String!){
         changePassword(email: $email, password: $password){
             email
+        }
+    }
+`;
+
+export const CHANGE_PROFILE_IMAGE = gql`
+    mutation($email: String!, $profileImage: String!){
+        editProfileImage(email: $email, profileImage: $profileImage){
+           email
         }
     }
 `;
@@ -343,6 +352,17 @@ export const GET_ALL_CLAIMS = gql`
 export const GET_ALL_ORDERS = gql`
     query {
         getOrders{
+            _id
+            TutorialID
+            userName
+            createdDate
+        }
+    }
+`;
+
+export const GET_SPECIFIC_ORDER = gql`
+    query ($userName: String!, $TutorialID: String!){
+        getSpecificOrder(userName: $userName, TutorialID : $TutorialID ){
             _id
             TutorialID
             userName
@@ -463,14 +483,15 @@ export const GET_BLOGS = gql`
             content
             userName
             createdDate
+            image
         }
     }
 `;
 
 //Blog Mutation
 export const ADD_BLOGS = gql`
- mutation($title: String!, $category: String!, $subject: String!, $content: String!, $userName: String!){
-     addBlogs( title: $title, category:$category, subject:$subject, content:$content, userName: $userName){ 
+ mutation($title: String!, $category: String!, $subject: String!, $content: String!, $userName: String!, $image: String!){
+     addBlogs( title: $title, category:$category, subject:$subject, content:$content, userName: $userName, image: $image){ 
         title
      }
  }
