@@ -5,6 +5,7 @@ import { RESET_PASSWORD } from './../../queries';
 import { withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
+import { message } from 'antd';
 
 const initialState = {
     email: '',
@@ -37,7 +38,7 @@ class ForgotPassword extends React.Component {
         passwordReset().then(async ({ data }) => {
             this.clearState();
             this.props.history.push('/login');
-
+            message.success('email was send successfully')
         }).catch(error => {
             this.setState({
                 error: error.graphQLErrors.map(x => x.message)

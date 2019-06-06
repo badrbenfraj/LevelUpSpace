@@ -97,7 +97,8 @@ class BlogPost extends Component {
                                                                     rows="5"
                                                                     placeholder="Write your comment here..."
                                                                     name="commentarea"
-                                                                    value={commentarea} onChange={this.handleChange}
+                                                                    value={commentarea} 
+                                                                    onChange={this.handleChange}
                                                                     required
                                                                 ></textarea>
                                                             </div>
@@ -167,26 +168,26 @@ class BlogPost extends Component {
                         <aside className="widget widget_categories">
                             <h3 className="widget-title">Categories</h3>
                             <ul>
-                                <li><Link title="Language Science" to="#">Language Science</Link><span>(10)</span></li>
-                                <li><Link title="Student Guidance" to="#">Student Guidance</Link><span>(12)</span></li>
-                                <li><Link title="School Psychology" to="#">School Psychology</Link><span>(08)</span></li>
-                                <li><Link title="Vocational Counselling" to="#">Vocational Counselling	</Link><span>(18)</span></li>
-                                <li><Link title="Uncategorized" to="#">Uncategorized</Link><span>(11)</span></li>
-                                <li><Link title="Youth Science" to="#">Youth Science</Link><span>(10)</span></li>
+                                <li><Link title="Language Science" className="anchor-grey" to="#">Language Science</Link><span>(10)</span></li>
+                                <li><Link title="Student Guidance" className="anchor-grey" to="#">Student Guidance</Link><span>(12)</span></li>
+                                <li><Link title="School Psychology" className="anchor-grey" to="#">School Psychology</Link><span>(08)</span></li>
+                                <li><Link title="Vocational Counselling" className="anchor-grey" to="#">Vocational Counselling	</Link><span>(18)</span></li>
+                                <li><Link title="Uncategorized" className="anchor-grey" to="#">Uncategorized</Link><span>(11)</span></li>
+                                <li><Link title="Youth Science" className="anchor-grey" to="#">Youth Science</Link><span>(10)</span></li>
                             </ul>
                         </aside>
                         <aside className="widget widget_latestnews">
                             <h3 className="widget-title">Latest News</h3>
                             <div className="latestnews-box">
-                                <Link to="blogpost-page.html" title="Along Communicate Directly With Experienced Teachers">Along Communicate Directly With Experienced Teachers</Link>
+                                <Link to="blogpost-page.html" className="anchor-grey" title="Along Communicate Directly With Experienced Teachers">Along Communicate Directly With Experienced Teachers</Link>
                                 <span>25th May 2016</span>
                             </div>
                             <div className="latestnews-box">
-                                <Link to="blogpost-page.html" title="Given The Tips To Students Succed In An Online Courses ">Given The Tips To Students Succed In An Online Courses </Link>
+                                <Link to="blogpost-page.html" className="anchor-grey" title="Given The Tips To Students Succed In An Online Courses ">Given The Tips To Students Succed In An Online Courses </Link>
                                 <span>25th May 2016</span>
                             </div>
                             <div className="latestnews-box">
-                                <Link to="blogpost-page.html" title="Why Should Read Every Day">Why Should Read Every Day</Link>
+                                <Link to="blogpost-page.html" className="anchor-grey" title="Why Should Read Every Day">Why Should Read Every Day</Link>
                                 <span>25th May 2016</span>
                             </div>
                         </aside>

@@ -20,7 +20,7 @@ const Messages = require('./models/Messages');
 const TutorialMessages = require('./models/TutorialMessages');
 const Claims = require('./models/Claim');
 const Orders = require('./models/Order');
-const Comments = require('./models/Comment');
+const RatingsAndComments = require('./models/RatingAndComment');
 const Quizzes = require('./models/Quiz');
 const Blogs = require('./models/Blogs');
 const BlogComment = require('./models/BlogComments');
@@ -75,7 +75,7 @@ const schema = new ApolloServer({
       TutorialMessages,
       Claims,
       Orders,
-      Comments,
+      RatingsAndComments,
       BlogComment,
       Quizzes,
       Blogs,

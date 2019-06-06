@@ -230,6 +230,24 @@ export const GET_ALL_USERS = gql`
     }
 `;
 
+export const GET_USER = gql`
+    query ($userName: String!){
+        getUser(userName:$userName){
+            _id
+            firstName
+            lastName
+            joinDate
+            userName
+            email
+            profileImage
+            isUser
+            isAdmin
+            isTeacher
+            isMentor
+        }
+    }
+`;
+
 export const GET_ALL_TEACHERS = gql`
     query {
         getAllTeachers{
@@ -387,12 +405,29 @@ export const ADD_ORDER = gql`
 
 export const GET_COMMENTS = gql`
     query ($TutorialID: String!){
-        getComments(TutorialID: $TutorialID){
+        getRatingsAndComments(TutorialID: $TutorialID){
             _id
             TutorialID
             userName
             createdDate
             comment
+            rating
+        }
+    }
+`;
+
+export const GET_RATING_EXCEPT = gql`
+    query ($TutorialID: String!){
+        getRatingsAndCommentsExcept(TutorialID: $TutorialID){
+            rating
+        }
+    }
+`;
+
+export const GET_RATING = gql`
+    query ($TutorialID: String!, $rating: Int!){
+        getRatingAndComment(TutorialID: $TutorialID, rating: $rating){
+            rating
         }
     }
 `;
@@ -400,8 +435,8 @@ export const GET_COMMENTS = gql`
 //Comments Mutation
 
 export const ADD_COMMENT = gql`
-  mutation($TutorialID: String!, $userName: String!, $comment: String!){
-    addComment(TutorialID: $TutorialID, userName : $userName, comment : $comment){
+  mutation($TutorialID: String!, $userName: String!, $comment: String!, $rating: Int!){
+    addRatingAndComment(TutorialID: $TutorialID, userName : $userName, comment : $comment, rating: $rating){
         TutorialID
         userName
       }

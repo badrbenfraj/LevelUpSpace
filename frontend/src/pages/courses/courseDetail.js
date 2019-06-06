@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { GET_SECTIONS, ADD_COMMENT, GET_CURRENT_USER, GET_COMMENTS, GET_LECTURES, GET_SPECIFIC_ORDER } from '../../queries';
+import { GET_SECTIONS, ADD_COMMENT, GET_CURRENT_USER, GET_COMMENTS, GET_LECTURES, GET_SPECIFIC_ORDER, GET_USER, GET_RATING, GET_RATING_EXCEPT } from '../../queries';
 import { Query, Mutation } from 'react-apollo';
 import moment from "moment";
 import StarRatingComponent from 'react-star-rating-component';
@@ -15,7 +15,8 @@ class CourseDetail extends Component {
         picture: this.props.location.state.image,
         isAdded: false,
         commentarea: '',
-        rating: 0
+        rating: 0,
+        RatingAverage: 0
     }
 
     addToCart = () => {
@@ -32,7 +33,8 @@ class CourseDetail extends Component {
 
     clearState() {
         this.setState({
-            commentarea: ''
+            commentarea: '',
+            rating: 0
         })
     }
 
@@ -44,15 +46,18 @@ class CourseDetail extends Component {
         });
     }
 
-    handleSubmit(event, AddComment) {
+    handleSubmit(event, addRatingAndComment) {
         event.preventDefault();
-        AddComment().then(async () => {
+        addRatingAndComment().then(async () => {
             this.clearState();
         })
     }
 
     onStarClick = (nextValue, prevValue, name) => {
-        this.setState({ rating: nextValue });
+        this.setState({
+            rating: nextValue,
+            ratingModif: true
+        });
     }
 
     render() {
@@ -89,11 +94,10 @@ class CourseDetail extends Component {
                                 <Query
                                     query={GET_SECTIONS}
                                     variables={{ TutorialID: ID }}
-                                    pollInterval={500}
                                 >
                                     {({ data, loading, error }) => {
                                         if (loading) return <div>fetching</div>
-                                        if (error) return <div>{error}</div>
+                                        if (error) return <div>{error.toString()}</div>
                                         const AllSections = data.getSections;
                                         console.log(AllSections)
                                         if (AllSections !== null) {
@@ -107,7 +111,6 @@ class CourseDetail extends Component {
                                                                 key={i}
                                                                 query={GET_LECTURES}
                                                                 variables={{ SectionID: section._id }}
-                                                                pollInterval={500}
                                                             >
                                                                 {({ data }) => {
                                                                     const lectures = data.getLectures;
@@ -142,14 +145,38 @@ class CourseDetail extends Component {
                                 <div className="reviewbox">
                                     <h3>Average Rating</h3>
                                     <div className="average-review">
-                                        <h2>4.8</h2>
-                                        <ul>
-                                            <li><Link to="#" title="1 Star"><i className="fa fa-star-o" aria-hidden="true"></i></Link></li>
-                                            <li><Link to="#" title="2 Star"><i className="fa fa-star-o" aria-hidden="true"></i></Link></li>
-                                            <li><Link to="#" title="3 Star"><i className="fa fa-star-o" aria-hidden="true"></i></Link></li>
-                                            <li><Link to="#" title="4 Star"><i className="fa fa-star-o" aria-hidden="true"></i></Link></li>
-                                            <li><Link to="#" title="5 Star"><i className="fa fa-star-o" aria-hidden="true"></i></Link></li>
-                                        </ul>
+                                        <Query
+                                            query={GET_RATING_EXCEPT}
+                                            pollInterval={500}
+                                            variables={{ TutorialID: ID }}
+                                        >
+                                            {({ data }) => {
+                                                if (data.getRatingsAndCommentsExcept) {
+                                                    const ratingEx= data.getRatingsAndCommentsExcept
+                                                    // console.log(this.state.RatingAverage)
+
+                                                    // ratingEx.map((rate, i) => {
+                                                    //     console.log(rate.rating)
+                                                    //     let prev = rate.rating
+                                                    //     console.log(prev + rate.rating)
+                                                    //     let av = prev + rate.rating
+                                                    //     console.log(av)
+                                                    //     return <h2>{av}</h2>
+                                                    // })
+                                                    // this.setState({
+                                                    //     RatingAverage : ratingEx.map((rate) => {
+                                                    //         console.log(typeof(rate.rating))
+
+                                                    //         return rate.rating
+                                                    //     })
+                                                    // })
+                                                    const RatingTotal = ratingEx.reduce((rating, rate) => rating + rate.rating, 0);
+                                                    const AverageRating = RatingTotal/ratingEx.length;
+                                                    return <h2>{AverageRating}</h2>
+                                                }
+                                                return null
+                                            }}
+                                        </Query>
                                         <span>5 Rating</span>
                                     </div>
                                 </div>
@@ -157,11 +184,67 @@ class CourseDetail extends Component {
                                     <h3>Detailed Rating</h3>
                                     <div className="detail-review">
                                         <ul>
-                                            <li><Link to="#" title="5 stars">5 stars</Link><span>5</span></li>
-                                            <li><Link to="#" title="4 stars">4 stars</Link><span>0</span></li>
-                                            <li><Link to="#" title="3 stars">3 stars</Link><span>0</span></li>
-                                            <li><Link to="#" title="2 stars">2 stars</Link><span>0</span></li>
-                                            <li><Link to="#" title="1 stars">1 stars</Link><span>0</span></li>
+                                            <Query
+                                                query={GET_RATING}
+                                                pollInterval={500}
+                                                variables={{ TutorialID: ID, rating: 5 }}
+                                            >
+                                                {({ data }) => {
+                                                    if (data.getRatingAndComment) {
+                                                        return <li><Link to="#" title="5 stars">5 stars</Link><span>{data.getRatingAndComment.length}</span></li>
+                                                    }
+                                                    return null
+                                                }}
+                                            </Query>
+                                            <Query
+                                                query={GET_RATING}
+                                                pollInterval={500}
+                                                variables={{ TutorialID: ID, rating: 4 }}
+                                            >
+                                                {({ data }) => {
+                                                    if (data.getRatingAndComment) {
+                                                        return <li><Link to="#" title="4 stars">4 stars</Link><span>{data.getRatingAndComment.length}</span></li>
+                                                    }
+                                                    return null
+                                                }}
+                                            </Query>
+                                            <Query
+                                                query={GET_RATING}
+                                                pollInterval={500}
+                                                variables={{ TutorialID: ID, rating: 3 }}
+                                            >
+                                                {({ data }) => {
+                                                    if (data.getRatingAndComment) {
+                                                        return <li><Link to="#" title="3 stars">3 stars</Link><span>{data.getRatingAndComment.length}</span></li>
+                                                    }
+                                                    return null
+                                                }}
+                                            </Query>
+                                            <Query
+                                                query={GET_RATING}
+                                                pollInterval={500}
+                                                variables={{ TutorialID: ID, rating: 2 }}
+                                            >
+                                                {({ data }) => {
+                                                    if (data.getRatingAndComment) {
+                                                        return <li><Link to="#" title="2 stars">2 stars</Link><span>{data.getRatingAndComment.length}</span></li>
+                                                    }
+                                                    return null
+                                                }}
+                                            </Query>
+                                            <Query
+                                                query={GET_RATING}
+                                                pollInterval={500}
+                                                variables={{ TutorialID: ID, rating: 1 }}
+                                            >
+                                                {({ data }) => {
+                                                    if (data.getRatingAndComment) {
+                                                        return <li><Link to="#" title="1 stars">1 stars</Link><span>{data.getRatingAndComment.length}</span></li>
+                                                    }
+                                                    return null
+                                                }}
+                                            </Query>
+
                                         </ul>
                                     </div>
                                 </div>
@@ -175,9 +258,11 @@ class CourseDetail extends Component {
                         </nav>
                     </div>
                     <div className="col-md-3 col-sm-4 event-sidebar">
-
                         <div className="courses-features">
-                            <Query
+                            <div className="text-center">
+                                <h3>{CourseName}</h3>
+                            </div>
+                            {/* <Query
                                 query={GET_CURRENT_USER}
                             >
                                 {(data, loading, error) => {
@@ -200,18 +285,21 @@ class CourseDetail extends Component {
                                     }
                                     return <div className="text-center">
                                         <h3>{CourseName}</h3>
+
                                         <StarRatingComponent
                                             name="rate1"
                                             starCount={5}
                                             value={rating}
                                             onStarClick={this.onStarClick}
                                         />
+                                        {this.state.ratingModif ? addRating({variables: { TutorialID: ID, userID: data.data.getCurrentUser._id, rating }}) : null}
+
                                         <div>
                                             <span style={{ marginBottom: '18px' }}>( 0  Review )</span>
                                         </div>
                                     </div>
                                 }}
-                            </Query>
+                            </Query> */}
 
                             <Query
                                 query={GET_CURRENT_USER}
@@ -238,14 +326,14 @@ class CourseDetail extends Component {
                                                                     console.log(order)
                                                                     return (
                                                                         <div className="featuresbox text-center" key={order._id}>
-                                                                            <button className="btn btn-round btn-sm">
+                                                                            <button className="btn bg-black btn-round btn-sm">
                                                                                 <Link to={`/my-courses/${ID}`}><strong>START</strong></Link>
                                                                             </button>
                                                                         </div>
                                                                     )
                                                                 })) : (
                                                                         <div className="featuresbox text-center">
-                                                                            <button className="btn btn-round btn-sm "
+                                                                            <button className="btn bg-black btn-round btn-sm "
                                                                                 onClick={this.addToCart}
                                                                                 disabled={this.state.cart.includes(ID)}
                                                                             >
@@ -264,7 +352,7 @@ class CourseDetail extends Component {
                                     return (
                                         <div className="featuresbox text-center">
                                             Signin Or Signup
-                                            <button className="btn btn-round btn-sm "
+                                            <button className="btn bg-black btn-round btn-sm "
                                                 onClick={this.addToCart}
                                                 disabled={true}
                                             >
@@ -297,13 +385,22 @@ class CourseDetail extends Component {
                             return (
                                 <Mutation
                                     mutation={ADD_COMMENT}
-                                    variables={{ comment: commentarea, TutorialID: ID, userName }}
+                                    variables={{ comment: commentarea, TutorialID: ID, userName, rating }}
                                 >
-                                    {(AddComment) => {
+                                    {(addRatingAndComment) => {
                                         return (
-                                            <form className="comment-form" onSubmit={event => this.handleSubmit(event, AddComment)}>
+                                            <form className="comment-form" onSubmit={event => this.handleSubmit(event, addRatingAndComment)}>
                                                 <h3 className="block-title">Post a Comment</h3>
                                                 <div className="row">
+                                                    <div className="form-group col-md-12 mt-4">
+                                                        <StarRatingComponent
+                                                            name="rate1"
+                                                            className="RatingComment"
+                                                            starCount={5}
+                                                            value={rating}
+                                                            onStarClick={this.onStarClick}
+                                                        />
+                                                    </div>
                                                     <div className="form-group col-md-12">
                                                         <textarea className="form-control msg"
                                                             rows="5"
@@ -332,8 +429,8 @@ class CourseDetail extends Component {
                         variables={{ TutorialID: ID }}
                     >
                         {({ data }) => {
-                            if (data.getComments) {
-                                return <h3 className="block-title">{data.getComments.length} Comments</h3>
+                            if (data.getRatingsAndComments) {
+                                return <h3 className="block-title">{data.getRatingsAndComments.length} Comments</h3>
                             }
                             return <h3 className="block-title">0 Comments</h3>
                         }}
@@ -343,24 +440,44 @@ class CourseDetail extends Component {
                         pollInterval={500}
                         variables={{ TutorialID: ID }}
                     >
-                        {({ data }) => {
+                        {({ data, stopPolling }) => {
                             console.log(data)
-                            if (data.getComments) {
-                                return data.getComments.map((comment, i) => {
+                            if (data.getRatingsAndComments) {
+                                return data.getRatingsAndComments.map((comment, i) => {
                                     let dateComponent = moment(comment.createdDate).utc().format('YYYY-MM-DD');
                                     let timeComponent = moment(comment.createdDate).utc().format('HH:mm');
                                     return (
                                         <div className="media" key={comment._id}>
                                             <div className="media-left">
-                                                <Link title="Martin Guptil" to="#">
-                                                    <img width="112" height="112" className="media-object" src={window.location.origin + "/images/user.png"} alt="Martin Guptil" />
-                                                </Link>
+                                                <Query
+                                                    query={GET_USER}
+                                                    variables={{ userName: comment.userName }}
+                                                >
+                                                    {({ data }) => {
+                                                        if (data.getUser) {
+                                                            console.log(data.getUser)
+                                                            return (
+                                                                <Link title="Martin Guptil" to="#">
+                                                                    <img width="112" height="112" className="media-object" src={data.getUser.profileImage} alt="Martin Guptil" />
+                                                                    {stopPolling(1000)}
+                                                                </Link>
+                                                            )
+                                                        }
+                                                        return null
+                                                    }}
+                                                </Query>
                                             </div>
                                             <div className="media-body">
                                                 <div className="media-content">
-                                                    <h4 className="media-heading">
+                                                    <h3 className="media-heading">
                                                         {comment.userName}<span> {dateComponent} {timeComponent}</span>
-                                                    </h4>
+                                                    </h3>
+                                                    {comment.rating === 0 ? null : (<StarRatingComponent
+                                                        name="rate1"
+                                                        starCount={5}
+                                                        value={comment.rating}
+                                                        editing={false}
+                                                    />)}
                                                     <p> {comment.comment} </p>
                                                 </div>
                                             </div>

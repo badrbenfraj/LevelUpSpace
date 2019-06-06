@@ -95,6 +95,7 @@ class Editor extends Component {
             message.success('Blog added successfuly')
             this.clearState();
         }).catch(error => {
+          console.log(error.graphQLErrors.map(x => x.message))
             this.setState({
                 error: "couldn't add blog"
             })
@@ -214,7 +215,7 @@ class Editor extends Component {
                           <Dropzone onDrop={this.handleFilesChange} className="dropzone" accept="image/*">
                             {({ getRootProps, getInputProps }) => (
                               <div {...getRootProps({ className: 'dropzone' })}>
-                                <input {...getInputProps()} />
+                                <input {...getInputProps()} required/>
                                 <p>Drag 'n' drop some files here, or click to select files</p>
                               </div>
                             )}

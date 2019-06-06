@@ -41,6 +41,11 @@ exports.resolvers = {
 
             return users;
         },
+        getUser: async (root, { userName }, { User }) => {
+            const user = await User.findOne({ userName });
+
+            return user;
+        },
         getAllTeachers: async (root, args, { User }) => {
             const users = await User.find({ isTeacher: { $eq: true } })
             return users;
@@ -79,26 +84,36 @@ exports.resolvers = {
             const allOrders = await Orders.find({ userName, TutorialID });
             return allOrders;
         },
-        getComments: async (root, { TutorialID }, { Comments }) => {
-            const comment = await Comments.find({ TutorialID });
+        getRatingsAndComments: async (root, { TutorialID }, { RatingsAndComments }) => {
+            const comment = await RatingsAndComments.find({ TutorialID }).sort({
+                createdDate: -1 // descending
+            });
             return comment;
         },
-        getComments: async (root, { TutorialID }, { Comments }) => {
-            const comment = await Comments.find({ TutorialID });
+        getRatingsAndCommentsExcept: async (root, { TutorialID }, { RatingsAndComments }) => {
+            const comment = await RatingsAndComments.find({ TutorialID, rating: { $ne: 0 } });
+            return comment;
+        },
+        getRatingAndComment: async (root, { TutorialID, rating }, { RatingsAndComments }) => {
+            const comment = await RatingsAndComments.find({ TutorialID, rating });
             return comment;
         },
         getBlogComments: async (root, { BlogID }, { BlogComment }) => {
             const comment = await BlogComment.find({ BlogID });
+
             return comment;
         },
         getQuizzes: async (root, { LectureID }, { Quizzes }) => {
             const Quiz = await Quizzes.find({ LectureID });
+
             return Quiz;
         },
         getBlogs: async (root, args, { Blogs }) => {
             const allBlogs = await Blogs.find();
+
             return allBlogs;
         },
+
     },
     Mutation: {
         // add tutorial to database
@@ -219,7 +234,7 @@ exports.resolvers = {
                     pass: process.env.NODEMAILER_AUTH_PW
                 }
             });
-            const html = generateHTML('resetPassword', {generatedPassword, userFirstname, email});
+            const html = generateHTML('resetPassword', { generatedPassword, userFirstname, email });
             const text = htmlToText.fromString(html);
             mailer.sendMail({
                 from: process.env.NODEMAILER_FROM_EMAIL,
@@ -227,12 +242,6 @@ exports.resolvers = {
                 subject: 'LevelUpSpace - Password Reset',
                 html,
                 text
-            }, function (err, res) {
-                if (err) {
-                    // console.log(err)
-                    return response.status(500).send('500 - Internal Server Error')
-                }
-                response.status(200).send('200 - The request has succeeded.')
             });
 
             return bcrypt.hash(generatedPassword, saltRounds).then(async function (hash) {
@@ -364,12 +373,13 @@ exports.resolvers = {
 
             return newOrder;
         },
-        addComment: async (root, { TutorialID, userName, comment }, { Comments }) => {
+        addRatingAndComment: async (root, { TutorialID, userName, comment, rating }, { RatingsAndComments }) => {
 
-            const newComment = await new Comments({
+            const newComment = await new RatingsAndComments({
                 TutorialID,
                 userName,
                 comment,
+                rating,
                 createdDate: new Date().toISOString()
             }).save();
 

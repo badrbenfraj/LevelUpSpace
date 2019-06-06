@@ -188,7 +188,7 @@ class AddTutorial extends Component {
                                                     <Dropzone onDrop={this.handleFilesChange} className="dropzone" accept="image/*">
                                                         {({ getRootProps, getInputProps }) => (
                                                             <div {...getRootProps({ className: 'dropzone' })}>
-                                                                <input {...getInputProps()} />
+                                                                <input {...getInputProps()} name="addTutorial" required/>
                                                                 <p>Drag 'n' drop some files here, or click to select files</p>
                                                             </div>
                                                         )}

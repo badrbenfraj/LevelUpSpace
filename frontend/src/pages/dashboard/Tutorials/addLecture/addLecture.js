@@ -11,6 +11,7 @@ const initialState = {
     description: '',
     error: '',
     video: '',
+    selectedVideo: null,
     progress: 0
 }
 
@@ -32,44 +33,46 @@ class AddLecture extends Component {
         });
     }
 
-    handleSubmit(event, addLecture) {
+    handleSubmit = async (event, addLecture) => {
         event.preventDefault();
-        addLecture().then(async ({ data }) => {
-            message.success('Lecture added successfuly')
-            this.clearState();
-
-        }).catch(error => {
-            this.setState({
-                error: "couldn't add lecture"
-            })
-        });
-
-    }
-
-    handleFilesChange = async (video) => {
         const data = new FormData();
-        console.log(video[0])
-        data.append('file', video[0]);
+        const file = this.state.selectedVideo
+        data.append('file', file);
         data.append('upload_preset', 'LevelUpSpace');
-        const res = await axios.post('https://api.cloudinary.com/v1_1/levelup/video/upload', data, {
+        await axios.post('https://api.cloudinary.com/v1_1/levelup/video/upload', data, {
             onUploadProgress: (progressBar) => {
                 let progress = Math.round(progressBar.loaded * 100 / progressBar.total)
                 this.setState({
                     progress
                 })
             }
+        }).then(({ data: { secure_url } }) => {
+            console.log(secure_url)
+            this.setState({
+                video: secure_url
+            });
+            addLecture({ variables: { video: this.state.video } }).then(async ({ data }) => {
+                message.success('Lecture added successfuly')
+                this.clearState();
+            }).catch(error => {
+                this.setState({
+                    error: "couldn't add lecture"
+                })
+            });
         });
         console.log(this.state.progress)
-        const file = await res;
         console.log(file)
-        console.log(file.data.secure_url)
+    }
+
+    handleFilesChange = (video) => {
+        const selectedVideo = video[0];
         this.setState({
-            video: file.data.secure_url
+            selectedVideo
         });
     }
 
     render() {
-        const { name, description, ID, progress, video } = this.state;
+        const { name, description, ID, progress } = this.state;
         console.log(this.props.lecture.section.id)
         return (
             <div className="text-center border border-light p-5">
@@ -79,7 +82,7 @@ class AddLecture extends Component {
                 <div className="card-body px-lg-5 pt-0">
                     <Mutation
                         mutation={ADD_LECTURE}
-                        variables={{ name, description, ID, video }}
+                        variables={{ name, description, ID }}
                     >
                         {(addLecture) => {
                             return (
@@ -119,7 +122,7 @@ class AddLecture extends Component {
                                         <Dropzone onDrop={this.handleFilesChange} className="dropzone" accept="video/*">
                                             {({ getRootProps, getInputProps }) => (
                                                 <div {...getRootProps({ className: 'dropzone' })}>
-                                                    <input {...getInputProps()} />
+                                                    <input {...getInputProps()} required/>
                                                     <p>Drag 'n' drop some files here, or click to select files</p>
                                                 </div>
                                             )}

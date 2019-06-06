@@ -273,11 +273,11 @@ a.socialMedia i{
   }
 .btn {        
   display: inline;
-      font-size: 15px;
-      font-weight: bold;
-      background: var(--mainDark);
-      color: var(--mainWhite);
-      cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+	background: var(--mainDark);
+	color: var(--mainWhite);
+  cursor: pointer;
   }
 .btn:hover{
   color: var(--mainWhite);
@@ -978,7 +978,10 @@ tr td {
 	display: inline-block;
 	border: 1px solid #ececec;
 	border-radius: 5px;
-	padding: 35px 40px 39px 46px;
+	padding-top: 51px;
+	padding-bottom: 51px;
+	padding-left: 58px;
+	padding-right: 52px;
 	text-align: center;
 }
 .average-review h2 {
@@ -1016,7 +1019,7 @@ tr td {
 .detail-review ul{
 	padding-left: 0;
 	padding-left: 33px;
-	padding-top: 21px;
+	padding-top: 20px;
 	padding-right: 25px;
 }
 .detail-review ul li {
@@ -2154,8 +2157,11 @@ input[type="file"] {
 .TutorialMessage{
 	padding:  0px 0px 0px 15px !important
 }
-.dv-star-rating-star i{
+.RatingComment .dv-star-rating-star i{
 	font-size: 20px;
+}
+.dv-star-rating-star i{
+	font-size: 15px;
 }
 .dropzone{
 	border-width: '2px';
@@ -2174,4 +2180,15 @@ input[type="file"] {
   margin-block-end: 1em;
   margin-inline-start: 0px;
 	margin-inline-end: 0px;
+}
+.bg-black{
+	color: white !important;
+	background-color: black !important;
+}
+.anchor-grey{
+	color: #777 !important;;
+}
+
+.anchor-black{
+	color: black !important;;
 }

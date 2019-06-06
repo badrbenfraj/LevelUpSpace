@@ -41,26 +41,26 @@ class Blogs extends Component {
 											return (
 												<article className="type-post" key={blog._id}>
 													<div className="entry-cover">
-														<Link title="Cover" to="blogpost-page.html">
+														<Link title="Cover" to={`/post/${blog._id}`}>
 															<img width="800" height="470" alt="latestnews" src={blog.image} />
 														</Link>
 													</div>
 													<div className="entry-block">
 														<div className="entry-contentblock">
 															<div className="entry-meta"  >
-																<span className="postby">By : <Link to="#" title="Andreanne Turcotte">{blog.userName}</Link></span>
+																<span className="postby">By : <Link to="#" title="Andreanne Turcotte" >{blog.userName}</Link></span>
 																<span className="postcatgory">Category : <Link to="#" title="News Posted">{blog.category}</Link></span>
 																<span className="postdate">Date : <Link to="#" title="25th May 2016">{dateComponent}</Link></span>
 															</div>
 															<div className="entry-block">
 																<div className="entry-title">
-																	<Link title="Along Communicate Directly With Experienced Teachers" to="blogpost-page.html"><h3>{blog.title} </h3></Link>
+																	<Link title="Along Communicate Directly With Experienced Teachers" to={`/post/${blog._id}`}><h3>{blog.title} </h3></Link>
 																</div>
 																<div className="entry-content">
 																	<p dangerouslySetInnerHTML={{ __html: blog.content }} />
 																</div>
 															</div>
-															<Link to={`/post/${blog._id}`} title="Read More">Read More</Link>
+															<Link to={`/post/${blog._id}`} title="Read More" className="anchor-black">Read More</Link>
 														</div>
 														<div className="post-ic"><span className="icon icon-Pencil"></span></div>
 													</div>
@@ -71,36 +71,25 @@ class Blogs extends Component {
 									return null
 								}}
 							</Query>
-							<nav className="ow-pagination">
-								<ul className="pagination">
-									<li className="active"><Link to="#">1</Link></li>
-									<li><Link to="#">2</Link></li>
-									<li><Link to="#">Next</Link></li>
-								</ul>
-							</nav>
 						</div>
 						<div className="col-md-3 col-sm-4 widget-area">
 							<aside className="widget_categories">
 								<h3 className="widget-title">Categories</h3>
 								<ul>
-									<li><Link title="Language Science" to="#"> Web development </Link><span>(10)</span></li>
-									<li><Link title="Student Guidance" to="#"> mobile development </Link><span>(12)</span></li>
-									<li><Link title="School Psychology" to="#"> Robotics </Link><span>(08)</span></li>
-									<li><Link title="Vocational Counselling" to="#"> Data science </Link><span>(18)</span></li>
+									<li><Link title="Language Science" to="#" className="anchor-grey"> Web development </Link><span>(10)</span></li>
+									<li><Link title="Student Guidance" to="#" className="anchor-grey"> mobile development </Link><span>(12)</span></li>
+									<li><Link title="School Psychology" to="#" className="anchor-grey"> Robotics </Link><span>(08)</span></li>
+									<li><Link title="Vocational Counselling" to="#" className="anchor-grey"> Data science </Link><span>(18)</span></li>
 								</ul>
 							</aside>
 							<aside className="widget widget_latestnews">
-								<h3 className="widget-title">Latest News</h3>
+								<h3 className="widget-title">Latest Articles</h3>
 								<div className="latestnews-box">
-									<Link to="blogpost-page.html" title="Along Communicate Directly With Experienced Teachers">ttt</Link>
+									<Link to="blogpost-page.html" title="Along Communicate Directly With Experienced Teachers" className="anchor-grey">ttt</Link>
 									<span>20th April 2019</span>
 								</div>
 								<div className="latestnews-box">
-									<Link to="blogpost-page.html" title="Given The Tips To Students Succed In An Online Courses ">ttttt</Link>
-									<span>20th April 2019</span>
-								</div>
-								<div className="latestnews-box">
-									<Link to="blogpost-page.html" title="Why Should Read Every Day">ttt</Link>
+									<Link to="blogpost-page.html" className="anchor-grey" title="Why Should Read Every Day">ttt</Link>
 									<span>20th April 2019</span>
 								</div>
 							</aside>

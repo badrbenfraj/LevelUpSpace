@@ -167,7 +167,7 @@ class Signup extends Component {
                                         <div className="form_row">
                                             <div className="form_item">
                                                 <div className="form_input">
-                                                    <input type="text" name="userName" placeholder="Username" value={userName} onChange={this.handleChange} />
+                                                    <input type="text" name="userName" placeholder="Username" value={userName} onChange={this.handleChange} autoComplete="username"/>
                                                     <span className="bottom_border"></span>
                                                 </div>
 
@@ -183,7 +183,7 @@ class Signup extends Component {
                                             </div>
                                             <div className="form_item">
                                                 <div className="form_input">
-                                                    <input type="password" name="password" placeholder="Password" value={password} onChange={this.handleChange} />
+                                                    <input type="password" name="password" placeholder="Password" value={password} onChange={this.handleChange} autoComplete="new-password"/>
                                                     <span className="bottom_border"></span>
                                                 </div>
 
@@ -196,7 +196,7 @@ class Signup extends Component {
                                         <div className="form_row">
                                             <div className="form_item">
                                                 <div className="form_input">
-                                                    <input type="password" name="passwordConfirm" placeholder="Password confirm" value={passwordConfirm} onChange={this.handleChange} onBlur={this.confirmPW} />
+                                                    <input type="password" name="passwordConfirm" placeholder="Password confirm" value={passwordConfirm} onChange={this.handleChange} onBlur={this.confirmPW} autoComplete="new-password"/>
                                                     <span className="bottom_border"></span>
                                                 </div>
                                             </div>

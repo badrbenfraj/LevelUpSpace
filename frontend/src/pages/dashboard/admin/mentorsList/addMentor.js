@@ -53,6 +53,7 @@ class AddMentor extends Component {
 
     handleSubmit(event, signupUser) {
         event.preventDefault();
+        console.log(typeof(signupUser()))
         signupUser().then(async ({ data }) => {
             this.clearState();
 
@@ -108,7 +109,7 @@ class AddMentor extends Component {
                     >
 
                         {(signupUser, { data, loading, error }) => {
-
+                            console.log(typeof(signupUser))
                             return (
                                 <form className="text-center" onSubmit={event => this.handleSubmit(event, signupUser)}>
                                     <div className={classNames({ 'error-label': this.state.error !== '' })}>

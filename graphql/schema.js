@@ -79,12 +79,13 @@ type Order{
     createdDate: String!
 }
 
-type Comment{
+type RatingsAndComments{
     _id: ID
     comment: String!
     TutorialID: String!
     userName: String!
     createdDate: String!
+    rating: Int!
 }
 
 type BlogComment{
@@ -124,6 +125,8 @@ type Query {
 
     getAllUsers: [User]
 
+    getUser(userName: String!): User
+
     getAllTeachers: [User]
 
     getAllMentors: [User]
@@ -142,7 +145,11 @@ type Query {
 
     getSpecificOrder(TutorialID: String!, userName: String!): [Order]
 
-    getComments(TutorialID: String!): [Comment]
+    getRatingsAndComments(TutorialID: String!): [RatingsAndComments]
+
+    getRatingsAndCommentsExcept(TutorialID: String!): [RatingsAndComments]
+
+    getRatingAndComment(TutorialID: String!, rating: Int!): [RatingsAndComments]
 
     getBlogComments(BlogID: String!): [BlogComment]
 
@@ -193,7 +200,7 @@ type Mutation{
 
     addOrders(TutorialID: String!, userName: String!): Order
 
-    addComment(comment: String!, userName: String!, TutorialID: String!): Comment
+    addRatingAndComment(comment: String!, userName: String!, TutorialID: String!, rating: Int!): RatingsAndComments
 
     addBlogComment(comment: String!, userName: String!, BlogID: String!): BlogComment
 

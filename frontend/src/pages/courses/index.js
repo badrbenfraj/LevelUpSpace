@@ -36,7 +36,6 @@ class Courses extends Component {
                 <div className="row">
                     <Query
                         query={GET_ALL_TUTORIALS}
-                        pollInterval={500}
                     >
                         {({ loading, error, data }) => {
                             if (loading) return <Spin indicator={antIcon} className="text-center" />
