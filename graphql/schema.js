@@ -51,8 +51,8 @@ type Lecture{
 type Messages{ 
     _id : ID
     message: String!
-    userName: String!
     createdDate: String!
+    User: User!
 }
 
 type TutorialMessages{ 
@@ -116,6 +116,15 @@ type Blogs{
     createdDate: String!
 }
 
+type Camp{ 
+    _id : ID
+    CampName: String!
+    url: String!
+    DateAndTime: String!
+    createdDate: String!
+    Mentor: User!
+}
+
 type Query {
     getCurrentUser: User
 
@@ -156,6 +165,8 @@ type Query {
     getQuizzes(LectureID: String): [Quiz]!
 
     getBlogs: [Blogs]
+
+    getCamps: [Camp]
 }
 
 
@@ -178,7 +189,7 @@ type Mutation{
 
     deleteTutorial(_id: ID): Tutorial
 
-    changeTutorialName(_id: ID!, newName: String!, newDescription: String!, newPictures: [Upload!]!): Tutorial
+    changeTutorialName(_id: ID!, newName: String!, newDescription: String!): Tutorial
 
     addSection(name: String!, description: String!, TutorialID: String!): Section
 
@@ -186,13 +197,13 @@ type Mutation{
 
     editSection(_id: ID!, newName: String!, newDescription: String!): Section
 
-    addLecture(name: String!, description: String!, SectionID: String!, video: [Upload!]!): Lecture
+    addLecture(name: String!, description: String!, SectionID: String!, video: String): Lecture
 
     deleteLecture(_id: ID): Lecture
 
     editLecture(_id: ID!, newName: String!, newDescription: String!): Lecture
 
-    addMessages(message: String!, userName: String!): Messages
+    addMessages(message: String!, _id: ID!): Messages
 
     addTutorialMessages(TutorialID: String!, message: String!, userName: String!): TutorialMessages
     
@@ -215,6 +226,8 @@ type Mutation{
     editBlogs(_id: ID! newTitle: String!, newCategory: String!, newSubject: String!, newContent: String!): Blogs
 
     deleteBlogs(_id: ID!): Blogs
+
+    addCamp(CampName: String!, url: String!, DateAndTime: String!, _id: ID!): Camp
 }
 `;
 

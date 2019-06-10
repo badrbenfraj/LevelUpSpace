@@ -151,18 +151,6 @@ class Editor extends Component {
                         <div className={classNames({ 'error-label': this.state.error !== '' })}>
                           {this.state.error}
                         </div>
-                        <div className="form-row mb-4">
-                          <div className="col">
-                            <input
-                              type="hidden"
-                              name="userName"
-                              className="form-control"
-                              placeholder="author name"
-                              value={userName}
-                              onChange={this.handleChange}
-                            />
-                          </div>
-                        </div>
 
                         <div className="form-row mb-4">
                           <div className="col">

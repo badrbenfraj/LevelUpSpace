@@ -6,9 +6,9 @@ const messagesSchema = new Schema({
         type: String,
         required: true
     },
-    userName:{
-        type: String,
-        required: true
+    User: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
     },
     createdDate:{
         type: String,

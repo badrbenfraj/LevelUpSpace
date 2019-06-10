@@ -172,6 +172,9 @@ class CourseDetail extends Component {
                                                     // })
                                                     const RatingTotal = ratingEx.reduce((rating, rate) => rating + rate.rating, 0);
                                                     const AverageRating = RatingTotal/ratingEx.length;
+                                                    if(!AverageRating){
+                                                        return <h2>0</h2>    
+                                                    }
                                                     return <h2>{AverageRating}</h2>
                                                 }
                                                 return null

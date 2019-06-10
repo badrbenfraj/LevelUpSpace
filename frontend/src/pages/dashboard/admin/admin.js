@@ -5,6 +5,7 @@ import Mentors from './mentorsList/mentors';
 import Tutorials from '../Tutorials';
 import ClaimList from '../Claim/claimList';
 import AddBlogs from '../Blog/AddBlog/index';
+import Bootcamp from '../Bootcamp';
 
 const { Sider, Content } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -49,6 +50,10 @@ class Admin extends Component {
             return (
                 <AddBlogs />
             )
+        } else if (this.state.current === "addBootcamp") {
+            return (
+                <Bootcamp />
+            )
         }
 
     }
@@ -85,6 +90,10 @@ class Admin extends Component {
                         <Menu.Item key="addBlogs">
                             <Icon type="edit" />
                             <span> Blog</span>
+                        </Menu.Item>
+                        <Menu.Item key="addBootcamp">
+                            <Icon type="video-camera" />
+                            <span> Bootcamp</span>
                         </Menu.Item>
                     </Menu>
                 </Sider>

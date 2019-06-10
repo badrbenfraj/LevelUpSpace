@@ -67,7 +67,10 @@ export const GET_ALL_MESSAGES = gql`
     query {
         getMessages{
             _id
-            userName
+            User{
+                userName
+                profileImage
+            }
             message
             createdDate
         }
@@ -77,10 +80,9 @@ export const GET_ALL_MESSAGES = gql`
 // Message Mutation
 
 export const SEND_MESSAGE = gql`
-    mutation($message: String!, $userName: String!){
-        addMessages(message: $message, userName: $userName){
+    mutation($message: String!, $_id: ID!){
+        addMessages(message: $message, _id: $_id){
             message
-            userName
         }
     }
 `;
@@ -168,7 +170,7 @@ export const EDIT_SECTION = gql`
 `;
 
 export const ADD_LECTURE = gql`
-    mutation($name: String!, $description: String!, $ID: String!, $video: [Upload!]!){
+    mutation($name: String!, $description: String!, $ID: String!, $video: String){
         addLecture( name: $name, description: $description, SectionID: $ID, video: $video){ 
             name
         }
@@ -204,6 +206,7 @@ export const EDIT_LECTURE = gql`
 export const GET_CURRENT_USER = gql`
     query {
         getCurrentUser {
+            _id
             firstName
             lastName
             joinDate
@@ -546,4 +549,41 @@ mutation($_id: ID!) {
    _id
  }
 }
+`;
+
+// Bootcamp Queries
+export const GET_CAMPS = gql`
+    query {
+        getCamps{
+            _id
+            DateAndTime
+            CampName
+            url
+            createdDate
+            Mentor{
+                userName
+            }
+        }
+    }
+`;
+
+export const GET_MENTOR_CAMPS = gql`
+    query ($MentorUserName: String!){
+        getCamps(MentorUserName: $MentorUserName) {
+            _id
+            DateAndTime
+            CampName
+            url
+            createdDate
+        }
+    }
+`;
+
+//Bootcamp Mutation
+export const ADD_CAMP = gql`
+ mutation($CampName: String!, $url: String!, $DateAndTime: String!, $_id: ID!){
+     addCamp( CampName: $CampName, url: $url, DateAndTime: $DateAndTime, _id: $_id){ 
+        CampName
+     }
+ }
 `;

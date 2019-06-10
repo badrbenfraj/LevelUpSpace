@@ -211,7 +211,6 @@ class Course extends Component {
                                             >
                                                 {({ loading, error, data }) => {
                                                     if (loading) return <div>fetching</div>
-                                                    if (error) return <div>{error}</div>
                                                     const allMsg = data.getTutorialMessages;
                                                     return allMsg.map(message => {
                                                         return (
@@ -233,9 +232,14 @@ class Course extends Component {
                                             return (
                                                 <div className="card-footer">
                                                     <form onSubmit={event => this.sendMessage(event, addTutorialMessages)}>
-                                                        <input type="hidden" placeholder="Username" value={userName} readOnly />
                                                         <br />
-                                                        <input type="text" placeholder="Message" className="form-control" value={message} onChange={ev => this.setState({ message: ev.target.value })} />
+                                                        <input
+                                                            type="text"
+                                                            placeholder="Message"
+                                                            className="form-control"
+                                                            value={message}
+                                                            onChange={ev => this.setState({ message: ev.target.value })}
+                                                        />
                                                         <button className="btn btn-primary form-control">
                                                             Send
                                                         </button>

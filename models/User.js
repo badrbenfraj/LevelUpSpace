@@ -25,19 +25,12 @@ const userSchema = new Schema({
         required: true,
         unique: true
     },
-    bio: {
-        type: String
-    },
     profileImage: {
         type: String
     },
     joinDate: {
         type: Date,
         default: Date.now
-    },
-    favorites: {
-        type: [Schema.Types.ObjectId],
-        ref: 'Tutorial'
     },
     isUser:{
         type: Boolean,

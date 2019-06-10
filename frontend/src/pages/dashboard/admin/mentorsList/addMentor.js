@@ -18,7 +18,8 @@ const initialState = {
     isUser: false,
     isAdmin: false,
     isTeacher: false,
-    isMentor: false
+    isMentor: false,
+    profileImage: 'https://res.cloudinary.com/levelup/image/upload/v1558875579/LevelUpSpace/ccvqgljtzmxfzq8shcav.png'
 }
 new Clipboard('.copypassgen');
 
@@ -92,10 +93,8 @@ class AddMentor extends Component {
 
     }
 
-
-
     render() {
-        const { firstName, lastName, email, userName, password, passwordConfirm, isUser, isAdmin, isTeacher, isMentor } = this.state;
+        const { firstName, lastName, email, userName, password, passwordConfirm, isUser, isAdmin, isTeacher, isMentor, profileImage } = this.state;
         return (
             <div className="text-center border border-light p-5">
 
@@ -105,7 +104,7 @@ class AddMentor extends Component {
                 <div className="card-body px-lg-5 pt-0">
                     <Mutation
                         mutation={SIGNUP_USER}
-                        variables={{ firstName, lastName, email, userName, password, isUser, isAdmin, isTeacher, isMentor }}
+                        variables={{ firstName, lastName, email, userName, password, isUser, isAdmin, isTeacher, isMentor, profileImage }}
                     >
 
                         {(signupUser, { data, loading, error }) => {
@@ -185,7 +184,7 @@ class AddMentor extends Component {
                                             />
                                         </div>
                                     </div>
-                                    <input type="hidden" name="isTeacher" value="true" />
+                                    <input type="hidden" name="isMentor" value="true" />
                                     <button
                                         className="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
                                         type="submit"
@@ -196,8 +195,8 @@ class AddMentor extends Component {
                             );
                         }}
                     </Mutation>
-                    <button className="passgen" onClick={this.gen}>generate password</button>
-                    <button className="copypassgen" data-clipboard-text={password}>copy password</button>
+                    <button className="passgen Button2" onClick={this.gen}>generate password</button>
+                    <button className="copypassgen Button2" data-clipboard-text={password}>copy password</button>
                 </div>
 
             </div>

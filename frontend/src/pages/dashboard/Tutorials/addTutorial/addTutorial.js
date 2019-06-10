@@ -198,8 +198,6 @@ class AddTutorial extends Component {
                                                     {this.state.image && <img src={this.state.image} alt={this.state.image} width={200} />}
                                                 </div>
 
-                                                <input hidden="hidden" name="userName" value={userName} readOnly />
-
                                                 <button
                                                     className="btn btn-outline-info btn-rounded btn-block my-4 waves-effect z-depth-0"
                                                     type="submit">

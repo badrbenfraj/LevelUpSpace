@@ -103,7 +103,7 @@ class ForgotPassword extends React.Component {
 
                                         <div className="formBottomLinks">
                                             <p>
-                                                Remembered your password? <Link to="/signin">Sign-in</Link>
+                                                Remembered your password? <Link to="/login" className="anchor-black">Sign-in</Link>
                                             </p>
                                         </div>
 

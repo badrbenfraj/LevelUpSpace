@@ -25,7 +25,6 @@ class SingleCourse extends Component {
                         >
                             {({ loading, error, data }) => {
                                 if (loading) return <Spin indicator={antIcon} className="text-center" />
-                                if (error) return <div>{error}</div>
                                 const users = data.getAllUsers
                                     return users.map(user => {
                                         if (user.userName === userName) {
@@ -35,7 +34,7 @@ class SingleCourse extends Component {
                                     })
                             }}
                         </Query>
-                        <p>{description}</p>
+                        <p className="welcome-box-paragraph">{description}</p>
                         <ul className="course-detail">
                             <li><i className="fa fa-calendar" aria-hidden="true"></i>Course duration : <span>3 Yr</span></li>
                             <li><i className="fa fa-graduation-cap" aria-hidden="true"></i>Degree Level : <span>Master’s Degree</span></li>

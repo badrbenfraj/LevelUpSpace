@@ -130,10 +130,9 @@ class Signin extends React.Component {
                                                 Don't have an account? <NavLink to="/register" className="signuplink">Join now!</NavLink>
                                             </p>
                                             <p>
-                                                Forgot your password? <Link to="/account-recovery">Reset here</Link>
+                                                Forgot your password? <Link to="/account-recovery" className="anchor-black">Reset here</Link>
                                             </p>
                                         </div>
-                                        <input type="hidden" name="role" value="user" onChange={this.handleChange} />
                                         <div className="form_buttons">
                                             <button type="submit" className="btn"
                                                 disabled={loading || this.validateForm()}>

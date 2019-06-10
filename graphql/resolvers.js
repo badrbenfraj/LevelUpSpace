@@ -63,7 +63,10 @@ exports.resolvers = {
             return allLectures;
         },
         getMessages: async (root, args, { Messages }) => {
-            const allMessages = await Messages.find();
+            const allMessages = await Messages.find().populate({
+                path: "User",
+                model: "User"
+            });
 
             return allMessages;
         },
@@ -112,6 +115,14 @@ exports.resolvers = {
             const allBlogs = await Blogs.find();
 
             return allBlogs;
+        },
+        getCamps: async (root, args, { Camp }) => {
+            const allCamps = await Camp.find().populate({
+                path: "Mentor",
+                model: "User"
+            });
+
+            return allCamps;
         },
 
     },
@@ -332,11 +343,11 @@ exports.resolvers = {
             const updatedName = await Lecture.findOneAndUpdate({ _id }, { $set: { name: newName, description: newDescription } }, { new: true });
             return updatedName;
         },
-        addMessages: async (root, { message, userName }, { Messages }) => {
+        addMessages: async (root, { message, _id }, { Messages }) => {
 
             const newMessage = await new Messages({
                 message,
-                userName,
+                User: _id,
                 createdDate: new Date().toISOString()
             }).save();
             return newMessage;
@@ -447,6 +458,16 @@ exports.resolvers = {
                 const removeBlogs = await Blogs.remove(blog);
                 return removeBlogs;
             }
+        },
+        addCamp: async (root, { CampName, url, DateAndTime, _id }, { Camp }) => {
+            const newcamp = await new Camp({
+                CampName,
+                url,
+                DateAndTime,
+                Mentor: _id,
+                createdDate: new Date().toISOString()
+            }).save();
+            return newcamp;
         },
     }
 };

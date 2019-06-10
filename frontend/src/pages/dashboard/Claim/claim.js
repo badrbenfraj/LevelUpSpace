@@ -46,9 +46,6 @@ class Claims extends React.Component {
         {(addClaim) => {
           return (
             <form onSubmit={event => this.handleSubmit(event, addClaim)}>
-              <input type="hidden" name="firstName" value={firstName} onChange={this.handleChange} disabled />
-              <input type="hidden" name="lastName" value={lastName} onChange={this.handleChange} disabled />
-              <input type="hidden" name="email" value={email} onChange={this.handleChange} disabled />
               <label>
                 Subject:
                     <input type="text" name="subject" value={subject} onChange={this.handleChange} />

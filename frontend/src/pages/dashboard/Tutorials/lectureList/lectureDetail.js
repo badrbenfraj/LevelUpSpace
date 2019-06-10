@@ -21,7 +21,7 @@ class LectureDetail extends Component {
         return (
             <tr>
                 <td>{name}</td>
-                <td>{description}</td>
+                <td style={{ maxWidth: '220px', overflow: 'hidden', textOverflow: 'hidden', whiteSpace: 'nowrap' }}>{description}</td>
                 <Mutation
                     mutation={DELETE_LECTURE}
                     variables={{_id}}

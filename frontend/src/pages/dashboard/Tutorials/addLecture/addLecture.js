@@ -38,15 +38,17 @@ class AddLecture extends Component {
         const data = new FormData();
         const file = this.state.selectedVideo
         data.append('file', file);
-        data.append('upload_preset', 'LevelUpSpace');
-        await axios.post('https://api.cloudinary.com/v1_1/levelup/video/upload', data, {
+        data.append('upload_preset', 'ml_default');
+        await axios.post('https://api.cloudinary.com/v1_1/levelupspace/video/upload', data, {
             onUploadProgress: (progressBar) => {
                 let progress = Math.round(progressBar.loaded * 100 / progressBar.total)
+                console.log(progress)
                 this.setState({
                     progress
                 })
             }
         }).then(({ data: { secure_url } }) => {
+            console.log(data)
             console.log(secure_url)
             this.setState({
                 video: secure_url
@@ -122,7 +124,7 @@ class AddLecture extends Component {
                                         <Dropzone onDrop={this.handleFilesChange} className="dropzone" accept="video/*">
                                             {({ getRootProps, getInputProps }) => (
                                                 <div {...getRootProps({ className: 'dropzone' })}>
-                                                    <input {...getInputProps()} required/>
+                                                    <input {...getInputProps()} />
                                                     <p>Drag 'n' drop some files here, or click to select files</p>
                                                 </div>
                                             )}

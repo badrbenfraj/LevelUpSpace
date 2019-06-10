@@ -9,6 +9,7 @@ const antIcon = <Icon type="loading" style={{ fontSize: 44 }} />;
 
 class Blogs extends Component {
 	render() {
+		console.log(moment()._d)
 		return (
 			<div>
 				<div className="breadcrumbs">

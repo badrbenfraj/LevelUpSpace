@@ -24,6 +24,7 @@ const RatingsAndComments = require('./models/RatingAndComment');
 const Quizzes = require('./models/Quiz');
 const Blogs = require('./models/Blogs');
 const BlogComment = require('./models/BlogComments');
+const Camp = require('./models/Camp');
 
 // connect to database
 mongoose
@@ -79,6 +80,7 @@ const schema = new ApolloServer({
       BlogComment,
       Quizzes,
       Blogs,
+      Camp,
       currentUser: req.currentUser
     }
   }

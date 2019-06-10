@@ -38,8 +38,8 @@ class MainNav extends Component {
     const text = <span>Title</span>;
     const content = (
       <div>
-        <p>Content</p>
-        <p>Content</p>
+        <p><Link to="/courses" className="anchor-grey">Courses</Link></p>
+        <p className="anchor-grey">Online Bootcamp</p>
       </div>
     );
     return (
