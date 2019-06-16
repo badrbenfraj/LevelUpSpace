@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { GET_SECTIONS, ADD_COMMENT, GET_CURRENT_USER, GET_COMMENTS, GET_LECTURES, GET_SPECIFIC_ORDER, GET_USER, GET_RATING, GET_RATING_EXCEPT } from '../../queries';
+import { GET_SECTIONS, ADD_COMMENT, GET_CURRENT_USER, GET_COMMENTS, GET_LECTURES, GET_SPECIFIC_ORDER, GET_USER, GET_RATING, GET_RATING_EXCEPT, GET_TUTORIAL } from '../../queries';
 import { Query, Mutation } from 'react-apollo';
 import moment from "moment";
 import StarRatingComponent from 'react-star-rating-component';
@@ -75,19 +75,21 @@ class CourseDetail extends Component {
                             {picture && <img src={picture} alt={CourseName} width="825" height="500" />}
                             <div className="course-description">
                                 <h3 className="course-title">Courses Description</h3>
-                                <p>Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit.Sed non mauris vitae erat consequat auctor eu in elit. Class aptent taciti.Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam quis nostrum exercitationem ullam corporis suscipit.</p>
-                                <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi id est laborum et dolorum fuga.</p>
-                            </div>
-                            <div className="courses-summary">
-                                <h3 className="course-title">Courses summary</h3>
-                                <ul>
-                                    <li><Link to="#" title="Over 94 lectures and 6 hours">Over 94 lectures and 6 hours</Link></li>
-                                    <li><Link to="#" title="Educated Staff">Educated Staff</Link></li>
-                                    <li><Link to="#" title="To teach real programming skills">To teach real programming skills</Link></li>
-                                    <li><Link to="#" title="Timesheets">Timesheets</Link></li>
-                                    <li><Link to="#" title="Build a solid understanding">Build a solid understanding</Link></li>
-                                    <li><Link to="#" title="Video Lessons">Video Lessons</Link></li>
-                                </ul>
+                                <Query
+                                    query={GET_TUTORIAL}
+                                    variables={{ TutorialID: ID }}
+                                >
+                                    {({ data }) => {
+                                        if (data.getTutorial) {
+                                            return data.getTutorial.map((tutorial) => {
+                                                return (
+                                                    <p>{tutorial.description}</p>
+                                                )
+                                            })
+                                        }
+                                        return null
+                                    }}
+                                </Query>
                             </div>
                             <div className="courses-curriculum">
                                 <h3 className="course-title">Courses curriculum</h3>
@@ -122,7 +124,6 @@ class CourseDetail extends Component {
                                                                                     <i className="far fa-file"></i>
                                                                                     <span className="lecture-no">Lecture {c}.{i + 1}</span>
                                                                                     <span className="lecture-title">{lecture.name}</span>
-                                                                                    <span className="lecture-time">00:40:00</span>
                                                                                 </div>
                                                                             )
                                                                         })
@@ -147,35 +148,17 @@ class CourseDetail extends Component {
                                     <div className="average-review">
                                         <Query
                                             query={GET_RATING_EXCEPT}
-                                            pollInterval={500}
                                             variables={{ TutorialID: ID }}
                                         >
                                             {({ data }) => {
                                                 if (data.getRatingsAndCommentsExcept) {
-                                                    const ratingEx= data.getRatingsAndCommentsExcept
-                                                    // console.log(this.state.RatingAverage)
-
-                                                    // ratingEx.map((rate, i) => {
-                                                    //     console.log(rate.rating)
-                                                    //     let prev = rate.rating
-                                                    //     console.log(prev + rate.rating)
-                                                    //     let av = prev + rate.rating
-                                                    //     console.log(av)
-                                                    //     return <h2>{av}</h2>
-                                                    // })
-                                                    // this.setState({
-                                                    //     RatingAverage : ratingEx.map((rate) => {
-                                                    //         console.log(typeof(rate.rating))
-
-                                                    //         return rate.rating
-                                                    //     })
-                                                    // })
+                                                    const ratingEx = data.getRatingsAndCommentsExcept
                                                     const RatingTotal = ratingEx.reduce((rating, rate) => rating + rate.rating, 0);
-                                                    const AverageRating = RatingTotal/ratingEx.length;
-                                                    if(!AverageRating){
-                                                        return <h2>0</h2>    
+                                                    const AverageRating = RatingTotal / ratingEx.length;
+                                                    if (!AverageRating) {
+                                                        return <h2>0</h2>
                                                     }
-                                                    return <h2>{AverageRating}</h2>
+                                                    return <h2>{AverageRating.toFixed(1)}</h2>
                                                 }
                                                 return null
                                             }}
@@ -189,7 +172,6 @@ class CourseDetail extends Component {
                                         <ul>
                                             <Query
                                                 query={GET_RATING}
-                                                pollInterval={500}
                                                 variables={{ TutorialID: ID, rating: 5 }}
                                             >
                                                 {({ data }) => {
@@ -201,7 +183,6 @@ class CourseDetail extends Component {
                                             </Query>
                                             <Query
                                                 query={GET_RATING}
-                                                pollInterval={500}
                                                 variables={{ TutorialID: ID, rating: 4 }}
                                             >
                                                 {({ data }) => {
@@ -213,7 +194,6 @@ class CourseDetail extends Component {
                                             </Query>
                                             <Query
                                                 query={GET_RATING}
-                                                pollInterval={500}
                                                 variables={{ TutorialID: ID, rating: 3 }}
                                             >
                                                 {({ data }) => {
@@ -225,7 +205,6 @@ class CourseDetail extends Component {
                                             </Query>
                                             <Query
                                                 query={GET_RATING}
-                                                pollInterval={500}
                                                 variables={{ TutorialID: ID, rating: 2 }}
                                             >
                                                 {({ data }) => {
@@ -237,7 +216,6 @@ class CourseDetail extends Component {
                                             </Query>
                                             <Query
                                                 query={GET_RATING}
-                                                pollInterval={500}
                                                 variables={{ TutorialID: ID, rating: 1 }}
                                             >
                                                 {({ data }) => {
@@ -253,56 +231,12 @@ class CourseDetail extends Component {
                                 </div>
                             </div>
                         </div>
-                        <nav className="ow-pagination">
-                            <ul className="pagination">
-                                <li><span className="arrow_left" aria-hidden="true"></span><Link to="#" title="Political Science">Political Science</Link></li>
-                                <li><Link to="#" title="Micro Biology">Micro Biology</Link><span className="arrow_right" aria-hidden="true"></span></li>
-                            </ul>
-                        </nav>
                     </div>
                     <div className="col-md-3 col-sm-4 event-sidebar">
                         <div className="courses-features">
                             <div className="text-center">
                                 <h3>{CourseName}</h3>
                             </div>
-                            {/* <Query
-                                query={GET_CURRENT_USER}
-                            >
-                                {(data, loading, error) => {
-
-                                    if (!data.data.getCurrentUser) {
-                                        return (
-                                            <div className="text-center">
-                                                <h3>{CourseName}</h3>
-                                                <StarRatingComponent
-                                                    name="rate1"
-                                                    starCount={5}
-                                                    value={rating}
-                                                    editing={false}
-                                                />
-                                                <div>
-                                                    <span style={{ marginBottom: '18px' }}>( 0  Review )</span>
-                                                </div>
-                                            </div>
-                                        )
-                                    }
-                                    return <div className="text-center">
-                                        <h3>{CourseName}</h3>
-
-                                        <StarRatingComponent
-                                            name="rate1"
-                                            starCount={5}
-                                            value={rating}
-                                            onStarClick={this.onStarClick}
-                                        />
-                                        {this.state.ratingModif ? addRating({variables: { TutorialID: ID, userID: data.data.getCurrentUser._id, rating }}) : null}
-
-                                        <div>
-                                            <span style={{ marginBottom: '18px' }}>( 0  Review )</span>
-                                        </div>
-                                    </div>
-                                }}
-                            </Query> */}
 
                             <Query
                                 query={GET_CURRENT_USER}
@@ -316,7 +250,6 @@ class CourseDetail extends Component {
                                         return (
                                             <Query
                                                 query={GET_SPECIFIC_ORDER}
-                                                pollInterval={500}
                                                 variables={{ TutorialID: ID, userName }}
                                             >
                                                 {(data) => {
@@ -373,8 +306,8 @@ class CourseDetail extends Component {
                             <div className="featuresbox"><img src={window.location.origin + "/images/cap-ic.png"} alt="cap-ic" width="24" height="20" /><h3>Certificate of Completion</h3></div>
                         </div>
                         <div className="courses-staff">
-                            <img src={window.location.origin + "/images/staff.jpg"} alt="staff" width="275" height="288" />
-                            <h3>{TeacherName}</h3>
+                            <img src={this.props.location.state.User.profileImage} alt="staff" width="275" height="288" />
+                            <h3>{this.props.location.state.User.userName}</h3>
                         </div>
                     </div>
                 </div>
@@ -389,6 +322,36 @@ class CourseDetail extends Component {
                                 <Mutation
                                     mutation={ADD_COMMENT}
                                     variables={{ comment: commentarea, TutorialID: ID, userName, rating }}
+                                    refetchQueries={() => {
+                                        return [{
+                                            query: GET_COMMENTS,
+                                            variables: { TutorialID: ID }
+                                        },
+                                        {
+                                            query: GET_RATING_EXCEPT,
+                                            variables: { TutorialID: ID }
+                                        },
+                                        {
+                                            query: GET_RATING,
+                                            variables: { TutorialID: ID, rating: 5 }
+                                        },
+                                        {
+                                            query: GET_RATING,
+                                            variables: { TutorialID: ID, rating: 4 }
+                                        },
+                                        {
+                                            query: GET_RATING,
+                                            variables: { TutorialID: ID, rating: 3 }
+                                        },
+                                        {
+                                            query: GET_RATING,
+                                            variables: { TutorialID: ID, rating: 2 }
+                                        },
+                                        {
+                                            query: GET_RATING,
+                                            variables: { TutorialID: ID, rating: 1 }
+                                        }]
+                                    }}
                                 >
                                     {(addRatingAndComment) => {
                                         return (
@@ -428,7 +391,6 @@ class CourseDetail extends Component {
                 <div className="post-comments">
                     <Query
                         query={GET_COMMENTS}
-                        pollInterval={500}
                         variables={{ TutorialID: ID }}
                     >
                         {({ data }) => {
@@ -440,7 +402,6 @@ class CourseDetail extends Component {
                     </Query>
                     <Query
                         query={GET_COMMENTS}
-                        pollInterval={500}
                         variables={{ TutorialID: ID }}
                     >
                         {({ data, stopPolling }) => {

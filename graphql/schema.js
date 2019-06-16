@@ -5,7 +5,6 @@ type User {
     firstName: String! 
     lastName: String!
     password: String!
-    bio: String
     profileImage: String
     email: String!
     userName: String!
@@ -28,7 +27,7 @@ type Tutorial{
     image: String
     duration: String!
     createdDate: String!
-    userName: String!
+    User: User!
 }
 
 type Section{ 
@@ -171,7 +170,7 @@ type Query {
 
 
 type Mutation{
-    addTutorial(name: String!, description: String!, price: String!, duration: String!, userName: String, image: [Upload!]!): Tutorial
+    addTutorial(name: String!, description: String!, price: String!, duration: String!, UserID: ID, image: String!): Tutorial
     
     signupUser(firstName: String!, lastName: String!, email: String!, userName: String!, password: String!, isUser:Boolean!, isAdmin: Boolean!, isTeacher: Boolean!, isMentor: Boolean!, profileImage: String!): Token
     

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
-import { DELETE_Tutorial } from '../../../../queries';
+import { DELETE_Tutorial, GET_ALL_TUTORIALS } from '../../../../queries';
 import { Link } from 'react-router-dom';
 import { message } from 'antd';
 
@@ -28,7 +28,9 @@ class TutorialDetail extends Component {
                 <Mutation
                     mutation={DELETE_Tutorial}
                     variables={{ _id }}
-                    pollInterval={500}
+                    refetchQueries={() => [
+                        { query: GET_ALL_TUTORIALS }
+                    ]}
                 >
 
                     {(deleteTutorial, attrs) => (

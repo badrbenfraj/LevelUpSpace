@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import { message } from 'antd';
 import { Link } from 'react-router-dom';
-import { DELETE_SECTION } from '../../../../queries';
+import { DELETE_SECTION, GET_SECTIONS } from '../../../../queries';
 
 class SectionDetail extends Component {
     render() {
@@ -26,7 +26,12 @@ class SectionDetail extends Component {
                 <Mutation
                     mutation={DELETE_SECTION}
                     variables={{ _id }}
-                    pollInterval={500}
+                    refetchQueries={() => {
+                        return [{
+                            query: GET_SECTIONS,
+                            variables: { TutorialID }
+                        }];
+                    }}
                 >
                     {(deleteSection, attrs) => {
                         return (

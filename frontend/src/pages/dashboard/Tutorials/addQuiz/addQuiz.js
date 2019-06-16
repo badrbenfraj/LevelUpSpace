@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Mutation } from 'react-apollo';
 import { message } from 'antd';
-import { ADD_QUIZ } from '../../../../queries';
+import { ADD_QUIZ, GET_QUIZZES } from '../../../../queries';
 
 const initialState = {
     QuizName: '',
@@ -68,6 +68,12 @@ class AddQuiz extends Component {
                     <Mutation
                         mutation={ADD_QUIZ}
                         variables={{ LectureID, QuizQuestion, QuizName, answers, correctAnswer }}
+                        refetchQueries={() => {
+                            return [{
+                                query: GET_QUIZZES,
+                                variables: { LectureID }
+                            }];
+                        }}
                     >
                         {(addQuiz) => {
                             return (

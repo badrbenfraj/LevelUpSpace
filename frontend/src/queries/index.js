@@ -14,7 +14,19 @@ export const GET_ALL_TUTORIALS = gql`
             duration
             description
             createdDate
-            userName
+            User{
+                _id
+                firstName
+                lastName
+                joinDate
+                userName
+                email
+                profileImage
+                isUser
+                isAdmin
+                isTeacher
+                isMentor
+            }
             image
         }
     }
@@ -29,7 +41,19 @@ export const GET_TUTORIAL = gql`
             duration
             description
             createdDate
-            userName
+            User{
+                _id
+                firstName
+                lastName
+                joinDate
+                userName
+                email
+                profileImage
+                isUser
+                isAdmin
+                isTeacher
+                isMentor
+            }
             image
         }
     }

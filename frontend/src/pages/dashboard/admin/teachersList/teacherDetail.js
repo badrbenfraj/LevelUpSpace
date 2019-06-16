@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Mutation } from 'react-apollo';
-import {DELETE_USER} from '../../../../queries'
+import {DELETE_USER, GET_ALL_TEACHERS} from '../../../../queries'
 
 class TeacherDetail extends Component {
 
@@ -25,11 +25,16 @@ class TeacherDetail extends Component {
                 <Mutation
                     mutation={DELETE_USER}
                     variables={{_id}}
+                    refetchQueries={() => {
+                        return [{
+                            query: GET_ALL_TEACHERS
+                        }];
+                    }}
                 >
                 
-                    {(deleteUser, attrs = {}) => (
+                    {(deleteUser, {loading} = {}) => (
                         <td>
-                            {attrs.loading ? "deleting..." : <i className="fas fa-trash-alt" onClick={() => handleDelete(deleteUser)} />}
+                            {loading ? "deleting..." : <i className="fas fa-trash-alt" onClick={() => handleDelete(deleteUser)} />}
                         </td>
                     )}
                 </Mutation>

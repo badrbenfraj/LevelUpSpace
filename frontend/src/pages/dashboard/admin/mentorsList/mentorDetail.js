@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import {Mutation } from 'react-apollo';
-import {DELETE_USER} from '../../../../queries'
+import { Mutation } from 'react-apollo';
+import { DELETE_USER, GET_ALL_MENTORS } from '../../../../queries'
 
 class MentorDetail extends Component {
-
     render() {
         const { _id, userName, firstName, lastName } = this.props.mentor;
         const handleDelete = deleteUser => {
@@ -11,11 +10,11 @@ class MentorDetail extends Component {
                 _id.toString()
             );
             if (confirmDelete) {
-              deleteUser(_id.toString()).then(({ data }) => {
-                 console.log(_id.toString());
-              });
+                deleteUser(_id.toString()).then(({ data }) => {
+                    console.log(_id.toString());
+                });
             }
-          };
+        };
 
         return (
             <tr>
@@ -25,6 +24,11 @@ class MentorDetail extends Component {
                 <Mutation
                     mutation={DELETE_USER}
                     variables={{ _id }}
+                    refetchQueries={() => {
+                        return [{
+                            query: GET_ALL_MENTORS
+                        }];
+                    }}
                 >
 
                     {(deleteUser, attrs = {}) => (

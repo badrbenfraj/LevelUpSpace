@@ -18,11 +18,9 @@ class TutorialsList extends Component {
                         return (
                             <Query
                                 query={GET_ALL_TUTORIALS}
-                                pollInterval={500}
                             >
                                 {({ data, loading, error }) => {
                                     if (loading) return <div>fetching</div>
-                                    if (error) return <div>{error}</div>
                                     const AllTut = data.getAllTutorials;
                                     console.log(AllTut)
                                     const AllTutorials = () => {
@@ -38,11 +36,7 @@ class TutorialsList extends Component {
                                                     }
                                                 }
                                                 return verif()
-                                                
-                                                
                                             })
-                                        } else {
-                                            return 'No data found'
                                         }
                                     }
                                     return (

@@ -3,7 +3,7 @@ import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { message } from 'antd';
 import withAuth from '../../../../HOC/withAuth';
-import { EDIT_SECTION } from '../../../../queries';
+import { EDIT_SECTION, GET_SECTIONS } from '../../../../queries';
 import {
     Layout, Menu, Icon,
 } from 'antd';
@@ -62,7 +62,12 @@ class EditSection extends Component {
                     <Mutation
                         mutation={EDIT_SECTION}
                         variables={{ _id: this.state.id, newName: this.state.name, newDescription: this.state.description }}
-                        pollInterval={500}
+                        refetchQueries={() => {
+                            return [{
+                                query: GET_SECTIONS,
+                                variables: { TutorialID: this.state.id }
+                            }];
+                        }}
                     >
                         {(editSection) => {
                             return (

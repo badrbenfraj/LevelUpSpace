@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import { message } from 'antd';
-import { DELETE_LECTURE } from '../../../../queries';
+import { DELETE_LECTURE, GET_LECTURES } from '../../../../queries';
 
 class LectureDetail extends Component {
     render() {
@@ -24,9 +24,15 @@ class LectureDetail extends Component {
                 <td style={{ maxWidth: '220px', overflow: 'hidden', textOverflow: 'hidden', whiteSpace: 'nowrap' }}>{description}</td>
                 <Mutation
                     mutation={DELETE_LECTURE}
-                    variables={{_id}}
+                    variables={{ _id }}
+                    refetchQueries={() => {
+                        return [{
+                            query: GET_LECTURES,
+                            variables: { SectionID }
+                        }];
+                    }}
                 >
-                    {(deleteLecture, attrs)=>{
+                    {(deleteLecture, attrs) => {
                         return (
                             <td>
                                 <Link className="editBtn" to={{

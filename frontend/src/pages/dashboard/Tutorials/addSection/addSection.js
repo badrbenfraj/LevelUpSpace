@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Mutation } from 'react-apollo';
-import { ADD_SECTION } from '../../../../queries';
+import { ADD_SECTION, GET_SECTIONS } from '../../../../queries';
 import { message } from 'antd';
 
 const initialState = {
@@ -61,6 +61,12 @@ class AddSection extends Component {
                     <Mutation
                         mutation={ADD_SECTION}
                         variables={{ name, description, ID }}
+                        refetchQueries={() => {
+                              return [{
+                                  query: GET_SECTIONS,
+                                  variables: { TutorialID: ID }
+                              }];
+                          }}
                     >
                         {(addSection) => {
                             return (

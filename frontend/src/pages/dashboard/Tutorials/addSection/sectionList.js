@@ -15,7 +15,6 @@ class SectionList extends Component {
                 <Query
                     query={GET_SECTIONS}
                     variables={{ TutorialID: id }}
-                    pollInterval={500}
                 >
                     {({ data, loading, error }) => {
                         if (loading) return <div>fetching</div>
@@ -29,8 +28,6 @@ class SectionList extends Component {
                                         return <SectionDetail key={section._id} section={section} />
                                     }
                                 )
-                            } else {
-                                return 'No data found'
                             }
                         }
                         return (

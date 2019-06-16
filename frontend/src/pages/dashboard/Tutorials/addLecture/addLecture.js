@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Mutation } from 'react-apollo';
-import { ADD_LECTURE } from '../../../../queries';
+import { ADD_LECTURE, GET_LECTURES } from '../../../../queries';
 import { message, Progress } from 'antd';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
@@ -38,8 +38,8 @@ class AddLecture extends Component {
         const data = new FormData();
         const file = this.state.selectedVideo
         data.append('file', file);
-        data.append('upload_preset', 'ml_default');
-        await axios.post('https://api.cloudinary.com/v1_1/levelupspace/video/upload', data, {
+        data.append('upload_preset', 'LevelUpSpace');
+        await axios.post('https://api.cloudinary.com/v1_1/levelup/video/upload', data, {
             onUploadProgress: (progressBar) => {
                 let progress = Math.round(progressBar.loaded * 100 / progressBar.total)
                 console.log(progress)
@@ -79,16 +79,21 @@ class AddLecture extends Component {
         return (
             <div className="text-center border border-light p-5">
                 <p className="h4 mb-4">Add New Lecture</p>
-                {this.props.lecture.section.id}
                 {/* <!--Card content--> */}
                 <div className="card-body px-lg-5 pt-0">
                     <Mutation
                         mutation={ADD_LECTURE}
                         variables={{ name, description, ID }}
+                        refetchQueries={() => {
+                            return [{
+                                query: GET_LECTURES,
+                                variables: { SectionID: ID }
+                            }];
+                        }}
                     >
                         {(addLecture) => {
                             return (
-                                <form className="text-center" onSubmit={event => this.handleSubmit(event, addLecture)}>
+                                <form className="text-center" onSubmit={event => this.handleSubmit(event, addLecture)} noValidate>
                                     <div className={classNames({ 'error-label': this.state.error !== '' })}>
                                         {this.state.error}
                                     </div>
@@ -124,7 +129,7 @@ class AddLecture extends Component {
                                         <Dropzone onDrop={this.handleFilesChange} className="dropzone" accept="video/*">
                                             {({ getRootProps, getInputProps }) => (
                                                 <div {...getRootProps({ className: 'dropzone' })}>
-                                                    <input {...getInputProps()} />
+                                                    <input {...getInputProps()} required />
                                                     <p>Drag 'n' drop some files here, or click to select files</p>
                                                 </div>
                                             )}

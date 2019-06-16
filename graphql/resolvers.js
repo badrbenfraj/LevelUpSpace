@@ -27,12 +27,18 @@ exports.resolvers = {
         },
         // return all tutorials from database
         getAllTutorials: async (root, agrs, { Tutorial }) => {
-            const allTutorials = await Tutorial.find();
+            const allTutorials = await Tutorial.find().populate({
+                path: "User",
+                model: "User"
+            });
             return allTutorials;
         },
 
         getTutorial: async (root, { _id }, { Tutorial }) => {
-            const allTutorials = await Tutorial.find({ _id });
+            const allTutorials = await Tutorial.find({ _id }).populate({
+                path: "User",
+                model: "User"
+            });
             return allTutorials;
         },
 
@@ -80,7 +86,7 @@ exports.resolvers = {
             return allClaims;
         },
         getOrders: async (root, args, { Orders }) => {
-            const allOrders = await Orders.find();
+            const allOrders = await Orders.find()
             return allOrders;
         },
         getSpecificOrder: async (root, { userName, TutorialID }, { Orders }) => {
@@ -128,12 +134,12 @@ exports.resolvers = {
     },
     Mutation: {
         // add tutorial to database
-        addTutorial: async (root, { name, description, userName, price, image, duration }, { Tutorial }) => {
+        addTutorial: async (root, { name, description, UserID, price, image, duration }, { Tutorial }) => {
 
             const newTutorial = await new Tutorial({
                 name,
                 description,
-                userName,
+                User: UserID,
                 price,
                 image,
                 duration,

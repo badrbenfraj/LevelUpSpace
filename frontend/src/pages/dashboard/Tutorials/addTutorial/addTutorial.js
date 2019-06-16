@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Helmet } from 'react-helmet';
 import { message, Progress } from 'antd';
-import { ADD_TUTORIAL, GET_CURRENT_USER } from '../../../../queries';
+import { ADD_TUTORIAL, GET_CURRENT_USER, GET_ALL_TUTORIALS } from '../../../../queries';
 import { Mutation, Query } from 'react-apollo'
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
@@ -113,21 +113,20 @@ class AddTutorial extends Component {
                 <div className="card-body px-lg-5 pt-0">
                     <Query query={GET_CURRENT_USER}>
                         {({ data }) => {
-                            const userName = data.getCurrentUser.userName;
+                            const UserID = data.getCurrentUser._id;
                             return (
-
-
                                 <Mutation
                                     mutation={ADD_TUTORIAL}
-                                    variables={{ name, description, price, duration, userName }}
+                                    variables={{ name, description, price, duration, UserID }}
                                     onCompleted={this.onCompleted}
                                     onError={this.onError}
+                                    refetchQueries={() => [
+                                        { query: GET_ALL_TUTORIALS }
+                                    ]}
                                 >
-
                                     {(addTutorial, { data, loading, error }) => {
-
                                         return (
-                                            < form className="text-center" onSubmit={event => this.handleSubmit(event, addTutorial)}>
+                                            <form className="text-center" onSubmit={event => this.handleSubmit(event, addTutorial)} noValidate>
                                                 <div className={classNames({ 'error-label': this.state.error !== '' })}>
                                                     {this.state.error}
                                                 </div>
@@ -188,7 +187,7 @@ class AddTutorial extends Component {
                                                     <Dropzone onDrop={this.handleFilesChange} className="dropzone" accept="image/*">
                                                         {({ getRootProps, getInputProps }) => (
                                                             <div {...getRootProps({ className: 'dropzone' })}>
-                                                                <input {...getInputProps()} name="addTutorial" required/>
+                                                                <input {...getInputProps()} name="addTutorial" required />
                                                                 <p>Drag 'n' drop some files here, or click to select files</p>
                                                             </div>
                                                         )}

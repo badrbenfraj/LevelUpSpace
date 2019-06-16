@@ -3,7 +3,7 @@ import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { message } from 'antd';
 import withAuth from '../../../../HOC/withAuth';
-import { EDIT_LECTURE } from '../../../../queries';
+import { EDIT_LECTURE, GET_LECTURES } from '../../../../queries';
 import {
     Layout, Menu, Icon,
 } from 'antd';
@@ -62,7 +62,9 @@ class EditLecture extends Component {
                     <Mutation
                         mutation={EDIT_LECTURE}
                         variables={{ _id: this.state.id, newName: this.state.name, newDescription: this.state.description }}
-                        pollInterval={500}
+                        refetchQueries={() => [
+                            { query: GET_LECTURES }
+                        ]}
                     >
                         {(editLecture) => {
                             return (

@@ -42,40 +42,40 @@ class MyCoursesList extends Component {
                                 >
                                     {({ data, loading, error }) => {
                                         if (loading) return <div>fetching</div>
-                                        if (error) return <div>{error}</div>
                                         return data.getOrders.map(order => {
                                             if (userName === order.userName) {
                                                 const id = order.TutorialID;
                                                 return (
-                                                    <div
-                                                        className="col-md-4 col-sm-6 col-xs-6"
+                                                    <Query
+                                                        query={GET_TUTORIAL}
+                                                        variables={{ TutorialID: id }}
                                                         key={order._id}
                                                     >
-                                                        <Query
-                                                            query={GET_TUTORIAL}
-                                                            variables={{ TutorialID: id }}
-                                                        >
-                                                            {({ data }) => {
-                                                                const tut = data.getTutorial
-                                                                if (tut) {
-                                                                    return tut.map((tutorial) => {
-                                                                        return (
+                                                        {({ data }) => {
+                                                            const tut = data.getTutorial
+                                                            if (tut) {
+                                                                return tut.map((tutorial) => {
+                                                                    return (
+                                                                        <div
+                                                                            className="col-md-4 col-sm-6 col-xs-6"
+                                                                            key={tutorial._id}
+                                                                        >
                                                                             <div
                                                                                 className="welcome-box"
-                                                                                key={tutorial._id}
                                                                             >
                                                                                 <Link to={`/my-courses/${id}`}><img src={tutorial.image} alt={tutorial.name} width="370" height="440" /></Link>
                                                                                 {console.log(tut)}
                                                                                 {console.log(id)}
                                                                                 <CourseTitle TutorialTitle={tutorial} />
                                                                             </div>
-                                                                        )
-                                                                    })
-                                                                }
-                                                                return null
-                                                            }}
-                                                        </Query>
-                                                    </div>
+                                                                        </div>
+                                                                    )
+                                                                })
+                                                            }
+                                                            return null
+                                                        }}
+                                                    </Query>
+
                                                 )
                                             }
                                             return null

@@ -15,7 +15,6 @@ class QuizzesList extends Component {
                 <Query
                     query={GET_QUIZZES}
                     variables={{ LectureID: ID }}
-                    pollInterval={500}
                 >
                     {({ data, loading, error }) => {
                         if (loading) return <div>fetching</div>

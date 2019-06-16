@@ -15,7 +15,6 @@ class LecturesList extends Component {
                 <Query
                     query={GET_LECTURES}
                     variables={{ SectionID: ID }}
-                    pollInterval={500}
                 >
                     {({ data, loading, error }) => {
                         if (loading) return <div>fetching</div>

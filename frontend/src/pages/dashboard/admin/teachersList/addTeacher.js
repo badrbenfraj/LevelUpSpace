@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Mutation } from 'react-apollo';
-import { SIGNUP_USER } from '../../../../queries';
+import { SIGNUP_USER, GET_ALL_TEACHERS } from '../../../../queries';
 import { Helmet } from 'react-helmet';
 import generator from 'generate-password';
 import Clipboard from 'clipboard'
@@ -102,7 +102,15 @@ class AddTeacher extends Component {
 
                 {/* <!--Card content--> */}
                 <div className="card-body px-lg-5 pt-0">
-                    <Mutation mutation={SIGNUP_USER} variables={{ firstName, lastName, email, userName, password, isUser, isAdmin, isTeacher, isMentor, profileImage }}>
+                    <Mutation 
+                    mutation={SIGNUP_USER} 
+                    variables={{ firstName, lastName, email, userName, password, isUser, isAdmin, isTeacher, isMentor, profileImage }}
+                    refetchQueries={() => {
+                        return [{
+                            query: GET_ALL_TEACHERS
+                        }];
+                    }}
+                    >
 
                         {(signupUser, { data, loading, error }) => {
 

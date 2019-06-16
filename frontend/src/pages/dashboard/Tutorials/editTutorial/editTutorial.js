@@ -3,7 +3,7 @@ import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { message } from 'antd';
 import withAuth from '../../../../HOC/withAuth';
-import { CHANGE_TUTORIAL_NAME } from '../../../../queries';
+import { CHANGE_TUTORIAL_NAME, GET_ALL_TUTORIALS } from '../../../../queries';
 import Section from '../addSection';
 import {
     Layout, Menu, Icon,
@@ -62,7 +62,9 @@ class EditTutorial extends Component {
                     <Mutation
                         mutation={CHANGE_TUTORIAL_NAME}
                         variables={{ _id: this.state.id, newName: this.state.name, newDescription: this.state.description }}
-                        pollInterval={500}
+                        refetchQueries={() => [
+                            { query: GET_ALL_TUTORIALS }
+                        ]}
                     >
                         {(changeTutorialName) => {
                             return (

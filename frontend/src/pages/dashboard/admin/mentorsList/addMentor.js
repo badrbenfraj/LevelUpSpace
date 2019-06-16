@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Mutation } from 'react-apollo';
-import { SIGNUP_USER } from '../../../../queries';
+import { SIGNUP_USER, GET_ALL_MENTORS } from '../../../../queries';
 import { Helmet } from 'react-helmet';
 import generator from 'generate-password';
 import Clipboard from 'clipboard'
@@ -57,7 +57,6 @@ class AddMentor extends Component {
         console.log(typeof(signupUser()))
         signupUser().then(async ({ data }) => {
             this.clearState();
-
         }).catch(error => {
             this.setState({
                 error: 'Either your email or username is already taken. Please adjust and try again.'
@@ -105,6 +104,11 @@ class AddMentor extends Component {
                     <Mutation
                         mutation={SIGNUP_USER}
                         variables={{ firstName, lastName, email, userName, password, isUser, isAdmin, isTeacher, isMentor, profileImage }}
+                        refetchQueries={() => {
+                            return [{
+                                query: GET_ALL_MENTORS
+                            }];
+                        }}
                     >
 
                         {(signupUser, { data, loading, error }) => {

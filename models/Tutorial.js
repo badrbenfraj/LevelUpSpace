@@ -26,9 +26,10 @@ const tutorialsSchema = new Schema({
         type: String,
         default: Date.now
     },
-    userName:{
-        type: String
-    }
+    User: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
 })
 
 module.exports = mongoose.model('Tutorial', tutorialsSchema)

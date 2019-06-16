@@ -15,9 +15,9 @@ class SearchBox extends Component {
                         const allTutorials = data.getAllTutorials
                         console.log(data.getAllTutorials)
                         if (allTutorials) {
-                            return <span>Showing 1-9 of total {allTutorials.length} courses</span>
+                            return <span>Total {allTutorials.length} courses</span>
                         }
-                        return <span>Showing 0 of total 0 courses</span>
+                        return <span>Total 0 courses</span>
                     }}
 
                 </Query>

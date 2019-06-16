@@ -1,24 +1,6 @@
 import React, { Component } from 'react';
-import DatePicker from 'react-datepicker';
-import moment from 'moment';
-import 'react-datepicker/dist/react-datepicker.css';
 
 class About extends Component {
-    state = {
-        startDate: moment()._d,
-    };
-    handleChange = (date) => {
-        console.log(date);
-        this.setState({
-            startDate: Date.parse(date)
-        })
-    }
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-        const main = this.state.startDate
-        console.log(main);
-    }
     render() {
         return (
             <div className='container mt-5'>
@@ -32,24 +14,6 @@ class About extends Component {
                 Aenean euismod tincidunt placerat. In ultricies eros ut rutrum varius. Integer aliquet enim tempus lorem pellentesque, sed efficitur nibh volutpat. Fusce ultricies congue lorem eu mollis. Vivamus consectetur enim a lobortis ullamcorper. Mauris nec eros ut nibh lacinia pellentesque. Phasellus nec leo porta, tristique lectus eu, eleifend orci. Maecenas tincidunt facilisis commodo. Vestibulum dictum malesuada velit. Nulla ac ex ac ipsum placerat ullamcorper sed eu purus. Nulla facilisi. Pellentesque eu nisl ut justo aliquet interdum. Cras tempor nunc est, a porttitor tellus mollis pharetra. Aliquam hendrerit nisi quis convallis mollis. Suspendisse hendrerit molestie pellentesque.
                 <br /><br />
                 Nunc ante tortor, cursus nec mauris id, vulputate porttitor elit. Quisque ac metus aliquam, dignissim nulla quis, tempus tortor. Praesent vel erat sollicitudin, pharetra erat eget, porta urna. Donec pharetra justo ultricies tempor accumsan. Etiam at arcu vel lacus facilisis gravida ut non arcu. Suspendisse varius lacus nec tincidunt faucibus. Phasellus cursus justo eu justo posuere vestibulum.
-
-                <form onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                        <label>Select Date: </label>
-                        <DatePicker
-                            selected={this.state.startDate}
-                            onChange={this.handleChange}
-                            showTimeSelect
-                            timeFormat="HH:mm"
-                            timeIntervals={15}
-                            dateFormat="d MMMM, yyyy h:mm aa"
-                            timeCaption="time"
-                        />
-                    </div>
-                    <div className="form-group">
-                        <button className="btn btn-success">Add Date</button>
-                    </div>
-                </form>
             </div>
         );
     }

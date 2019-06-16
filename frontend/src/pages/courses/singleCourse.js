@@ -11,7 +11,7 @@ class SingleCourse extends Component {
     r = <CourseDetail {...this.props} />
     render() {
         console.log(this.props)
-        const { _id, name, userName, image, description } = this.props.tutorial;
+        const { _id, name, User, image, description } = this.props.tutorial;
         return (
             <div className="col-md-4 col-sm-6 col-xs-6" >
                 <div className="welcome-box">
@@ -27,7 +27,7 @@ class SingleCourse extends Component {
                                 if (loading) return <Spin indicator={antIcon} className="text-center" />
                                 const users = data.getAllUsers
                                     return users.map(user => {
-                                        if (user.userName === userName) {
+                                        if (user.userName === User.userName) {
                                             return (<span key={user._id}>{user.firstName} {user.lastName}</span>)
                                         }
                                         return null
@@ -43,7 +43,7 @@ class SingleCourse extends Component {
                             pathname: `/course/${_id}`,
                             state: {
                                 name,
-                                userName,
+                                User,
                                 image
                             }
                         }}>Apply now</Link>
