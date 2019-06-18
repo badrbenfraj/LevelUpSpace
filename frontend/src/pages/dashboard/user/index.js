@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Icon } from 'antd';
-import Messages from '../../chat/messages';
 import Claims from '../Claim/claim';
+import BootCampList from '../Bootcamp/bootCampList';
 
 
 const { Sider, Content } = Layout;
-const SubMenu = Menu.SubMenu;
 
 class User extends Component {
     state = {
         collapsed: false,
-        current: '1',
+        current: 'Claim',
     };
 
     onCollapse = (collapsed) => {
@@ -26,19 +25,13 @@ class User extends Component {
         });
     }
     layoutContent = (props) => {
-        if (this.state.current === "Teachers") {
+        if (this.state.current === "Claim") {
             return (
-                <div>
-
-                </div>
+                <Claims  {...props} />
             )
-        } else if (this.state.current === "Claim") {
+        } else if (this.state.current === "bootcamp") {
             return (
-                <Claims  {...props}/>
-            )
-        } else if (this.state.current === "messages") {
-            return (
-                <Messages {...props} />
+                <BootCampList {...props} />
             )
         }
     }
@@ -56,21 +49,13 @@ class User extends Component {
                         onClick={this.handleClick}
                         selectedKeys={[this.state.current]}
                         mode="inline">
-                        <Menu.Item key="1">
-                            <Icon type="pie-chart" />
-                            <span>Option 1</span>
-                        </Menu.Item>
-                        <SubMenu
-                            key="sub2"
-                            title={<span><Icon type="team" /><span>Trainers</span></span>}
-                        >
-                            <Menu.Item key="Teachers">Teachers</Menu.Item>
-                        </SubMenu>
                         <Menu.Item key="Claim">
+                            <Icon type="exception" />
                             Claim
                         </Menu.Item>
-                        <Menu.Item key="messages">
-                            messages
+                        <Menu.Item key="bootcamp">
+                            <Icon type="video-camera" />
+                            Live Session
                         </Menu.Item>
                     </Menu>
                 </Sider>

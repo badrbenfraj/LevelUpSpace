@@ -21,7 +21,7 @@ class QuizDetail extends Component {
         return (
             <tr>
                 <td>{QuizName}</td>
-                <td>{QuizQuestion}</td>
+                <td className="rowElip">{QuizQuestion}</td>
                 <Mutation
                     mutation={DELETE_QUIZ}
                     variables={{ _id }}

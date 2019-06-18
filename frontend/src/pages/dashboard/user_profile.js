@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import classNames from 'classnames';
 import { Mutation } from 'react-apollo';
 import { CHANGE_EMAIL, CHANGE_PASSWORD, GET_CURRENT_USER, CHANGE_PROFILE_IMAGE } from '../../queries/';
 import { withRouter } from 'react-router-dom';
@@ -185,7 +184,7 @@ class UserProfile extends React.Component {
                                                 </div>
                                             </div>
                                             <div className="form_buttons">
-                                                <button className="btn" type="submit"
+                                                <button className="btn btn-custom" type="submit"
                                                     disabled={loading || this.validateEmail()}>
                                                     Update email</button>
                                             </div>
@@ -213,14 +212,17 @@ class UserProfile extends React.Component {
                                         <div className="form_wrap updateAccountEmailForm mt-2">
                                             <div className="form_row">
                                                 <div className="form_item">
-                                                    <div className="form_input">
-                                                        <input type="file" onChange={this.selectedFile} accept="image/*" required />
+                                                    <div className="form_input button-wrapper">
+                                                        <span className="label">
+                                                            Upload File
+                                                        </span>
+                                                        <input type="file" onChange={this.selectedFile} accept="image/*" required id="upload" className="upload-box" placeholder="Upload File" />
                                                         <span className="bottom_border"></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="form_buttons">
-                                                <button className="btn" type="submit"
+                                                <button className="btn btn-custom" type="submit"
                                                     disabled={loading || this.validateImage()}>
                                                     Update Profile Image
                                                 </button>
@@ -249,12 +251,9 @@ class UserProfile extends React.Component {
                                     <form onSubmit={event => this.handleChangePassword(event, changePassword)}>
                                         <div className="form_wrap updateAccountPasswordForm">
                                             <div className="form_row">
-                                                <div className={classNames({ 'error-label': true, 'passwordMatch': !this.state.passwordMatch })}>
-                                                    Please check that your passwords match and are at least 8 characters.
-                                            </div>
                                                 <div className="form_item">
                                                     <div className="form_input">
-                                                        <input type="password" name="password" placeholder="Password" value={password} onChange={this.handleChange} autoComplete="new-password"/>
+                                                        <input type="password" name="password" placeholder="Password" value={password} onChange={this.handleChange} autoComplete="new-password" />
                                                         <span className="bottom_border"></span>
                                                     </div>
                                                     <div className="helperText">
@@ -266,14 +265,14 @@ class UserProfile extends React.Component {
                                             <div className="form_row">
                                                 <div className="form_item">
                                                     <div className="form_input">
-                                                        <input type="password" name="passwordConfirm" placeholder="Password confirm" value={passwordConfirm} onChange={this.handleChange} onBlur={this.confirmPW} autoComplete="new-password"/>
+                                                        <input type="password" name="passwordConfirm" placeholder="Password confirm" value={passwordConfirm} onChange={this.handleChange} onBlur={this.confirmPW} autoComplete="new-password" />
                                                         <span className="bottom_border"></span>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div className="form_buttons">
-                                                <button className="btn" type="submit"
+                                                <button className="btn btn-custom" type="submit"
                                                     disabled={loading || this.validatePassword()}>
                                                     Update Password</button>
                                             </div>

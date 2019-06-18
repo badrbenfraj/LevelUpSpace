@@ -58,7 +58,7 @@ class Blogs extends Component {
 																	<Link title="Along Communicate Directly With Experienced Teachers" to={`/post/${blog._id}`}><h3>{blog.title} </h3></Link>
 																</div>
 																<div className="entry-content">
-																	<p dangerouslySetInnerHTML={{ __html: blog.content }} />
+																	<p dangerouslySetInnerHTML={{ __html: blog.content }} className="elip"/>
 																</div>
 															</div>
 															<Link to={`/post/${blog._id}`} title="Read More" className="anchor-black">Read More</Link>

@@ -21,8 +21,12 @@ const CampSchema = new Schema({
     Mentor: {
         type: Schema.Types.ObjectId,
         ref: "User"
-    }
-
+    },
+    Canceled: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
 })
 
 module.exports = mongoose.model('Camp', CampSchema)

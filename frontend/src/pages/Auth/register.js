@@ -203,7 +203,7 @@ class Signup extends Component {
                                         </div>
 
                                         <div className="form_buttons">
-                                            <button className="btn" type="submit"
+                                            <button className="btn-custom" type="submit"
                                                 disabled={loading || this.validateForm()}>
                                                 Register</button>
                                         </div>

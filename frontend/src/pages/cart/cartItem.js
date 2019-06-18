@@ -1,7 +1,7 @@
 import React from 'react';
 const styles = {
     images: {
-        width: '30px'
+        width: '80px'
     },
     btnDelete: {
         color: 'white',
@@ -16,17 +16,24 @@ const styles = {
 
 const CartItem = (props) => {
     const { images, btnDelete } = styles
-    const { name, price } = props.tutorial
+    const { name, price, image } = props.tutorial
+    console.log(props.tutorial)
     return (
         <tr>
             <td>
-                <img style={images} src="" alt="" />
-                <p><b>{name}</b></p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td className="withoutborder"><img style={images} src={image} alt={name} /></td>
+                            <td className="withoutborder" style={{verticalAlign: 'bottom'}}><p><b>{name}</b></p></td>
+                        </tr>
+                    </tbody>
+                </table>
             </td>
-            <td>
+            <td style={{verticalAlign: 'middle'}}>
                 <p><b>{price} TND</b></p>
             </td>
-            <td>
+            <td style={{verticalAlign: 'middle'}}> 
                 <p><button style={btnDelete} onClick={props.deleteitem}>x</button></p>
             </td>
         </tr>

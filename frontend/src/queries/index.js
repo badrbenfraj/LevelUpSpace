@@ -586,7 +586,11 @@ export const GET_CAMPS = gql`
             createdDate
             Mentor{
                 userName
+                isAdmin
+                isUser
+                isMentor
             }
+            Canceled
         }
     }
 `;
@@ -608,6 +612,14 @@ export const ADD_CAMP = gql`
  mutation($CampName: String!, $url: String!, $DateAndTime: String!, $_id: ID!){
      addCamp( CampName: $CampName, url: $url, DateAndTime: $DateAndTime, _id: $_id){ 
         CampName
+     }
+ }
+`;
+
+export const CANCEL_CAMP = gql`
+ mutation($Canceled: Boolean!, $_id: ID!){
+     cancelCamp( Canceled: $Canceled, _id: $_id){ 
+        Canceled
      }
  }
 `;

@@ -45,17 +45,36 @@ class Claims extends React.Component {
         variables={{ firstName, lastName, email, subject, description }} >
         {(addClaim) => {
           return (
-            <form onSubmit={event => this.handleSubmit(event, addClaim)}>
-              <label>
-                Subject:
-                    <input type="text" name="subject" value={subject} onChange={this.handleChange} />
-              </label><br />
-              <label>
-                Description:
-                    <input type="text" name="description" value={description} onChange={this.handleChange} />
-              </label><br />
-              <button type="submit">send</button>
-            </form>
+            <div className="container">
+              <div className="bg-primaryc py-5">
+                <div className="d-flex justify-content-center">
+                  <form onSubmit={event => this.handleSubmit(event, addClaim)} className="col-md-8 d-block">
+                    <h2 className="display-4 d-block">Claim</h2>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        className="form-control-lg claimInput"
+                        name="subject" value={subject}
+                        onChange={this.handleChange}
+                        placeholder="Subject"
+                      />
+                    </div>
+                    <div className="form-group mb-5">
+                      <textarea
+                        name="description"
+                        cols="40"
+                        rows="10"
+                        value={description}
+                        onChange={this.handleChange}
+                        className="sform-control claimTxtArea"
+                        placeholder="Write your claim..."
+                      />
+                    </div>
+                    <button className="btn px-4 btn-primary">Publish</button>
+                  </form>
+                </div>
+              </div>
+            </div>
           )
         }}
       </Mutation>

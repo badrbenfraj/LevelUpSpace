@@ -134,7 +134,7 @@ class Signin extends React.Component {
                                             </p>
                                         </div>
                                         <div className="form_buttons">
-                                            <button type="submit" className="btn"
+                                            <button type="submit" className="btn-custom"
                                                 disabled={loading || this.validateForm()}>
                                                 LogIn
                                             </button>

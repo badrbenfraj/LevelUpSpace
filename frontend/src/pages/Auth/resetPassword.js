@@ -108,7 +108,7 @@ class ForgotPassword extends React.Component {
                                         </div>
 
                                         <div className="form_buttons">
-                                            <button type="submit" className="btn"
+                                            <button type="submit" className="btn-custom"
                                                 disabled={loading || this.validateForm()}>
                                                 Reset</button>
                                         </div>

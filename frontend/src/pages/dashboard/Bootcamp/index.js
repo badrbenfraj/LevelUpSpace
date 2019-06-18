@@ -7,22 +7,29 @@ class Bootcamp extends Component {
 
     showAddCamp = () => {
         this.setState({
-            visible: true,
+            visible: true
+        });
+    }
+
+    hideAddCamp = () => {
+        this.setState({
+            visible: false
         });
     }
     render() {
+        console.log(this.props)
         return (
             <div>
                 <div className="table-title">
                     <div className="row">
-                        <div className="col-sm-8"><h2>Camps <b>List</b></h2></div>
+                        <div className="col-sm-8"><h2>Live Sessions <b>List</b></h2></div>
                         <div className="col-sm-4 text-right">
-                            <button type="button" onClick={this.showAddCamp} className="btn btn-info add-new"><i className="fa fa-plus"></i> Add New</button>
+                            {this.state.visible ? (<button type="button" onClick={this.hideAddCamp} className="btn btn-info add-new"><i className="fa fa-minus"></i> Hide</button>): (<button type="button" onClick={this.showAddCamp} className="btn btn-info add-new"><i className="fa fa-plus"></i> Add New</button>)}
                         </div>
                     </div>
                 </div>
                 {this.state.visible ? <AddCamp /> : null}
-                <BootCampList />
+                <BootCampList {...this.props} />
             </div>
         );
     }

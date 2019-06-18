@@ -24,7 +24,7 @@ class SearchBox extends Component {
                 <div className="input-group">
                     <input type="text" className="form-control" placeholder="Search courses" onChange={this.props.handleSearch} />
                     <span className="input-group-btn">
-                        <button className="btn" type="button"><i className="fa fa-search"></i></button>
+                        <button className="btn btn-custom" type="button"><i className="fa fa-search"></i></button>
                     </span>
                 </div>
             </div>

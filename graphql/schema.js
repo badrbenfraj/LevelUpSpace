@@ -51,7 +51,7 @@ type Messages{
     _id : ID
     message: String!
     createdDate: String!
-    User: User!
+    User: User
 }
 
 type TutorialMessages{ 
@@ -122,6 +122,7 @@ type Camp{
     DateAndTime: String!
     createdDate: String!
     Mentor: User!
+    Canceled: Boolean!
 }
 
 type Query {
@@ -227,6 +228,8 @@ type Mutation{
     deleteBlogs(_id: ID!): Blogs
 
     addCamp(CampName: String!, url: String!, DateAndTime: String!, _id: ID!): Camp
+
+    cancelCamp(Canceled: Boolean!, _id: ID!): Camp
 }
 `;
 

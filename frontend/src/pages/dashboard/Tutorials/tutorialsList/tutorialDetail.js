@@ -7,7 +7,7 @@ import { message } from 'antd';
 class TutorialDetail extends Component {
 
     render() {
-        const { _id, name, description, userName } = this.props.tutorial;
+        const { _id, name, description, User } = this.props.tutorial;
         const handleDelete = deleteTutorial => {
             const confirmDelete = window.confirm(
                 _id.toString()
@@ -21,9 +21,9 @@ class TutorialDetail extends Component {
         };
         return (
             <tr>
-                <td>{name}</td>
-                <td style={{ maxWidth: '220px', overflow: 'hidden', textOverflow: 'hidden', whiteSpace: 'nowrap' }}>{description}</td>
-                <td>{userName}</td>
+                <td className="rowElip">{name}</td>
+                <td className="rowElip">{description}</td>
+                <td>{User.userName}</td>
 
                 <Mutation
                     mutation={DELETE_Tutorial}

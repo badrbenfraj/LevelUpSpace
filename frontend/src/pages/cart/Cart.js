@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom'
 import { Query, Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import withAuth from '../../HOC/withAuth'
-import { GET_ALL_TUTORIALS, ADD_ORDER, GET_CURRENT_USER } from '../../queries';
+import { GET_ALL_TUTORIALS, ADD_ORDER, GET_CURRENT_USER, GET_ALL_ORDERS } from '../../queries';
 import CartItem from './cartItem';
 
 
@@ -34,7 +34,6 @@ class Cart extends Component {
         <Query
           key={item}
           query={GET_ALL_TUTORIALS}
-          pollInterval={500}
         >
           {({ data, loading, error }) => {
             const AllTut = data.getAllTutorials;
@@ -90,6 +89,9 @@ class Cart extends Component {
                   <Mutation
                     mutation={ADD_ORDER}
                     variables={{ TutorialID, userName }}
+                    refetchQueries={() => [
+                      { query: GET_ALL_ORDERS }
+                  ]}
                   >
                     {(addOrders) => {
                       return (
@@ -106,7 +108,6 @@ class Cart extends Component {
             </Query>
           )
         })
-        // return <Redirect to="/my-courses" />
       }
     }
   }
@@ -124,7 +125,7 @@ class Cart extends Component {
     console.log(this.state.cartItems)
     return (
       <div style={containerPadding}>
-        <Helmet bodyAttributes={{ class: "logInPage" }}>
+        <Helmet>
           <title>Cart - Level Up Space</title>
         </Helmet>
         <Container>

@@ -10,6 +10,11 @@ class Section extends Component {
             visible: true
         });
     }
+    hideAddSection = () => {
+        this.setState({
+            visible: false
+        });
+    }
     render() {
         console.log(this.props)
         return (
@@ -18,7 +23,7 @@ class Section extends Component {
                     <div className="row">
                         <div className="col-sm-8"><h2>Sections <b>List</b></h2></div>
                         <div className="col-sm-4 text-right">
-                            <button type="button" onClick={this.showAddSection} className="btn btn-info add-new"><i className="fa fa-plus"></i> Add New</button>
+                        {this.state.visible ? (<button type="button" onClick={this.hideAddSection} className="btn btn-info add-new"><i className="fa fa-minus"></i> Hide</button>): (<button type="button" onClick={this.showAddSection} className="btn btn-info add-new"><i className="fa fa-plus"></i> Add New</button>)}
                         </div>
                     </div>
                     {this.state.visible ? <AddSection section={this.props.tutorial} /> : null}

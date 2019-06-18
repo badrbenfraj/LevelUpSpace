@@ -10,6 +10,13 @@ class Mentors extends Component {
             visible: true,
         });
     }
+
+    hideAddMentor = () => {
+        this.setState({
+            visible: false,
+        });
+    }
+
     render() {
         return (
             <div>
@@ -17,7 +24,7 @@ class Mentors extends Component {
                     <div className="row">
                         <div className="col-sm-8"><h2>Mentors <b>List</b></h2></div>
                         <div className="col-sm-4 text-right">
-                            <button type="button" onClick={this.showAddMentor} className="btn btn-info add-new"><i className="fa fa-plus"></i> Add New</button>
+                            {this.state.visible ? (<button type="button" onClick={this.hideAddMentor} className="btn btn-info add-new"><i className="fa fa-minus"></i> Hide</button>): (<button type="button" onClick={this.showAddMentor} className="btn btn-info add-new"><i className="fa fa-plus"></i> Add New</button>)}
                         </div>
                     </div>
                 </div>

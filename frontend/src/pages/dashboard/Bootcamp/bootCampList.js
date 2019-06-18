@@ -1,46 +1,200 @@
 import React, { Component } from 'react';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import moment from "moment";
-import { GET_CAMPS } from '../../../queries';
+import { message } from "antd";
+import { GET_CAMPS, CANCEL_CAMP } from '../../../queries';
 
 class BootCampList extends Component {
+    state = {
+        Canceled: false
+    }
+
+    handleUnCancel = (event, cancelCamp) => {
+        event.preventDefault();
+        this.setState({
+            Canceled: true
+        })
+        cancelCamp({ variables: { Canceled: false } }).then(async () => {
+            message.success('Live Session Has Been Uncanceled')
+        })
+    }
+
+    handleCancel = (event, cancelCamp) => {
+        event.preventDefault();
+        this.setState({
+            Canceled: true
+        })
+        cancelCamp({ variables: { Canceled: true } }).then(async () => {
+            message.success('Live Session Has Been Canceled')
+        })
+    }
+
+    showTableHead = () => {
+        console.log(this.props)
+        if (this.props.session.getCurrentUser.isAdmin || this.props.session.getCurrentUser.isMentor) {
+            return (
+                <tr>
+                    <th scope="col">Session Name</th>
+                    <th scope="col">Session URL</th>
+                    <th scope="col">Mentor Username</th>
+                    <th scope="col">Date and Time</th>
+                    <th scope="col">Action</th>
+                </tr>
+            )
+        } else if (this.props.session.getCurrentUser.isUser) {
+            return (
+                <tr>
+                    <th scope="col">Session Name</th>
+                    <th scope="col">Session URL</th>
+                    <th scope="col">Mentor Username</th>
+                    <th scope="col">Date and Time</th>
+                    <th scope="col">Cancelation</th>
+                </tr>
+            )
+        }
+    }
+
+    showTableBody = () => {
+        if (this.props.session.getCurrentUser.isAdmin) {
+            return (
+                <Query
+                    query={GET_CAMPS}
+                    pollInterval={500}
+                >
+                    {({ loading, error, data }) => {
+                        const allcamps = data.getCamps
+                        if (allcamps) {
+                            console.log(allcamps)
+                            return allcamps.map((camp) => {
+                                let dateComponent = moment(camp.DateAndTime).utc().format('YYYY-MM-DD');
+                                let timeComponent = moment(camp.DateAndTime).utc().format('HH:mm A');
+                                console.log(this.props.session.getCurrentUser)
+                                console.log(camp.Mentor.isMentor)
+                                return (
+                                    <tr key={camp._id}>
+                                        <td className="rowElip">{camp.CampName}</td>
+                                        <td className="rowElip">{camp.url}</td>
+                                        <td className="rowElip">{camp.Mentor.userName}</td>
+                                        <td>{dateComponent} at {timeComponent}</td>
+                                        <td>
+                                            {!camp.Canceled ? (<Mutation
+                                                mutation={CANCEL_CAMP}
+                                                variables={{ _id: camp._id }}
+                                            >
+                                                {(cancelCamp) => {
+                                                    return <button className="Cancelbutton" onClick={(event) => { this.handleCancel(event, cancelCamp) }}>Cancel</button>
+                                                }}
+                                            </Mutation>) : (<Mutation
+                                                mutation={CANCEL_CAMP}
+                                                variables={{ _id: camp._id }}
+                                            >
+                                                {(cancelCamp) => {
+                                                    return <button className="UnCancelbutton" onClick={(event) => { this.handleUnCancel(event, cancelCamp) }}>Uncancel</button>
+
+                                                }}
+                                            </Mutation>)}
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
+                        return null
+                    }}
+                </Query>
+            )
+        } else if (this.props.session.getCurrentUser.isMentor) {
+            return (
+                <Query
+                    query={GET_CAMPS}
+                    pollInterval={500}
+                >
+                    {({ loading, error, data }) => {
+                        const allcamps = data.getCamps
+                        if (allcamps) {
+                            console.log(allcamps)
+                            return allcamps.map((camp) => {
+                                if (this.props.session.getCurrentUser.userName === camp.Mentor.userName) {
+                                    let dateComponent = moment(camp.DateAndTime).utc().format('YYYY-MM-DD');
+                                    let timeComponent = moment(camp.DateAndTime).utc().format('HH:mm A');
+                                    console.log(this.props.session.getCurrentUser)
+                                    console.log(camp.Mentor.isMentor)
+                                    return (
+                                        <tr key={camp._id}>
+                                            <td className="rowElip">{camp.CampName}</td>
+                                            <td className="rowElip">{camp.url}</td>
+                                            <td className="rowElip">{camp.Mentor.userName}</td>
+                                            <td>{dateComponent} at {timeComponent}</td>
+                                            <td>
+                                                {!camp.Canceled ? (<Mutation
+                                                    mutation={CANCEL_CAMP}
+                                                    variables={{ _id: camp._id }}
+                                                >
+                                                    {(cancelCamp) => {
+                                                        return <button className="Cancelbutton" onClick={(event) => { this.handleCancel(event, cancelCamp) }}>Cancel</button>
+                                                    }}
+                                                </Mutation>) : (<Mutation
+                                                    mutation={CANCEL_CAMP}
+                                                    variables={{ _id: camp._id }}
+                                                >
+                                                    {(cancelCamp) => {
+                                                        return <button className="UnCancelbutton" onClick={(event) => { this.handleUnCancel(event, cancelCamp) }}>Uncancel</button>
+
+                                                    }}
+                                                </Mutation>)}
+                                            </td>
+                                        </tr>
+                                    )
+                                }
+                                return null
+                            })
+                        }
+                        return null
+                    }}
+                </Query>
+            )
+        } else if (this.props.session.getCurrentUser.isUser) {
+            return (
+                <Query
+                    query={GET_CAMPS}
+                    pollInterval={500}
+                >
+                    {({ loading, error, data }) => {
+                        const allcamps = data.getCamps
+                        if (allcamps) {
+                            console.log(allcamps)
+                            return allcamps.map((camp) => {
+                                let dateComponent = moment(camp.DateAndTime).utc().format('YYYY-MM-DD');
+                                let timeComponent = moment(camp.DateAndTime).utc().format('HH:mm A');
+                                console.log(this.props.session.getCurrentUser)
+                                console.log(camp.Mentor.isMentor)
+                                return (
+                                    <tr key={camp._id}>
+                                        <td className="rowElip">{camp.CampName}</td>
+                                        <td className="rowElip">{camp.url}</td>
+                                        <td className="rowElip">{camp.Mentor.userName}</td>
+                                        <td>{dateComponent} at {timeComponent}</td>
+                                        {camp.Canceled ? <td>Canceled</td> : <td></td>}
+                                    </tr>
+                                )
+                            })
+                        }
+                        return null
+                    }}
+                </Query>
+            )
+        }
+    }
+
     render() {
         return (
             <div>
                 <div>
                     <table className="table">
                         <thead>
-                            <tr>
-                                <th scope="col">Session Name</th>
-                                <th scope="col">Session URL</th>
-                                <th scope="col">Mentor Username</th>
-                                <th scope="col">Date</th>
-                            </tr>
+                            {this.showTableHead()}
                         </thead>
                         <tbody>
-                            <Query
-                                query={GET_CAMPS}
-                                pollInterval={500}
-                            >
-                                {({ loading, error, data }) => {
-                                    const allcamps = data.getCamps
-                                    if (allcamps) {
-                                        console.log(allcamps)
-                                        return allcamps.map((camp) => {
-                                            let dateComponent = moment(camp.DateAndTime).utc().format('YYYY-MM-DD');
-                                            return (
-                                                <tr key={camp._id}>
-                                                    <td>{camp.CampName}</td>
-                                                    <td>{camp.url}</td>
-                                                    <td>{camp.Mentor.userName}</td>
-                                                    <td>{dateComponent}</td>
-                                                </tr>
-                                            )
-                                        })
-                                    }
-                                    return null
-                                }}
-                            </Query>
+                            {this.showTableBody()}
                         </tbody>
                     </table>
                 </div>

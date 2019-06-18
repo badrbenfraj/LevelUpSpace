@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import Claims from '../Claim/claim';
 import AddBlogsHome from '../Blog/AddBlog';
+import Bootcamp from '../Bootcamp';
 
 
 const { Sider, Content } = Layout;
-const SubMenu = Menu.SubMenu;
 
 class Mentor extends Component {
     state = {
@@ -34,6 +34,10 @@ class Mentor extends Component {
             return (
                 <AddBlogsHome />
             )
+        } else if (this.state.current === "bootcamp") {
+            return (
+                <Bootcamp {...props} />
+            )
         }
     }
     render() {
@@ -50,22 +54,18 @@ class Mentor extends Component {
                         onClick={this.handleClick}
                         selectedKeys={[this.state.current]}
                         mode="inline">
-                        <Menu.Item key="1">
-                            <Icon type="pie-chart" />
-                            <span>Option 1</span>
+                        <Menu.Item key="Claims">
+                            <Icon type="exception" />
+                            Claims
+                            </Menu.Item>
+                        <Menu.Item key="addBlogs">
+                            <Icon type="edit" />
+                            <span> Blog</span>
                         </Menu.Item>
-                        <SubMenu
-                            key="sub2"
-                            title={<span><Icon type="team" /><span>Trainers</span></span>}
-                        >
-                            <Menu.Item key="Claims">
-                                Claims
-                            </Menu.Item>
-                            <Menu.Item key="addBlogs">
-                                <Icon type="edit" />
-                                <span> Blog</span>
-                            </Menu.Item>
-                        </SubMenu>
+                        <Menu.Item key="bootcamp">
+                            <Icon type="video-camera" />
+                            <span>Live Session</span>
+                        </Menu.Item>
                     </Menu>
                 </Sider>
                 <Layout>

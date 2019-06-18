@@ -73,7 +73,10 @@ exports.resolvers = {
                 path: "User",
                 model: "User"
             });
-
+            if (!allMessages) {
+                throw new Error('messages not found')
+            }
+            console.log(allMessages)
             return allMessages;
         },
         getTutorialMessages: async (root, { TutorialID }, { TutorialMessages }) => {
@@ -126,11 +129,12 @@ exports.resolvers = {
             const allCamps = await Camp.find().populate({
                 path: "Mentor",
                 model: "User"
-            });
+            }).sort({
+                createdDate: "desc" // descending
+            });;
 
             return allCamps;
         },
-
     },
     Mutation: {
         // add tutorial to database
@@ -474,6 +478,10 @@ exports.resolvers = {
                 createdDate: new Date().toISOString()
             }).save();
             return newcamp;
+        },
+        cancelCamp: async (root, { _id, Canceled }, { Camp }) => {
+            const UpdateCamp = await Camp.findOneAndUpdate({ _id }, { $set: { Canceled } }, { new: true });
+            return UpdateCamp;
         },
     }
 };

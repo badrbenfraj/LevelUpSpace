@@ -40,7 +40,7 @@ class Contact extends Component {
 											<textarea className="form-control" rows="7" placeholder="Enter Your message"></textarea>
 										</div>
 										<div className="form-group">
-											<button type="submit" className="btn btn-primary btn-block">Send</button>
+											<button type="submit" className="btn passwordButton btn-block">Send</button>
 										</div>
 									</form>
 								</div>

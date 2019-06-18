@@ -22,9 +22,9 @@ class BlogDelete extends Component {
         console.log(this.props.blog)
         return (
             <tr>
-                <td>{title}</td>
+                <td className="rowElip">{title}</td>
                 <td>{category}</td>
-                <td style={{ maxWidth: '220px', overflow: 'hidden', textOverflow: 'hidden', whiteSpace: 'nowrap' }}>{content}</td>
+                <td className="rowElip">{content}</td>
                 <td>{userName}</td>
                 <Mutation
                     mutation={DELETE_BLOGS}

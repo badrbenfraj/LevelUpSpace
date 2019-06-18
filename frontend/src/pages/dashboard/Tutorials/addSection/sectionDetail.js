@@ -21,7 +21,7 @@ class SectionDetail extends Component {
         return (
             <tr>
                 <td>{name}</td>
-                <td style={{ maxWidth: '220px', overflow: 'hidden', textOverflow: 'hidden', whiteSpace: 'nowrap' }}>{description}</td>
+                <td className="rowElip">{description}</td>
 
                 <Mutation
                     mutation={DELETE_SECTION}

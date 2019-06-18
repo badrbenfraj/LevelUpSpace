@@ -11,7 +11,6 @@ class CourseDetail extends Component {
         cartp: localStorage.getItem('cart'),
         ID: this.props.match.params.id,
         CourseName: this.props.location.state.name,
-        TeacherName: this.props.location.state.userName,
         picture: this.props.location.state.image,
         isAdded: false,
         commentarea: '',
@@ -64,7 +63,7 @@ class CourseDetail extends Component {
         console.log(this.props.match)
         console.log(this.state.cart)
         console.log(this.props.location.state)
-        const { ID, commentarea, CourseName, rating, TeacherName, picture } = this.state;
+        const { ID, commentarea, CourseName, rating, picture } = this.state;
         console.log(rating)
         return (
             <div className="container coursesdetail-section">

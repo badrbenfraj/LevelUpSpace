@@ -5,10 +5,9 @@ import { Helmet } from 'react-helmet';
 import { withRouter } from 'react-router-dom';
 import withAuth from '../../HOC/withAuth'
 import { SEND_MESSAGE, GET_ALL_MESSAGES } from '../../queries';
-import { Link } from 'react-router-dom';
-import moment from 'moment';
+import SingleMessage from './SingleMessage';
 
-const socketUrl = "http://localhost:3001";
+const socketUrl = "https://levelupspace.herokuapp.com/";
 
 
 class Messages extends Component {
@@ -18,7 +17,7 @@ class Messages extends Component {
         this.state = {
             userID: this.props.session.getCurrentUser._id,
             message: '',
-            messages: []
+            messages: [],
         };
 
         this.socket = io(socketUrl);
@@ -27,19 +26,19 @@ class Messages extends Component {
             addMessage(data);
         });
 
+
         const addMessage = data => {
             console.log(data);
             this.setState({ messages: [...this.state.messages, data] });
             console.log(this.state.messages);
         };
 
-        this.sendMessage = (ev, addMessages) => {
+        this.sendMessage = (ev, { addMessages }) => {
             ev.preventDefault();
             this.socket.emit('SEND_MESSAGE', {
                 author: this.state.userID,
                 message: this.state.message
             })
-
             addMessages().then(async () => {
                 this.setState({ message: '' });
             })
@@ -50,12 +49,13 @@ class Messages extends Component {
     render() {
         const { userID, message } = this.state;
         console.log(this.props)
+        console.log(this.state.data)
         return (
             <div className="container" style={{ position: 'fixed', bottom: '0px', MarginLeft: "10%" }}>
                 <Helmet bodyAttributes={{ class: "logInPage" }}>
                     <title>Messages - Level Up Space</title>
                 </Helmet>
-                <div className="row" style={{ paddingTop: '40px'}}>
+                <div className="row" style={{ paddingTop: '40px' }}>
                     <div className="col-md-12">
                         <div className="panel panel-info">
                             <div className="panel-heading mb-3">
@@ -63,63 +63,47 @@ class Messages extends Component {
                         </div>
                             <div className="panel-body">
                                 <ul className="media-list">
-                                        <li className="media">
-                                            <div className="media-body">
-                                                <Query
-                                                    query={GET_ALL_MESSAGES}
-                                                    pollInterval={1000}
-                                                >
-                                                    {({ loading, error, data }) => {
-                                                        if (loading) return <div>fetching</div>
-                                                        const messagesList = () => {
-                                                            const allMsg = data.getMessages;
-                                                            return (allMsg.map(message => {
-                                                                let dateComponent = moment(message.createdDate).utc().format('YYYY-MM-DD');
-                                                                let timeComponent = moment(message.createdDate).utc().format('hh:mm A');
-                                                                return (
-                                                                    <div className="media" key={message._id}>
-                                                                        <Link className="pull-left" to="#">
-                                                                            <img className="rounded-circle mr-3" alt="messageImage" src={message.User.profileImage} width="50px" height="50px" />
-                                                                        </Link>
-                                                                        <div className="media-body">
-                                                                            {message.message}
-                                                                            <br />
-                                                                            <small className="text-muted">{message.User.userName} | {dateComponent} at {timeComponent}</small>
-                                                                            <hr />
-                                                                        </div>
-                                                                    </div>
-                                                                )
-                                                            }))
-                                                        }
+                                    <li className="media">
+                                        <div className="media-body">
+                                            <Query
+                                                query={GET_ALL_MESSAGES}
+                                            >
+                                                {({ loading, error, data }) => {
+                                                    if (loading) return <div>fetching</div>
+                                                    if (data.getMessages) {
+                                                        const allMsg = data.getMessages;
+                                                        console.log(allMsg)
                                                         console.log(data.getMessages)
-                                                        return (
-                                                            <div>{messagesList()}</div>
-                                                        )
-                                                    }}
-                                                </Query>
-                                            </div>
-                                        </li>
+                                                        console.log(Boolean(allMsg))
+                                                        return data && (<SingleMessage message={allMsg} />)
+                                                    }
+                                                    return null
+                                                }}
+                                            </Query>
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
                             <Mutation
                                 mutation={SEND_MESSAGE}
                                 variables={{ message, _id: userID }}
-                            >
+                                refetchQueries={() => [
+                                    { query: GET_ALL_MESSAGES }
+                                ]}>
                                 {(addMessages) => {
-                                    console.log(userID)
                                     return (
                                         <div className="panel-footer">
-                                            <form onSubmit={event => this.sendMessage(event, addMessages)}>
-                                                <div className="input-group">
+                                            <form onSubmit={event => this.sendMessage(event, { addMessages })}>
+                                                <div className="input-group" style={{ marginBottom: '10px' }}>
                                                     <input
                                                         type="text"
-                                                        className="form-control"
+                                                        className="mesg"
                                                         placeholder="Enter Message"
                                                         value={message}
                                                         onChange={event => this.setState({ message: event.target.value })}
                                                     />
                                                     <span className="input-group-btn">
-                                                        <button className="btn btn-info">SEND</button>
+                                                        <button className="btn-custom btn-info">SEND</button>
                                                     </span>
                                                 </div>
                                             </form>

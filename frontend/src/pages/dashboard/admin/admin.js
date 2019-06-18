@@ -52,7 +52,7 @@ class Admin extends Component {
             )
         } else if (this.state.current === "addBootcamp") {
             return (
-                <Bootcamp />
+                <Bootcamp {...props}/>
             )
         }
 
@@ -93,7 +93,7 @@ class Admin extends Component {
                         </Menu.Item>
                         <Menu.Item key="addBootcamp">
                             <Icon type="video-camera" />
-                            <span> Bootcamp</span>
+                            <span>Live Session</span>
                         </Menu.Item>
                     </Menu>
                 </Sider>

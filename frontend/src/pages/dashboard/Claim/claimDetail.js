@@ -9,7 +9,7 @@ class ClaimDetail extends Component {
                 <td>{lastName}</td>
                 <td>{email}</td>
                 <td>{subject}</td>
-                <td>{description}</td>
+                <td className="rowElip">{description}</td>
             </tr>
         );
     }
