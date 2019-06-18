@@ -58,9 +58,9 @@ class AddCamp extends Component {
                     <Query
                         query={GET_CURRENT_USER}
                     >
-                        {({data}) => {
+                        {({ data }) => {
                             const _id = data.getCurrentUser._id;
-                            console.log(_id)
+                            console.log(_id);
                             return (
                                 <Mutation
                                     mutation={ADD_CAMP}

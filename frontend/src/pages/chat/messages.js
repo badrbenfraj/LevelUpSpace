@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import io from 'socket.io-client'
 import { Mutation, Query } from 'react-apollo';
 import { Helmet } from 'react-helmet';
 import { withRouter } from 'react-router-dom';
@@ -7,49 +6,23 @@ import withAuth from '../../HOC/withAuth'
 import { SEND_MESSAGE, GET_ALL_MESSAGES } from '../../queries';
 import SingleMessage from './SingleMessage';
 
-const socketUrl = "https://levelupspace.herokuapp.com/";
-
 
 class Messages extends Component {
-    constructor(props) {
-        super(props);
+    state = {
+        userID: this.props.session.getCurrentUser._id,
+        message: ''
+    };
 
-        this.state = {
-            userID: this.props.session.getCurrentUser._id,
-            message: '',
-            messages: [],
-        };
-
-        this.socket = io(socketUrl);
-
-        this.socket.on('RECEIVE_MESSAGE', function (data) {
-            addMessage(data);
-        });
-
-
-        const addMessage = data => {
-            console.log(data);
-            this.setState({ messages: [...this.state.messages, data] });
-            console.log(this.state.messages);
-        };
-
-        this.sendMessage = (ev, { addMessages }) => {
-            ev.preventDefault();
-            this.socket.emit('SEND_MESSAGE', {
-                author: this.state.userID,
-                message: this.state.message
-            })
-            addMessages().then(async () => {
-                this.setState({ message: '' });
-            })
-
-        }
+    sendMessage = (ev, addMessages) => {
+        ev.preventDefault();
+        addMessages().then(async () => {
+            this.setState({ message: '' });
+        })
     }
 
     render() {
-        const { userID, message } = this.state;
         console.log(this.props)
-        console.log(this.state.data)
+        const { userID, message } = this.state;
         return (
             <div className="container" style={{ position: 'fixed', bottom: '0px', MarginLeft: "10%" }}>
                 <Helmet bodyAttributes={{ class: "logInPage" }}>

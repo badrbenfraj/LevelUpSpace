@@ -8,10 +8,10 @@ import { Icon, Spin } from 'antd';
 const antIcon = <Icon type="loading" style={{ fontSize: 44 }} />;
 
 class SingleCourse extends Component {
-    r = <CourseDetail {...this.props} />
+    
     render() {
         console.log(this.props)
-        const { _id, name, User, image, description } = this.props.tutorial;
+        const { _id, name, User, image, description, duration } = this.props.tutorial;
         return (
             <div className="col-md-4 col-sm-6 col-xs-6" >
                 <div className="welcome-box">
@@ -36,8 +36,8 @@ class SingleCourse extends Component {
                         </Query>
                         <p className="welcome-box-paragraph">{description}</p>
                         <ul className="course-detail">
-                            <li><i className="fa fa-calendar" aria-hidden="true"></i>Course duration : <span>3 Yr</span></li>
-                            <li><i className="fa fa-graduation-cap" aria-hidden="true"></i>Degree Level : <span>Master’s Degree</span></li>
+                            <li><i className="fa fa-calendar" aria-hidden="true"></i>Course duration : <span>{duration} Hours</span></li>
+                            <li><i className="fa fa-graduation-cap" aria-hidden="true"></i>Degree Level : <span>Beginner</span></li>
                         </ul>
                         <Link to={{
                             pathname: `/course/${_id}`,
