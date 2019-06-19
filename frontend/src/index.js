@@ -13,7 +13,7 @@ const cache = new InMemoryCache();
 
 const client = new ApolloClient({
   cache,
-  uri: process.env.BACKEND_API || 'http://localhost/graphql',
+  uri: process.env.BACKEND_API,
   request: operation => {
     const token = localStorage.getItem("token");
     operation.setContext({
