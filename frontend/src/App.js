@@ -33,6 +33,7 @@ import Course from './pages/dashboard/myCourses/course';
 import EditQuiz from './pages/dashboard/Tutorials/editQuiz/editQuiz';
 import EditBlogs from './pages/dashboard/Blog/EditBlog/editBlogs';
 import BlogPost from './pages/Blog/blogPost';
+import EditCamp from './pages/dashboard/Bootcamp/editCamp';
 
 
 const App = ({ refetch, session }) => {
@@ -181,6 +182,13 @@ const App = ({ refetch, session }) => {
                     render={props =>
                         <MainLayout session={session}>
                             <BlogPost {...props} refetch={refetch} />
+                        </MainLayout>
+                    } />
+
+                <Route exact path="/edit-LiveSession/:id"
+                    render={props =>
+                        <MainLayout session={session}>
+                            <EditCamp {...props} refetch={refetch} />
                         </MainLayout>
                     } />
 

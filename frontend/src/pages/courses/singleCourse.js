@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import { GET_ALL_USERS } from '../../queries';
-import CourseDetail from './courseDetail';
 import { Icon, Spin } from 'antd';
 
 const antIcon = <Icon type="loading" style={{ fontSize: 44 }} />;

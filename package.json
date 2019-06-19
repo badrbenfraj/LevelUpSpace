@@ -36,7 +36,8 @@
     "server": "nodemon server.js",
     "client": "cd frontend && npm start",
     "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\"",
-    "setup": "npm install && cd frontend && npm install "
+    "setup": "npm install && cd frontend && npm install ",
+    "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix frontend "
   },
   "repository": {
     "type": "git",

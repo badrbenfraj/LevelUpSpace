@@ -19,8 +19,13 @@ class Courses extends Component {
     render() {
         let term = this.state.term;
         function searchingFor(term) {
-            return function (x) {
-                return x.name.toLowerCase().includes(term.toLowerCase()) || !term;
+            return function (item) {
+                console.log(item)
+                //item is the Tutorial object
+                return item.name.toLowerCase().includes(term.toLowerCase()) || !term;
+                //item.name.toLowerCase() lowercase the name of tutorial
+                //term.toLowerCase() lowercase the entered term
+                //includes(term.toLowerCase()) check if the term is include in the name of tutorial of not
             };
         }
         console.log(JSON.parse(localStorage.getItem('cart')))
@@ -39,7 +44,6 @@ class Courses extends Component {
                     >
                         {({ loading, error, data }) => {
                             if (loading) return <Spin indicator={antIcon} className="text-center" />
-                            if (error) return <div>{error}</div>
                             console.log(loading)
                             const allTutorials = data.getAllTutorials
                             console.log(data.getAllTutorials)

@@ -8,7 +8,7 @@ import withAuth from '../../../../HOC/withAuth';
 import {
     Layout, Menu, Icon,
 } from 'antd';
-import { EDIT_QUIZ } from '../../../../queries';
+import { EDIT_QUIZ, GET_QUIZZES } from '../../../../queries';
 const { Content, Sider } = Layout;
 
 
@@ -70,6 +70,11 @@ class EditQuiz extends Component {
                     <Mutation
                         mutation={EDIT_QUIZ}
                         variables={{ _id: this.state.id, QuizQuestion, QuizName, answers, correctAnswer }}
+                        refetchQueries={() => {
+                            return [{
+                                query: GET_QUIZZES
+                            }];
+                        }}
                     >
                         {(editQuiz) => {
                             return (

@@ -9,7 +9,6 @@ class ClaimList extends Component {
             <div>
                 <Query
                     query={GET_ALL_CLAIMS}
-                    pollInterval={500}
                 >
                     {({ loading, error, data }) => {
                         if (loading) return <div>fetching</div>
@@ -25,7 +24,7 @@ class ClaimList extends Component {
                         return (
                             
                             <div>
-                                <h1>Clams List</h1>
+                                <h1>Claims List</h1>
                                 <table className="table">
                                     <thead>
                                         <tr>

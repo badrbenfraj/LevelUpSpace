@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Query, Mutation } from 'react-apollo';
 import moment from "moment";
 import { message } from "antd";
+import { Link } from 'react-router-dom';
 import { GET_CAMPS, CANCEL_CAMP } from '../../../queries';
 
 class BootCampList extends Component {
@@ -59,7 +60,6 @@ class BootCampList extends Component {
             return (
                 <Query
                     query={GET_CAMPS}
-                    pollInterval={500}
                 >
                     {({ loading, error, data }) => {
                         const allcamps = data.getCamps
@@ -77,6 +77,14 @@ class BootCampList extends Component {
                                         <td className="rowElip">{camp.Mentor.userName}</td>
                                         <td>{dateComponent} at {timeComponent}</td>
                                         <td>
+                                            <Link className="editBtn mr-3" to={{
+                                                pathname: `/edit-LiveSession/${camp._id}`,
+                                                state: {
+                                                    CampName: camp.CampName,
+                                                    url: camp.url,
+                                                    DateAndTime : camp.DateAndTime
+                                                }
+                                            }}><i className="fas fa-edit" />Edit</Link>
                                             {!camp.Canceled ? (<Mutation
                                                 mutation={CANCEL_CAMP}
                                                 variables={{ _id: camp._id }}
@@ -106,7 +114,6 @@ class BootCampList extends Component {
             return (
                 <Query
                     query={GET_CAMPS}
-                    pollInterval={500}
                 >
                     {({ loading, error, data }) => {
                         const allcamps = data.getCamps
@@ -125,6 +132,14 @@ class BootCampList extends Component {
                                             <td className="rowElip">{camp.Mentor.userName}</td>
                                             <td>{dateComponent} at {timeComponent}</td>
                                             <td>
+                                                <Link className="editBtn mr-3" to={{
+                                                    pathname: `/edit-LiveSession/${camp._id}`,
+                                                    state: {
+                                                        CampName: camp.CampName,
+                                                        url: camp.url,
+                                                        DateAndTime : camp.DateAndTime
+                                                    }
+                                                }}><i className="fas fa-edit" />Edit</Link>
                                                 {!camp.Canceled ? (<Mutation
                                                     mutation={CANCEL_CAMP}
                                                     variables={{ _id: camp._id }}
@@ -156,7 +171,6 @@ class BootCampList extends Component {
             return (
                 <Query
                     query={GET_CAMPS}
-                    pollInterval={500}
                 >
                     {({ loading, error, data }) => {
                         const allcamps = data.getCamps

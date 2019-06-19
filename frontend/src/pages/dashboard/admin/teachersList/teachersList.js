@@ -20,7 +20,6 @@ class TeachersList extends Component {
                         <tbody>
                             <Query
                                 query={GET_ALL_TEACHERS}
-                                pollInterval={500}
                             >
                                 {({ loading, error, data }) => {
                                     const allTeach = data.getAllTeachers

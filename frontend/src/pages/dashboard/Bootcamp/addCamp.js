@@ -4,7 +4,7 @@ import moment from 'moment';
 import { message } from 'antd';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Mutation, Query } from 'react-apollo';
-import { ADD_CAMP, GET_CURRENT_USER } from '../../../queries';
+import { ADD_CAMP, GET_CURRENT_USER, GET_CAMPS } from '../../../queries';
 
 const initialState = {
     DateAndTime: moment()._d,
@@ -65,6 +65,11 @@ class AddCamp extends Component {
                                 <Mutation
                                     mutation={ADD_CAMP}
                                     variables={{ url, CampName, DateAndTime, _id }}
+                                    refetchQueries={() => {
+                                        return [{
+                                            query: GET_CAMPS
+                                        }];
+                                    }}
                                 >
                                     {(addCamp) => {
                                         return (

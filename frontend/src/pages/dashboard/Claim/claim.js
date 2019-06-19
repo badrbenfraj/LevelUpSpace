@@ -1,7 +1,7 @@
 import React from 'react';
 import { message } from 'antd';
 import { Mutation } from 'react-apollo';
-import { ADD_CLAIM } from '../../../queries';
+import { ADD_CLAIM, GET_ALL_CLAIMS } from '../../../queries';
 
 class Claims extends React.Component {
   state = {
@@ -42,7 +42,12 @@ class Claims extends React.Component {
     return (
       <Mutation
         mutation={ADD_CLAIM}
-        variables={{ firstName, lastName, email, subject, description }} >
+        variables={{ firstName, lastName, email, subject, description }} 
+        refetchQueries={() => {
+          return [{
+              query: GET_ALL_CLAIMS
+          }];
+      }}>
         {(addClaim) => {
           return (
             <div className="container">

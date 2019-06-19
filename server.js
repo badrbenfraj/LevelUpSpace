@@ -7,7 +7,6 @@ const cors = require('cors');
 const { ApolloServer } = require('apollo-server-express');
 
 const http = require('http');
-const socketIO = require('socket.io');
 
 const { resolvers } = require('./graphql/resolvers');
 const { typeDefs } = require('./graphql/schema');
@@ -37,7 +36,6 @@ const PORT = process.env.PORT || 3001;
 // Initializes application
 const app = express();
 const server = http.Server(app);
-const io = socketIO(server);
 
 // const corsOptions = {
 //     origin: 'http://localhost:3000/',
@@ -45,6 +43,13 @@ const io = socketIO(server);
 //   };
 app.use(cors("*"));
 
+if(process.env.NODE_ENV === 'production'){
+  app.use(express.static('frontend/build'));
+
+  app.get('*', (req, res)=>{
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+  })
+}
 
 // Set up JWT authentication middleware
 app.use(async (req, res, next) => {
@@ -87,14 +92,6 @@ const schema = new ApolloServer({
 });
 // Connect schemas with GraphQL
 schema.applyMiddleware({ app });
-
-io.on('connection', (socket) => {
-  console.log(socket.id);
-
-  socket.on('SEND_MESSAGE', function(data){
-      io.emit('RECEIVE_MESSAGE', data);
-  })
-});
 
 server.listen({ port: PORT }, () =>
   console.log(`🚀 Server ready at http://localhost:3001${schema.graphqlPath}`)

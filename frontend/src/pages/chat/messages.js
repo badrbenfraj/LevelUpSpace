@@ -6,7 +6,6 @@ import withAuth from '../../HOC/withAuth'
 import { SEND_MESSAGE, GET_ALL_MESSAGES } from '../../queries';
 import SingleMessage from './SingleMessage';
 
-
 class Messages extends Component {
     state = {
         userID: this.props.session.getCurrentUser._id,

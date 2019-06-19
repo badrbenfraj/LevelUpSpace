@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
-import { DELETE_BLOGS } from '../../../../queries';
+import { DELETE_BLOGS, GET_BLOGS } from '../../../../queries';
 import { Link } from 'react-router-dom';
 import { message } from 'antd';
 
@@ -29,7 +29,11 @@ class BlogDelete extends Component {
                 <Mutation
                     mutation={DELETE_BLOGS}
                     variables={{ _id }}
-                    pollInterval={500}
+                    refetchQueries={() => {
+                        return [{
+                            query: GET_BLOGS
+                        }];
+                    }}
                 >
 
                     {(deleteBlogs, attrs) => (

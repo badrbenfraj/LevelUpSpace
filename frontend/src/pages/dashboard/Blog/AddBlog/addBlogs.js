@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ADD_BLOGS, GET_CURRENT_USER } from '../../../../queries';
+import { ADD_BLOGS, GET_CURRENT_USER, GET_BLOGS } from '../../../../queries';
 import { message, Progress } from 'antd';
 import classNames from 'classnames';
 import CKEditor from "react-ckeditor-component";
@@ -142,6 +142,11 @@ class Editor extends Component {
                 <Mutation
                   mutation={ADD_BLOGS}
                   variables={{ title, category, subject, content, userName }}
+                  refetchQueries={() => {
+                    return [{
+                        query: GET_BLOGS
+                    }];
+                }}
                 >
                   {(addBlogs) => {
 

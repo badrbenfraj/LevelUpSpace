@@ -38,7 +38,6 @@ class MyCoursesList extends Component {
 
                                 <Query
                                     query={GET_ALL_ORDERS}
-                                    pollInterval={5000}
                                 >
                                     {({ data, loading, error }) => {
                                         if (loading) return <div>fetching</div>

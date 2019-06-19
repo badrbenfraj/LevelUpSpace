@@ -74,7 +74,10 @@ class ForgotPassword extends React.Component {
                         Account recovery
                     </h1>
 
-                    <Mutation mutation={RESET_PASSWORD} variables={{ email }}>
+                    <Mutation
+                        mutation={RESET_PASSWORD}
+                        variables={{ email }}
+                    >
 
                         {(passwordReset, { data, loading, error }) => {
 

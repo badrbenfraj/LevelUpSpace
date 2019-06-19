@@ -49,7 +49,7 @@ class Blogs extends Component {
 													<div className="entry-block">
 														<div className="entry-contentblock">
 															<div className="entry-meta"  >
-																<span className="postby">By : <Link to="#" title="Andreanne Turcotte" >{blog.userName}</Link></span>
+																<span className="postby">By : <Link to="#" title="Andreanne Turcotte" >{blog.User.userName}</Link></span>
 																<span className="postcatgory">Category : <Link to="#" title="News Posted">{blog.category}</Link></span>
 																<span className="postdate">Date : <Link to="#" title="25th May 2016">{dateComponent}</Link></span>
 															</div>

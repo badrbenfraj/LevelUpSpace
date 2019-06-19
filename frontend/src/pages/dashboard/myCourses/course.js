@@ -71,7 +71,6 @@ class Course extends Component {
                                         key={i}
                                         query={GET_LECTURES}
                                         variables={{ SectionID: section._id }}
-                                        pollInterval={500}
                                     >
                                         {({ data }) => {
                                             const AllLectures = data.getLectures;
@@ -153,7 +152,6 @@ class Course extends Component {
                                                 key={i}
                                                 query={GET_LECTURES}
                                                 variables={{ SectionID: section._id }}
-                                                pollInterval={500}
                                             >
                                                 {({ data }) => {
                                                     const AllLectures = data.getLectures;
@@ -206,7 +204,6 @@ class Course extends Component {
                                         <div className="messages" >
                                             <Query
                                                 query={GET_ALL_TUTORIALMESSAGES}
-                                                pollInterval={500}
                                                 variables={{ TutorialID: ID }}
                                             >
                                                 {({ loading, error, data }) => {
@@ -227,6 +224,12 @@ class Course extends Component {
                                     <Mutation
                                         mutation={SEND_TUTORIALMESSAGE}
                                         variables={{ TutorialID: ID, message, userName }}
+                                        refetchQueries={() => {
+                                            return [{
+                                                query: GET_ALL_TUTORIALMESSAGES,
+                                                variables: { TutorialID: ID }
+                                            }];
+                                        }}
                                     >
                                         {(addTutorialMessages) => {
                                             return (

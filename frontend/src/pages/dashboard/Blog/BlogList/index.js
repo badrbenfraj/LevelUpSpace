@@ -9,7 +9,6 @@ class BlogsList extends Component {
             <div>
                 <Query
                     query={GET_BLOGS}
-                    pollInterval={500}
                 >
                     {({ data }) => {
                         const AllBlg = data.getBlogs;

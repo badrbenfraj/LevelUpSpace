@@ -3,7 +3,7 @@ import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { message } from 'antd';
 import withAuth from '../../../../HOC/withAuth';
-import { EDIT_BLOGS } from '../../../../queries';
+import { EDIT_BLOGS, GET_BLOGS } from '../../../../queries';
 import CKEditor from "react-ckeditor-component";
 import {
     Layout, Menu, Icon,
@@ -80,7 +80,11 @@ class EditBlog extends Component {
                     <Mutation
                         mutation={EDIT_BLOGS}
                         variables={{ _id: this.state.id, newTitle: this.state.title, newCategory: this.state.category, newSubject: this.state.subject, newContent: this.state.content }}
-                        pollInterval={500}
+                        refetchQueries={() => {
+                            return [{
+                                query: GET_BLOGS
+                            }];
+                        }}
                     >
                         {(EDIT_BLOGS) => {
                             return (

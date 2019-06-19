@@ -80,9 +80,9 @@ class CourseDetail extends Component {
                                 >
                                     {({ data }) => {
                                         if (data.getTutorial) {
-                                            return data.getTutorial.map((tutorial) => {
+                                            return data.getTutorial.map((tutorial, i) => {
                                                 return (
-                                                    <p>{tutorial.description}</p>
+                                                    <p key={i}>{tutorial.description}</p>
                                                 )
                                             })
                                         }
@@ -298,11 +298,29 @@ class CourseDetail extends Component {
                                 }}
                             </Query>
 
-                            <div className="featuresbox"><img src={window.location.origin + "/images/dolar-ic.png"} alt="dolar-ic" width="27" height="27" /><h3>Price : </h3><span> Free</span></div>
-                            <div className="featuresbox"><img src={window.location.origin + "/images/clock-ic.png"} alt="clock-ic" width="24" height="24" /><h3>Duration : </h3><span> 30 days</span></div>
-                            <div className="featuresbox"><img src={window.location.origin + "/images/cup-ic.png"} alt="cup-ic" width="24" height="23" /><h3>Lectures : </h3><span> 10</span></div>
-                            <div className="featuresbox"><img src={window.location.origin + "/images/user-ic.png"} alt="user-ic" width="22" height="22" /><h3>Students : </h3><span> 50</span></div>
-                            <div className="featuresbox"><img src={window.location.origin + "/images/cap-ic.png"} alt="cap-ic" width="24" height="20" /><h3>Certificate of Completion</h3></div>
+                            <Query
+                                query={GET_TUTORIAL}
+                                variables={{ TutorialID: ID }}
+                            >
+                                {({ data }) => {
+                                    if (data.getTutorial) {
+                                        return data.getTutorial.map((tutorial, i) => {
+                                            return (
+                                                <React.Fragment
+                                                    key={i}
+                                                >
+                                                    <div className="featuresbox"><img src={window.location.origin + "/images/dolar-ic.png"} alt="dolar-ic" width="27" height="27" /><h3>Price : </h3><span> {tutorial.price}</span></div>
+                                                    <div className="featuresbox"><img src={window.location.origin + "/images/clock-ic.png"} alt="clock-ic" width="24" height="24" /><h3>Duration : </h3><span> {tutorial.duration}</span></div>
+                                                    <div className="featuresbox"><img src={window.location.origin + "/images/cup-ic.png"} alt="cup-ic" width="24" height="23" /><h3>Lectures : </h3><span> 10</span></div>
+                                                    <div className="featuresbox"><img src={window.location.origin + "/images/user-ic.png"} alt="user-ic" width="22" height="22" /><h3>Students : </h3><span> 50</span></div>
+                                                    <div className="featuresbox"><img src={window.location.origin + "/images/cap-ic.png"} alt="cap-ic" width="24" height="20" /><h3>Certificate of Completion</h3></div>
+                                                </React.Fragment>
+                                            )
+                                        })
+                                    }
+                                    return null
+                                }}
+                            </Query>
                         </div>
                         <div className="courses-staff">
                             <img src={this.props.location.state.User.profileImage} alt="staff" width="275" height="288" />

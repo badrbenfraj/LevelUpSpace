@@ -89,7 +89,10 @@ class Signin extends React.Component {
                         LogIn
                     </h1>
 
-                    <Mutation mutation={SIGNIN_USER} variables={{ email, password }}>
+                    <Mutation
+                        mutation={SIGNIN_USER}
+                        variables={{ email, password }}
+                    >
 
                         {(signinUser, { data, loading, error }) => {
 

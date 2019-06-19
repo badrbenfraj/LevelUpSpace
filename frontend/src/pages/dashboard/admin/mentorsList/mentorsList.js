@@ -9,7 +9,6 @@ class MentorsList extends Component {
             <div>
                 <Query
                     query={GET_ALL_MENTORS}
-                    pollInterval={500}
                 >
                     {({ loading, error, data }) => {
                         if (loading) return <div>fetching</div>

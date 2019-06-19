@@ -475,7 +475,10 @@ export const GET_BLOG_COMMENTS = gql`
         getBlogComments(BlogID: $BlogID){
             _id
             BlogID
-            userName
+            User{
+                userName
+                profileImage
+            }
             createdDate
             comment
         }
@@ -485,10 +488,9 @@ export const GET_BLOG_COMMENTS = gql`
 //Comments Mutation
 
 export const ADD_BLOG_COMMENT = gql`
-  mutation($BlogID: String!, $userName: String!, $comment: String!){
-    addBlogComment(BlogID: $BlogID, userName : $userName, comment : $comment){
+  mutation($BlogID: String!, $UserID: ID!, $comment: String!){
+    addBlogComment(BlogID: $BlogID, User: $UserID, comment : $comment){
         BlogID
-        userName
       }
   }
 `;
@@ -543,7 +545,28 @@ export const GET_BLOGS = gql`
             category
             subject
             content
-            userName
+            User{
+                userName
+                profileImage
+            }
+            createdDate
+            image
+        }
+    }
+`;
+
+export const GET_BLOG = gql`
+    query($_id: ID!) {
+        getBlog( _id: $_id){
+            _id
+            title
+            category
+            subject
+            content
+            User{
+                userName
+                profileImage
+            }
             createdDate
             image
         }
@@ -552,8 +575,8 @@ export const GET_BLOGS = gql`
 
 //Blog Mutation
 export const ADD_BLOGS = gql`
- mutation($title: String!, $category: String!, $subject: String!, $content: String!, $userName: String!, $image: String!){
-     addBlogs( title: $title, category:$category, subject:$subject, content:$content, userName: $userName, image: $image){ 
+ mutation($title: String!, $category: String!, $subject: String!, $content: String!, $UserID: ID!, $image: String!){
+     addBlogs( title: $title, category:$category, subject:$subject, content:$content, User: $UserID, image: $image){ 
         title
      }
  }
@@ -622,4 +645,12 @@ export const CANCEL_CAMP = gql`
         Canceled
      }
  }
+`;
+
+export const EDIT_CAMP = gql`
+    mutation($CampName: String!, $url: String!, $DateAndTime: String!, $_id: ID!){
+        editCamp( CampName: $CampName, url: $url, DateAndTime: $DateAndTime, _id: $_id){
+           _id
+        }
+    }
 `;

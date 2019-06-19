@@ -111,7 +111,10 @@ exports.resolvers = {
             return comment;
         },
         getBlogComments: async (root, { BlogID }, { BlogComment }) => {
-            const comment = await BlogComment.find({ BlogID });
+            const comment = await BlogComment.find({ BlogID }).populate({
+                path: "User",
+                model: "User"
+            });
 
             return comment;
         },
@@ -121,9 +124,20 @@ exports.resolvers = {
             return Quiz;
         },
         getBlogs: async (root, args, { Blogs }) => {
-            const allBlogs = await Blogs.find();
+            const allBlogs = await Blogs.find().populate({
+                path: "User",
+                model: "User"
+            });
 
             return allBlogs;
+        },
+        getBlog: async (root, { _id }, { Blogs }) => {
+            const Blog = await Blogs.findOne({ _id }).populate({
+                path: "User",
+                model: "User"
+            });
+
+            return Blog;
         },
         getCamps: async (root, args, { Camp }) => {
             const allCamps = await Camp.find().populate({
@@ -478,6 +492,10 @@ exports.resolvers = {
                 createdDate: new Date().toISOString()
             }).save();
             return newcamp;
+        },
+        editCamp: async (root, { CampName, url, DateAndTime, _id }, { Camp }) => {
+            const UpdateCAMP = await Camp.findOneAndUpdate({ _id }, { $set: { CampName, url, DateAndTime } }, { new: true });
+            return UpdateCAMP;
         },
         cancelCamp: async (root, { _id, Canceled }, { Camp }) => {
             const UpdateCamp = await Camp.findOneAndUpdate({ _id }, { $set: { Canceled } }, { new: true });

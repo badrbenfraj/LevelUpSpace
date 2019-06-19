@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { Mutation, Query } from 'react-apollo';
-import { ADD_BLOG_COMMENT, GET_CURRENT_USER, GET_BLOG_COMMENTS } from '../../queries';
+import { ADD_BLOG_COMMENT, GET_CURRENT_USER, GET_BLOG_COMMENTS, GET_BLOG } from '../../queries';
 import moment from "moment";
 
 class BlogPost extends Component {
@@ -40,41 +40,43 @@ class BlogPost extends Component {
                 <div className="section-padding"></div>
                 <div className="row">
                     <div className="col-md-9 col-sm-8 content-area">
-                        <article className="type-post">
-                            <div className="entry-cover">
-                                <img width="860" height="470" alt="blogpost" src={window.location.origin + "/images/blogpost.jpg"} />
-                            </div>
-                            <div className="entry-block">
-                                <div className="entry-contentblock">
-                                    <div className="entry-meta">
-                                        <span className="postby">By : <Link to="#" title="Andreanne Turcotte"> Andreanne Turcotte</Link></span>
-                                        <span className="postcatgory">Category : <Link to="#" title="News Posted"> News Posted</Link></span>
-                                        <span className="postdate">Date : <Link to="#" title="25th May 2016"> 25th May 2016</Link></span>
-                                    </div>
-                                    <div className="entry-block">
-                                        <div className="entry-title">
-                                            <h3>Along Communicate Directly With Experienced Teachers</h3>
-                                        </div>
-                                        <div className="entry-content">
-                                            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magniolrs eos qui rate voluptatem sequi nesciunt  Neque porro quisquam est qui dolorem ipsum quia dolore sit amet con sectetur adipisci quia suthagara lukuthea satham</p>
-                                            <p>Enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magniol res eos qui rate voluptatem sequi nesciunt  Neque porro quisquam est qui dolorem ipsum quia dolore sit amet conlites sectetur adipisci quia suthagara lukuthea satham non numquam eius modi tempra. incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam,</p>
-                                            <blockquote>
-                                                <p>"Completely synergize resource taxing relationships via premier niche markets. Profess tionally cultivate one-to-one customer service with robust ideas"</p>
-                                            </blockquote>
-                                            <p>Enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magniol res eos qui rate voluptatem sequi nesciunt  Neque porro quisquam est qui dolorem ipsum quia dolore sit amet conlites sectetur adipisci quia suthagara lukuthea satham non numquam eius modi tempra. incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam,</p>
-                                        </div>
-                                    </div>
-                                    <ul>
-                                        <li><Link title="Facebook" to="#"><i className="fa fa-facebook"></i></Link></li>
-                                        <li><Link title="Twitter" to="#"><i className="fa fa-twitter"></i></Link></li>
-                                        <li><Link title="Google Plus" to="#"><i className="fa fa-google-plus"></i></Link></li>
-                                        <li><Link title="Behance" to="#"><i className="fa fa-behance"></i></Link></li>
-                                        <li><Link title="Dribbble" to="#"><i className="fa fa-dribbble"></i></Link></li>
-                                    </ul>
-                                </div>
-                                <div className="post-ic"><span className="icon icon-Pencil"></span></div>
-                            </div>
-                        </article>
+                        <Query
+                            query={GET_BLOG}
+                            variables={{ _id: ID }}
+                        >
+                            {({ data }) => {
+                                const blog = data.getBlog
+                                if (data.getBlog) {
+                                    let dateComponent = moment(blog.createdDate).utc().format('YYYY-MM-DD');
+                                    return (
+                                        <article className="type-post">
+                                            <div className="entry-cover">
+                                                <img width="860" height="470" alt="blogpost" src={blog.image} />
+                                            </div>
+                                            <div className="entry-block">
+                                                <div className="entry-contentblock">
+                                                    <div className="entry-meta">
+                                                        <span className="postby">By : <Link to="#" title={blog.User.userName}> {blog.User.userName}</Link></span>
+                                                        <span className="postcatgory">Category : <Link to="#" title="News Posted"> {blog.category}</Link></span>
+                                                        <span className="postdate">Date : <Link to="#" title="25th May 2016"> {dateComponent}</Link></span>
+                                                    </div>
+                                                    <div className="entry-block">
+                                                        <div className="entry-title">
+                                                            <h3>{blog.title}</h3>
+                                                        </div>
+                                                        <div className="entry-content">
+                                                            <p dangerouslySetInnerHTML={{ __html: blog.content }} />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="post-ic"><span className="icon icon-Pencil"></span></div>
+                                            </div>
+                                        </article>
+                                    )
+                                }
+                                return null
+                            }}
+                        </Query>
                         <Query
                             query={GET_CURRENT_USER}
                         >
@@ -86,6 +88,12 @@ class BlogPost extends Component {
                                         <Mutation
                                             mutation={ADD_BLOG_COMMENT}
                                             variables={{ comment: commentarea, BlogID: ID, userName }}
+                                            refetchQueries={() => {
+                                                return [{
+                                                    query: GET_BLOG_COMMENTS,
+                                                    variables: { BlogID: ID }
+                                                }];
+                                            }}
                                         >
                                             {(addBlogComment) => {
                                                 return (
@@ -97,7 +105,7 @@ class BlogPost extends Component {
                                                                     rows="5"
                                                                     placeholder="Write your comment here..."
                                                                     name="commentarea"
-                                                                    value={commentarea} 
+                                                                    value={commentarea}
                                                                     onChange={this.handleChange}
                                                                     required
                                                                 ></textarea>
@@ -118,7 +126,6 @@ class BlogPost extends Component {
                         <div className="post-comments">
                             <Query
                                 query={GET_BLOG_COMMENTS}
-                                pollInterval={500}
                                 variables={{ BlogID: ID }}
                             >
                                 {({ data }) => {
@@ -130,7 +137,6 @@ class BlogPost extends Component {
                             </Query>
                             <Query
                                 query={GET_BLOG_COMMENTS}
-                                pollInterval={500}
                                 variables={{ BlogID: ID }}
                             >
                                 {({ data }) => {
@@ -143,13 +149,13 @@ class BlogPost extends Component {
                                                 <div className="media" key={comment._id}>
                                                     <div className="media-left">
                                                         <Link title="Martin Guptil" to="#">
-                                                            <img width="112" height="112" className="media-object" src={window.location.origin + "/images/user.png"} alt="Martin Guptil" />
+                                                            <img width="112" height="112" className="media-object" src={comment.User.profileImage} alt="Martin Guptil" />
                                                         </Link>
                                                     </div>
                                                     <div className="media-body">
                                                         <div className="media-content">
                                                             <h4 className="media-heading">
-                                                                {comment.userName}<span> {dateComponent} {timeComponent}</span>
+                                                                {comment.User.userName}<span> {dateComponent} {timeComponent}</span>
                                                             </h4>
                                                             <p> {comment.comment} </p>
                                                         </div>
@@ -191,12 +197,23 @@ class BlogPost extends Component {
                                 <span>25th May 2016</span>
                             </div>
                         </aside>
-                        <aside className="widget courses-staff">
-                            <img src="images/staff.jpg" alt="staff" width="275" height="288" />
-                            <h3>Charlie Brown</h3>
-                            <span>Web Designer</span>
-                            <p>My name is Ruth. I grew up and studied in...</p>
-                        </aside>
+                        <Query
+                            query={GET_BLOG}
+                            variables={{ _id: ID }}
+                        >
+                            {({ data }) => {
+                                const blog = data.getBlog
+                                if (data.getBlog) {
+                                    return (
+                                        <aside className="widget courses-staff">
+                                            <img src={blog.User.profileImage} alt="staff" width="275" height="288" />
+                                            <h3>{blog.User.userName}</h3>
+                                        </aside>
+                                    )
+                                }
+                                return null
+                            }}
+                        </Query>
                     </div>
                 </div>
                 <div className="section-padding"></div>

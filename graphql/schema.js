@@ -91,7 +91,7 @@ type BlogComment{
     _id: ID
     comment: String!
     BlogID: String!
-    userName: String!
+    User: User!
     createdDate: String!
 }
 
@@ -111,7 +111,7 @@ type Blogs{
     subject: String!
     content: String!
     image: String
-    userName: String!
+    User: User!
     createdDate: String!
 }
 
@@ -165,6 +165,8 @@ type Query {
     getQuizzes(LectureID: String): [Quiz]!
 
     getBlogs: [Blogs]
+
+    getBlog(_id: ID!): Blogs
 
     getCamps: [Camp]
 }
@@ -228,6 +230,8 @@ type Mutation{
     deleteBlogs(_id: ID!): Blogs
 
     addCamp(CampName: String!, url: String!, DateAndTime: String!, _id: ID!): Camp
+
+    editCamp(CampName: String!, url: String!, DateAndTime: String!, _id: ID!): Camp
 
     cancelCamp(Canceled: Boolean!, _id: ID!): Camp
 }
