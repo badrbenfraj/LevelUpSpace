@@ -8,7 +8,7 @@ console.log(props)
         type="button"
         id={props.answerType}
         value={props.answerContent}
-        className={(props.selectedAnswer === props.answerContent) ? 'selected-btn Quizbtn' : '' }
+        className="QuizBtn"
         onClick={props.onAnswerSelected}
       >{props.answerContent}</button>
     </li>

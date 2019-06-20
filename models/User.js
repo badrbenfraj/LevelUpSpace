@@ -32,22 +32,22 @@ const userSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    isUser:{
+    isUser: {
         type: Boolean,
         required: true,
         default: false
     },
-    isAdmin:{
+    isAdmin: {
         type: Boolean,
         required: true,
         default: false
     },
-    isTeacher:{
+    isTeacher: {
         type: Boolean,
         required: true,
         default: false
     },
-    isMentor:{
+    isMentor: {
         type: Boolean,
         required: true,
         default: false
@@ -55,9 +55,11 @@ const userSchema = new Schema({
 });
 
 userSchema.pre('save', function (next) {
+    // check if password is present and is modified.
     if (!this.isModified('password')) {
         return next();
     }
+    //return the hashed password.
     bcrypt.genSalt(10, (err, salt) => {
         if (err) return next(err);
 

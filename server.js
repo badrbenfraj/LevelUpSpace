@@ -37,10 +37,6 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 const server = http.Server(app);
 
-// const corsOptions = {
-//     origin: 'http://localhost:3000/',
-//     credentials: 'same-origin' // <-- REQUIRED backend setting
-//   };
 app.use(cors("*"));
 
 if(process.env.NODE_ENV === 'production'){

@@ -65,7 +65,7 @@ class Messages extends Component {
                                 {(addMessages) => {
                                     return (
                                         <div className="panel-footer">
-                                            <form onSubmit={event => this.sendMessage(event, { addMessages })}>
+                                            <form onSubmit={event => this.sendMessage(event, addMessages)}>
                                                 <div className="input-group" style={{ marginBottom: '10px' }}>
                                                     <input
                                                         type="text"
@@ -75,7 +75,7 @@ class Messages extends Component {
                                                         onChange={event => this.setState({ message: event.target.value })}
                                                     />
                                                     <span className="input-group-btn">
-                                                        <button className="btn-custom btn-info">SEND</button>
+                                                        <button className="btn btn-info">SEND</button>
                                                     </span>
                                                 </div>
                                             </form>

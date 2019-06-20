@@ -7,7 +7,7 @@ import { message } from 'antd';
 class BlogDelete extends Component {
 
     render() {
-        const { _id, title, content, category, subject, userName } = this.props.blog;
+        const { _id, title, content, category, subject, User } = this.props.blog;
         const handleDelete = deleteBlogs => {
             const confirmDelete = window.confirm(
                 _id.toString()
@@ -25,7 +25,7 @@ class BlogDelete extends Component {
                 <td className="rowElip">{title}</td>
                 <td>{category}</td>
                 <td className="rowElip">{content}</td>
-                <td>{userName}</td>
+                <td>{User.userName}</td>
                 <Mutation
                     mutation={DELETE_BLOGS}
                     variables={{ _id }}
@@ -45,7 +45,7 @@ class BlogDelete extends Component {
                                     category,
                                     subject,
                                     content,
-                                    userName 
+                                    userName:User.userName 
                                 }
                             }}><i className="fas fa-edit" />Edit</Link>
                             <span>|</span>

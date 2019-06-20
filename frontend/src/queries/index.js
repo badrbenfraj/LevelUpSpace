@@ -575,8 +575,8 @@ export const GET_BLOG = gql`
 
 //Blog Mutation
 export const ADD_BLOGS = gql`
- mutation($title: String!, $category: String!, $subject: String!, $content: String!, $UserID: ID!, $image: String!){
-     addBlogs( title: $title, category:$category, subject:$subject, content:$content, User: $UserID, image: $image){ 
+ mutation($title: String!, $category: String!, $subject: String!, $content: String!, $User: ID!, $image: String!){
+     addBlogs( title: $title, category:$category, subject:$subject, content:$content, User: $User, image: $image){ 
         title
      }
  }

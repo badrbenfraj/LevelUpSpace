@@ -151,7 +151,7 @@ class CourseDetail extends Component {
                                         >
                                             {({ data }) => {
                                                 if (data.getRatingsAndCommentsExcept) {
-                                                    const ratingEx = data.getRatingsAndCommentsExcept
+                                                    const ratingEx = data.getRatingsAndCommentsExcept;
                                                     const RatingTotal = ratingEx.reduce((rating, rate) => rating + rate.rating, 0);
                                                     const AverageRating = RatingTotal / ratingEx.length;
                                                     if (!AverageRating) {

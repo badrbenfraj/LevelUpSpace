@@ -309,7 +309,7 @@ ul.contact-details li i{
   max-width: 45.0rem;
   width: 100%;
   padding: 0rem 0px 2rem 0px;
-  margin: 4rem auto 0;
+  margin: 4rem auto;
   border: 1px solid #ccc;
 }
   .fullWidth {
@@ -408,6 +408,7 @@ input:hover, select:hover, textarea:hover {
   font-weight: 400;
   font-style: normal;
   border: none;
+  font-size: unset !important;
 }
 .form_input input:hover + .bottom_border::after,
   .form_input input:focus + .bottom_border::after {
@@ -1968,7 +1969,7 @@ input[type="file"] {
 
 
 .App-header {
-  background-color: #222 !important;
+  background-color: #fff !important;
   padding: 20px !important;
   color: white !important;
   text-align: center !important;
@@ -2018,14 +2019,13 @@ input[type="file"] {
   text-align: left !important;
   line-height: 1.5 !important;
   padding: 10px !important;
-  background: #ccc !important;
+  background: #fff !important;
 }
 .quiz-story{
   padding: 30px !important;
-  width: 70% !important;
-  background-color: #ccc !important;
+  width: 100% !important;
   /* padding-left: 10px; */
-  background-color: #e8e5e5 !important;
+  background-color: #fff !important;
   margin: auto !important;
   min-height: 400px !important;
   text-align: center !important;
@@ -2036,7 +2036,7 @@ input[type="file"] {
 }
 .bottom-footer{
   margin-top: 30px !important;
-  background-color: #ccc !important;
+  background-color: #fff !important;
 }
 
 .container {
@@ -2066,10 +2066,9 @@ input[type="file"] {
 
 /* QuestionCount Component */
 .questionCount {
-  padding: 10px;
-  font-size: 14px;
-  font-weight: bold;
-  background-color: #eeeeee;
+	border-top: 1px solid #ccc;
+	font-size: 0.9rem;
+	margin: 20px 0 30px;
 }
 
 /* Question Component */
@@ -2079,10 +2078,6 @@ input[type="file"] {
 
 /* AnswerOption Component */
 .answerOption {
-}
-
-.answerOption:hover {
-  background-color: #eefbfe;
 }
 
 .radioCustomButton {
@@ -2199,18 +2194,17 @@ input[type="file"] {
 }
 
 button.Button2{
-	display:inline-block !important;
-	padding:0.5em 3em !important;
-	border:0.16em solid lightgrey !important;
-	margin:0 0.3em 0.3em 0 !important;
-	box-sizing: border-box !important;
-	text-decoration:none !important;
-	text-transform:uppercase !important;
-	font-family:'Roboto',sans-serif !important;
-	font-weight:400 !important;
-	color:black !important;
-	text-align:center !important;
-	transition: all 0.15s !important;
+	display: inline-block !important;
+    padding: 8px 45px !important;
+    border: 2px solid #d3d3d3 !important;
+    margin: 0 6px 6px 0 !important;
+    box-sizing: border-box !important;
+    text-decoration: none !important;
+    text-transform: uppercase !important;
+    font-family: Roboto,sans-serif !important;
+    font-weight: 400 !important;
+    font-size: small;
+    transition: all .15s !important;
 }
 button.passwordButton:hover{
 	color:#DDDDDD !important;
@@ -2348,4 +2342,29 @@ button.passwordButton:active{
     color: #878787!important; 
     background: linear-gradient(to top, #c9c9c9 0%, #fff 3%) repeat scroll 0 30px/100% 33px !important;
 	outline:none !important;
+}
+
+.QuizBtn {
+	background-color: tomato;
+	border: none;
+	border-radius: 30px;
+	box-shadow: 0 3px 3px 0 rgba(0,0,0,0.4),
+		0 0 2px 1px rgba(0,0,0,0.1);
+	cursor: pointer;
+	color: #fff;
+	font-size: 1rem;
+	padding: 15px 30px;
+	margin: 10px 5px 30px;
+	transition: all 0.1s ease-in;
+}
+.QuizBtn:hover {
+	/*background-color: red;*/
+	box-shadow: 0 6px 6px 0 rgba(0,0,0,0.25),
+		0 0 4px 2px rgba(0,0,0,0.05);
+	transform: translateY(-2px);
+}
+.QuizBtn:focus { outline: 0; }
+
+.ProgressAndScore{
+	padding-top: 20px;
 }

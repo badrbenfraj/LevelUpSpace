@@ -9,7 +9,7 @@ import axios from 'axios';
 
 const initialState = {
   title: '',
-  userName: '',
+  UserID: '',
   category: '',
   subject: '',
   content: '',
@@ -31,18 +31,6 @@ class Editor extends Component {
     this.setState({ ...initialState })
   }
 
-  setContent() {
-    console.log("Setting content");
-    this.setState({
-      title: "",
-      userName: "",
-      category: "",
-      suject: "",
-      content: "",
-      image: ""
-    });
-  }
-
   onChange(event) {
     console.log(
       "onChange fired with event info: ",
@@ -59,7 +47,7 @@ class Editor extends Component {
 
   handleSubmit(event, addBlogs) {
     event.preventDefault();
-    addBlogs().then(async ({ data }) => {
+    addBlogs().then(async () => {
       message.success('Section added successfuly')
       this.clearState();
 
@@ -77,45 +65,49 @@ class Editor extends Component {
     data.append('file', file);
     data.append('upload_preset', 'LevelUpSpace');
     await axios.post('https://api.cloudinary.com/v1_1/levelup/image/upload', data, {
-        onUploadProgress: (progressBar) => {
-            let progress = Math.round(progressBar.loaded * 100 / progressBar.total)
-            this.setState({
-                progress
-            })
-        }
-    }).then(({ data: { secure_url } }) => {
-        console.log(secure_url)
+      onUploadProgress: (progressBar) => {
+        console.log(progressBar.loaded)
+        console.log(progressBar.total)
+        //progressBar.loaded is number of bytes loaded
+        //progressBar.total is the total number of bytes of the file
+        let progress = Math.round(progressBar.loaded * 100 / progressBar.total)
         this.setState({
-            image: secure_url
-        });
-        console.log(this.state.image)
-        addBlogs({
-            variables:{  image: this.state.image}
-        }).then(async () => {
-            message.success('Blog added successfuly')
-            this.clearState();
-        }).catch(error => {
-          console.log(error.graphQLErrors.map(x => x.message))
-            this.setState({
-                error: "couldn't add blog"
-            })
-        });
+          progress
+        })
+      }
+    }).then(({ data: { secure_url } }) => {
+      console.log(secure_url)
+      this.setState({
+        image: secure_url
+      });
+      console.log(this.state.image)
+      addBlogs({
+        variables: { image: this.state.image }
+      }).then(async () => {
+        message.success('Blog added successfuly')
+        this.clearState();
+      }).catch(error => {
+        console.log(error.graphQLErrors.map(x => x.message))
+        this.setState({
+          error: "couldn't add blog"
+        })
+      });
     });
     console.log(this.state.progress)
-}
+  }
 
   handleFilesChange = (image) => {
     console.log(image[0])
     const selectedFile = image[0]
     console.log(selectedFile)
     this.setState({
-        selectedFile
+      selectedFile
     })
-}
+  }
 
   validateForm() {
-    const { title, category, subject, content, userName } = this.state;
-    const isInvalid = !title || !category || subject || content || userName;
+    const { title, category, subject, content } = this.state;
+    const isInvalid = !title || !category || subject || content;
     return isInvalid;
   }
 
@@ -132,27 +124,26 @@ class Editor extends Component {
     return (
       <div className="text-center border border-light p-5">
         <p className="h4 mb-4">Add New Blog</p>
-        {/* <!--Card content--> */}
         <div className="card-body px-lg-5 pt-0">
           <Query query={GET_CURRENT_USER}>
             {({ data }) => {
-              const userName = data.getCurrentUser.userName;
+              const UserID = data.getCurrentUser._id;
 
               return (
                 <Mutation
                   mutation={ADD_BLOGS}
-                  variables={{ title, category, subject, content, userName }}
+                  variables={{ title, category, subject, content, User: UserID }}
                   refetchQueries={() => {
                     return [{
-                        query: GET_BLOGS
+                      query: GET_BLOGS
                     }];
-                }}
+                  }}
                 >
                   {(addBlogs) => {
 
                     return (
 
-                      <form className="text-center" onSubmit={event => this.handleSubmit(event, addBlogs)}>
+                      <form className="text-center" onSubmit={event => this.handleSubmit(event, addBlogs)} noValidate>
                         <div className={classNames({ 'error-label': this.state.error !== '' })}>
                           {this.state.error}
                         </div>
@@ -208,7 +199,7 @@ class Editor extends Component {
                           <Dropzone onDrop={this.handleFilesChange} className="dropzone" accept="image/*">
                             {({ getRootProps, getInputProps }) => (
                               <div {...getRootProps({ className: 'dropzone' })}>
-                                <input {...getInputProps()} required/>
+                                <input {...getInputProps()} required />
                                 <p>Drag 'n' drop some files here, or click to select files</p>
                               </div>
                             )}

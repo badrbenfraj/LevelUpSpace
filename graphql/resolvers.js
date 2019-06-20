@@ -8,11 +8,9 @@ const htmlToText = require('html-to-text');
 
 const createToken = (user, secret, expiresIn) => {
 
-    const { firstName, email } = user;
+    const { userName, email } = user;
 
-    return jwt.sign({
-        firstName, email
-    }, secret, { expiresIn })
+    return jwt.sign({ userName, email }, secret, { expiresIn })
 
 }
 
@@ -204,8 +202,6 @@ exports.resolvers = {
             }
 
             return { token: createToken(user, process.env.SECRET, "1hr") };
-
-
         },
         changeEmail: async (root, { currentEmail, newEmail }, { User }) => {
 
@@ -457,13 +453,13 @@ exports.resolvers = {
                 return removeQuiz;
             }
         },
-        addBlogs: async (root, { title, category, subject, content, userName, image }, { Blogs }) => {
+        addBlogs: async (root, { title, category, subject, content, User, image }, { Blogs }) => {
             const newBlog = await new Blogs({
                 title,
                 category,
                 subject,
                 content,
-                userName,
+                User,
                 image,
                 createdDate: new Date().toISOString()
             }).save();

@@ -23,7 +23,6 @@ class AddBlogsHome extends Component {
                         <div className="col-sm-8"><h2>Blogs <b>List</b></h2></div>
                         <div className="col-sm-4 text-right">
                         {this.state.visible ? (<button type="button" onClick={this.hideAddBlogs} className="btn btn-info add-new"><i className="fa fa-minus"></i> Hide</button>): (<button type="button" onClick={this.showAddBlogs} className="btn btn-info add-new"><i className="fa fa-plus"></i> Add New</button>)}
-
                         </div>
                     </div>
                 </div>

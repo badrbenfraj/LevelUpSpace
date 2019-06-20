@@ -22,23 +22,23 @@ function Quiz(props) {
 
   console.log(props)
   return (
-    <div key={props.questionId} className="quiz-story">
+    <div key={props.questionId} className="quiz">
+      <Question content={props.question} />
+      <ul className="answerOptions text-center mt-5">
+        {props.answerOptions.map(renderAnswerOptions)}
+      </ul>
+      <div className="bottom-footer text-center" >
+        {props.counter > 0 ? (<button className="Previous-btn Quizbtn" onClick={props.setPreviousQuestion} >Previous</button>) : (<div></div>)}
+
+        {props.counter < props.questionTotal - 1 && props.selectedAnswer ? (<button className="next-btn Quizbtn" onClick={props.setNextQuestion} >Next</button>) : (<div></div>)}
+
+      </div>
       <QuestionCount
         counter={props.counter}
         viewreults={props.viewreults}
         total={props.questionTotal}
         selectedAnswer={props.selectedAnswer}
       />
-      <Question content={props.question} />
-      <ul className="answerOptions">
-        {props.answerOptions.map(renderAnswerOptions)}
-      </ul>
-      <div className="bottom-footer" >
-        {props.counter > 0 ? (<button className="Previous-btn Quizbtn" onClick={props.setPreviousQuestion} >Previous</button>) : (<div></div>)}
-
-        {props.counter < props.questionTotal - 1 && props.selectedAnswer ? (<button className="next-btn" onClick={props.setNextQuestion} >Next</button>) : (<div></div>)}
-
-      </div>
     </div>
   );
 }

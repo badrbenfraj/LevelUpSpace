@@ -223,7 +223,7 @@ type Mutation{
 
     deleteQuiz(_id: ID): Quiz 
 
-    addBlogs(title: String!, category: String!, subject: String!, content: String!, userName: String, image: String!): Blogs
+    addBlogs(title: String!, category: String!, subject: String!, content: String!, User: ID, image: String!): Blogs
 
     editBlogs(_id: ID! newTitle: String!, newCategory: String!, newSubject: String!, newContent: String!): Blogs
 
