@@ -4,16 +4,14 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 
-
 import 'antd/dist/antd.css';
-import './css/index.css';
 import AppComponent from './App';
 
 const cache = new InMemoryCache();
 
 const client = new ApolloClient({
   cache,
-  uri: 'http://localhost:3001/graphql',
+  uri: 'https://levelupspace.herokuapp.com/graphql',
   request: operation => {
     const token = localStorage.getItem("token");
     operation.setContext({

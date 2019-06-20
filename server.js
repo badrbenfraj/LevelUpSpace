@@ -5,8 +5,11 @@ require('dotenv').config({ path: './variables.env' });
 const cors = require('cors');
 // bring in graphql express middleware
 const { ApolloServer } = require('apollo-server-express');
-
+const fs = require('fs');
 const http = require('http');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const path = require('path');
 
 const { resolvers } = require('./graphql/resolvers');
 const { typeDefs } = require('./graphql/schema');
@@ -25,6 +28,12 @@ const Blogs = require('./models/Blogs');
 const BlogComment = require('./models/BlogComments');
 const Camp = require('./models/Camp');
 
+//log stream with append flag
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, 'Access.log'),
+  { flags: 'a' }
+);
+
 // connect to database
 mongoose
   .connect(process.env.MONGO_URL, { useNewUrlParser: true, useCreateIndex: true })
@@ -36,13 +45,15 @@ const PORT = process.env.PORT || 3001;
 // Initializes application
 const app = express();
 const server = http.Server(app);
+app.use(helmet());
+app.use(morgan('combined', { stream: accessLogStream }));
 
 app.use(cors("*"));
 
-if(process.env.NODE_ENV === 'production'){
+if (process.env.NODE_ENV === 'production') {
   app.use(express.static('frontend/build'));
 
-  app.get('*', (req, res)=>{
+  app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
   })
 }

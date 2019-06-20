@@ -39,7 +39,7 @@ class MainNav extends Component {
     const content = (
       <div>
         <p><Link to="/courses" className="anchor-grey">Courses</Link></p>
-        <p className="anchor-grey">Online Bootcamp</p>
+        <p className="anchor-grey"><Link to="/bootcamp" className="anchor-grey">Online Bootcamp </Link></p>
       </div>
     );
     return (

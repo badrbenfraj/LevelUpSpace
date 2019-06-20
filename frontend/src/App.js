@@ -18,6 +18,7 @@ import Register from './pages/Auth/register';
 import Dashboard from "./pages/dashboard/dashboard";
 import MainLayout from './layouts/mainLayout';
 import SentryError from './raven';
+import * as Sentry from '@sentry/browser';
 import UserProfile from './pages/dashboard/user_profile';
 import NotFound from './pages/error_404';
 import FAQ from './pages/Policies_and_conditions/faq';
@@ -34,7 +35,9 @@ import EditQuiz from './pages/dashboard/Tutorials/editQuiz/editQuiz';
 import EditBlogs from './pages/dashboard/Blog/EditBlog/editBlogs';
 import BlogPost from './pages/Blog/blogPost';
 import EditCamp from './pages/dashboard/Bootcamp/editCamp';
+import UnderConstruction from './underConstruction';
 
+Sentry.init({ dsn: "https://bdeb59c30bca4a94b4826567cd04a792@sentry.io/1409109" });
 
 const App = ({ refetch, session }) => {
     return (
@@ -189,6 +192,48 @@ const App = ({ refetch, session }) => {
                     render={props =>
                         <MainLayout session={session}>
                             <EditCamp {...props} refetch={refetch} />
+                        </MainLayout>
+                    } />
+
+                <Route exact path="/bootcamp"
+                    render={props =>
+                        <MainLayout session={session}>
+                            <UnderConstruction />
+                        </MainLayout>
+                    } />
+
+                <Route exact path="/how-to-buy"
+                    render={props =>
+                        <MainLayout session={session}>
+                            <UnderConstruction />
+                        </MainLayout>
+                    } />
+
+                <Route exact path="/delivery"
+                    render={props =>
+                        <MainLayout session={session}>
+                            <UnderConstruction />
+                        </MainLayout>
+                    } />
+
+                <Route exact path="/press"
+                    render={props =>
+                        <MainLayout session={session}>
+                            <UnderConstruction />
+                        </MainLayout>
+                    } />
+
+                <Route exact path="/order-history"
+                    render={props =>
+                        <MainLayout session={session}>
+                            <UnderConstruction />
+                        </MainLayout>
+                    } />
+
+                <Route exact path="/Privacy-Policy"
+                    render={props =>
+                        <MainLayout session={session}>
+                            <UnderConstruction />
                         </MainLayout>
                     } />
 

@@ -1,36 +1,3 @@
-/*
-Template Name: HTML Education Template
-Author: yaminncco
-
-Colors:
-	Body 		: #798696
-	Headers 	: #374050
-	Primary 	: #FF6700
-	Grey 		: #EBEBEB
-
-Fonts: Lato & Montserrat
-
-Table OF Contents
-------------------------------------
-1 > General
-2 > Logo
-3 > Navigation
-4 > Hero Area
-5 > About & Why Us (Feature)
-6 > Courses
-7 > Footer
-8 > Contact Page
-9 > Blog Page
-10 > Blog Page Sidebar
-11 > Single Post Page
-12 > Responsive
-13 > Preloader
-------------------------------------*/
-
-/*------------------------------------*\
-	General
-\*------------------------------------*/
-/* --- typography --- */
 body {
     font-family: 'Montserrat', sans-serif;
 	font-size: 15px;
