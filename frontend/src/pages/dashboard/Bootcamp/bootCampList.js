@@ -88,6 +88,11 @@ class BootCampList extends Component {
                                             {!camp.Canceled ? (<Mutation
                                                 mutation={CANCEL_CAMP}
                                                 variables={{ _id: camp._id }}
+                                                refetchQueries={() => {
+                                                    return [{
+                                                        query: GET_CAMPS
+                                                    }];
+                                                }}
                                             >
                                                 {(cancelCamp) => {
                                                     return <button className="Cancelbutton" onClick={(event) => { this.handleCancel(event, cancelCamp) }}>Cancel</button>
@@ -95,6 +100,11 @@ class BootCampList extends Component {
                                             </Mutation>) : (<Mutation
                                                 mutation={CANCEL_CAMP}
                                                 variables={{ _id: camp._id }}
+                                                refetchQueries={() => {
+                                                    return [{
+                                                        query: GET_CAMPS
+                                                    }];
+                                                }}
                                             >
                                                 {(cancelCamp) => {
                                                     return <button className="UnCancelbutton" onClick={(event) => { this.handleUnCancel(event, cancelCamp) }}>Uncancel</button>

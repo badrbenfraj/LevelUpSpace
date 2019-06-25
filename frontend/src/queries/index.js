@@ -391,6 +391,19 @@ export const GET_ALL_CLAIMS = gql`
     }
 `;
 
+export const GET_CLAIM = gql`
+    query ($ClaimID: ID){
+        getClaim(_id: $ClaimID){
+            _id
+            firstName
+            lastName
+            email
+            subject
+            description
+        }
+    }
+`;
+
 
 //Orders Query
 

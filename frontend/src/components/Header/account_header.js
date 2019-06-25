@@ -28,7 +28,7 @@ class ProfileHeader extends Component {
                         <li><Link className="logo" to="/blog"><strong>BLOG</strong></Link></li>
                     </ul>
                     <ul>
-                        <li><strong><Link to="/shopping-cart"><Icon type="shopping-cart" style={{ fontSize: '22px', }} theme="outlined" /></Link></strong></li>
+                        {this.props.session.getCurrentUser.isUser ? <li><strong><Link to="/shopping-cart"><Icon type="shopping-cart" style={{ fontSize: '22px', }} theme="outlined" /></Link></strong></li> : null}
                         <li><strong><Link to="/messages"><Icon type="message" style={{ fontSize: '22px', }} theme="outlined" /></Link></strong></li>
                         <li>
 

@@ -248,36 +248,61 @@ class CourseDetail extends Component {
                                         console.log(userName)
                                         return (
                                             <Query
-                                                query={GET_SPECIFIC_ORDER}
-                                                variables={{ TutorialID: ID, userName }}
+                                                query={GET_TUTORIAL}
+                                                variables={{ TutorialID: ID }}
                                             >
-                                                {(data) => {
-                                                    const allOrders = data.data.getSpecificOrder;
-                                                    console.log(data)
-                                                    if (allOrders) {
-                                                        return (
-                                                            <div>
-                                                                {allOrders.length !== 0 ? (allOrders.map((order) => {
-                                                                    console.log(order)
-                                                                    return (
-                                                                        <div className="featuresbox text-center" key={order._id}>
-                                                                            <button className="btn bg-black btn-round btn-sm">
-                                                                                <Link to={`/my-courses/${ID}`}><strong>START</strong></Link>
-                                                                            </button>
-                                                                        </div>
-                                                                    )
-                                                                })) : (
-                                                                        <div className="featuresbox text-center">
-                                                                            <button className="btn bg-black btn-round btn-sm "
-                                                                                onClick={this.addToCart}
-                                                                                disabled={this.state.cart.includes(ID)}
-                                                                            >
-                                                                                {!this.state.isAdded && !this.state.cart.includes(ID) ? "ADD TO CART" : "✔ ADDED"}
-                                                                            </button>
-                                                                        </div>
-                                                                    )}
-                                                            </div>
-                                                        )
+                                                {({ data }) => {
+                                                    if (data.getTutorial) {
+                                                        return data.getTutorial.map((tutorial) => {
+                                                            if (userName === tutorial.User.userName) {
+                                                                return (
+                                                                    <div className="featuresbox text-center" key={tutorial._id}>
+                                                                        <button className="btn bg-black btn-round btn-sm">
+                                                                            <Link to={`/my-courses/${ID}`}><strong>START</strong></Link>
+                                                                        </button>
+                                                                    </div>
+                                                                )
+                                                            } else {
+                                                                return (
+                                                                    <Query
+                                                                        query={GET_SPECIFIC_ORDER}
+                                                                        variables={{ TutorialID: ID, userName }}
+                                                                        key={tutorial._id}
+                                                                    >
+                                                                        {(data) => {
+                                                                            const allOrders = data.data.getSpecificOrder;
+                                                                            console.log(data)
+                                                                            if (allOrders) {
+                                                                                return (
+                                                                                    <div>
+                                                                                        {allOrders.length !== 0 ? (allOrders.map((order) => {
+                                                                                            console.log(order)
+                                                                                            return (
+                                                                                                <div className="featuresbox text-center" key={order._id}>
+                                                                                                    <button className="btn bg-black btn-round btn-sm">
+                                                                                                        <Link to={`/my-courses/${ID}`}><strong>START</strong></Link>
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            )
+                                                                                        })) : (
+                                                                                                <div className="featuresbox text-center">
+                                                                                                    <button className="btn bg-black btn-round btn-sm "
+                                                                                                        onClick={this.addToCart}
+                                                                                                        disabled={this.state.cart.includes(ID)}
+                                                                                                    >
+                                                                                                        {!this.state.isAdded && !this.state.cart.includes(ID) ? "ADD TO CART" : "✔ ADDED"}
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            )}
+                                                                                    </div>
+                                                                                )
+                                                                            }
+                                                                            return null
+                                                                        }}
+                                                                    </Query>
+                                                                )
+                                                            }
+                                                        })
                                                     }
                                                     return null
                                                 }}
@@ -372,31 +397,57 @@ class CourseDetail extends Component {
                                 >
                                     {(addRatingAndComment) => {
                                         return (
-                                            <form className="comment-form" onSubmit={event => this.handleSubmit(event, addRatingAndComment)}>
-                                                <h3 className="block-title">Post a Comment</h3>
-                                                <div className="row">
-                                                    <div className="form-group col-md-12 mt-4">
-                                                        <StarRatingComponent
-                                                            name="rate1"
-                                                            className="RatingComment"
-                                                            starCount={5}
-                                                            value={rating}
-                                                            onStarClick={this.onStarClick}
-                                                        />
-                                                    </div>
-                                                    <div className="form-group col-md-12">
-                                                        <textarea className="form-control msg"
-                                                            rows="5"
-                                                            placeholder="Write your comment here..."
-                                                            name="commentarea"
-                                                            value={commentarea} onChange={this.handleChange}
-                                                        ></textarea>
-                                                    </div>
-                                                    <div className="form-group col-md-12">
-                                                        <input type="submit" title="Submit" name="Submit" value="Submit" />
-                                                    </div>
-                                                </div>
-                                            </form>
+                                            <Query
+                                                query={GET_SPECIFIC_ORDER}
+                                                variables={{ TutorialID: ID, userName }}
+                                            >
+                                                {(data) => {
+                                                    const allOrders = data.data.getSpecificOrder;
+                                                    console.log(data)
+                                                    if (allOrders) {
+                                                        return (
+                                                            <div>
+                                                                {allOrders.length !== 0 ? (allOrders.map((order) => {
+                                                                    console.log(order)
+                                                                    return (
+                                                                        <form
+                                                                            className="comment-form"
+                                                                            onSubmit={event => this.handleSubmit(event, addRatingAndComment)}
+                                                                            key={order._id}>
+                                                                            <h3 className="block-title">Post a Comment</h3>
+                                                                            <div className="row">
+                                                                                <div className="form-group col-md-12 mt-4">
+                                                                                    <StarRatingComponent
+                                                                                        name="rate1"
+                                                                                        className="RatingComment"
+                                                                                        starCount={5}
+                                                                                        value={rating}
+                                                                                        onStarClick={this.onStarClick}
+                                                                                    />
+                                                                                </div>
+                                                                                <div className="form-group col-md-12">
+                                                                                    <textarea className="form-control msg"
+                                                                                        rows="5"
+                                                                                        placeholder="Write your comment here..."
+                                                                                        name="commentarea"
+                                                                                        value={commentarea} onChange={this.handleChange}
+                                                                                    ></textarea>
+                                                                                </div>
+                                                                                <div className="form-group col-md-12">
+                                                                                    <input type="submit" title="Submit" name="Submit" value="Submit" />
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                    )
+                                                                })) : (
+                                                                        null
+                                                                    )}
+                                                            </div>
+                                                        )
+                                                    }
+                                                    return null
+                                                }}
+                                            </Query>
                                         )
                                     }}
                                 </Mutation>

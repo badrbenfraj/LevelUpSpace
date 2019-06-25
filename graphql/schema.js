@@ -132,6 +132,8 @@ type Query {
 
     getTutorial(_id: ID):[Tutorial]
 
+    getClaim(_id: ID): Claim
+
     getAllUsers: [User]
 
     getUser(userName: String!): User

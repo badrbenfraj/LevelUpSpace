@@ -39,6 +39,7 @@ class Messages extends Component {
                                         <div className="media-body">
                                             <Query
                                                 query={GET_ALL_MESSAGES}
+                                                pollInterval={1000}
                                             >
                                                 {({ loading, error, data }) => {
                                                     if (loading) return <div>fetching</div>

@@ -36,10 +36,12 @@ import EditBlogs from './pages/dashboard/Blog/EditBlog/editBlogs';
 import BlogPost from './pages/Blog/blogPost';
 import EditCamp from './pages/dashboard/Bootcamp/editCamp';
 import UnderConstruction from './underConstruction';
+import SingleClaim from './pages/dashboard/Claim/singleClaim';
 
 Sentry.init({ dsn: "https://bdeb59c30bca4a94b4826567cd04a792@sentry.io/1409109" });
 
 const App = ({ refetch, session }) => {
+    console.log(session)
     return (
         <SentryError>
             <Switch>
@@ -105,7 +107,7 @@ const App = ({ refetch, session }) => {
 
                 <Route exact path="/shopping-cart" render={props => (
                     <MainLayout session={session}>
-                        <Cart {...props} refetch={refetch} />
+                        {session.getCurrentUser && session.getCurrentUser.isUser ? <Cart {...props} refetch={refetch} /> : 'no permission'}
                     </MainLayout>
                 )} />
 
@@ -157,6 +159,12 @@ const App = ({ refetch, session }) => {
                 <Route exact path="/edit-quiz/:id" render={props => (
                     <MainLayout session={session}>
                         <EditQuiz {...props} refetch={refetch} />
+                    </MainLayout>
+                )} />
+
+                <Route exact path="/claim/:id" render={props => (
+                    <MainLayout session={session}>
+                        <SingleClaim {...props} refetch={refetch} />
                     </MainLayout>
                 )} />
 

@@ -34,6 +34,7 @@ class ClaimList extends Component {
                                             <th scope="col">E-mail</th>
                                             <th scope="col">Subject</th>
                                             <th scope="col">Description</th>
+                                            <th scope="col">Read</th>
                                         </tr>
                                     </thead>
                                     <tbody>

@@ -40,6 +40,11 @@ exports.resolvers = {
             return allTutorials;
         },
 
+        getClaim: async (root, { _id }, { Claims }) => {
+            const allTutorials = await Claims.findOne({ _id });
+            return allTutorials;
+        },
+
         getAllUsers: async (root, args, { User }) => {
             const users = await User.find();
 

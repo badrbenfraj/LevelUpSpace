@@ -4,6 +4,7 @@ import { ApolloConsumer } from "react-apollo";
 
 const handleSignout = (client, history) => {
   localStorage.removeItem("token");
+  localStorage.removeItem("cart");
   client.resetStore();
   history.push("/login");
 };
